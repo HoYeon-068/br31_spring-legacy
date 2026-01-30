@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.br.app.mapper.menu.ProductMapper">
+  
+  <select id="selectList"
+        resultType="com.br.app.domain.menu.MenuListDTO">
+
+    SELECT
+        p.products_id,
+        p.product_name,
+        c.category_name,
+        p.sub_title,
+        p.img_path,
+        p.bg_color,
+        p.span_color,
+        T.tags
+    FROM products p
+    LEFT JOIN category c
+        ON p.category_id = c.category_id
+    LEFT JOIN (
+        SELECT
+            products_id,
+            LISTAGG('#' || tag, ' ')
+                WITHIN GROUP (ORDER BY tag) AS tags
+        FROM (
+            SELECT DISTINCT products_id, tag
+            FROM product_tag
+        )
+        GROUP BY products_id
+    ) T
+        ON p.products_id = T.products_id
+    WHERE 1=1
+      AND p.category_id = #{category_id}
+
+    <if test="category_id == 2">
+        OR p.category_id = 3
+    </if>
+
+</select>
+
+  
+</mapper>  

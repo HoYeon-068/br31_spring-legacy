@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.br.app.mapper.story.StoryMapper">
+
+
+	<!--   	List<StoryDTO> storyList(); -->
+		<select id="storyList" resultType="com.br.app.domain.story.StoryDTO">
+			SELECT story_year, story_logo_img_path, story_title, story_description, story_img_path
+			FROM story
+			ORDER BY story_year
+		</select>
+		
+<!-- 	// 이달의맛 히스토리 -->
+<!-- 	public List<HistoryFlavorDTO> listByYear(@Param("year") int year); -->
+		<select id="listByYear" resultType="com.br.app.domain.story.HistoryFlavorDTO">
+			SELECT history_img_path, history_ice_name
+			FROM history_flavor
+			WHERE history_year = #{history_year} 
+			ORDER BY history_year, history_month 
+		</select>
+
+
+<!-- 	public List<HistoryFlavorDTO> listByTheme(@Param("themeId") int themeId); -->
+  		<select id="listByTheme" resultType="com.br.app.domain.story.HistoryFlavorDTO">
+  			SELECT h.history_img_path, h.history_ice_name
+			FROM history_flavor_theme hft 
+			JOIN history_flavor h ON hft.history_ice_id = h.history_ice_id
+			JOIN theme t ON hft.theme_id = t.theme_id
+			WHERE t.theme_id = #{theme_id} 
+			ORDER BY h.history_year, h.history_month
+  		</select>
+  		
+  </mapper>
+  
+  

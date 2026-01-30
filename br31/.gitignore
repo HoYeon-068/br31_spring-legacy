@@ -1,0 +1,28 @@
+### Java & Maven ###
+target/
+*.class
+*.war
+*.ear
+*.jar
+
+### Eclipse & STS Specific ###
+.settings/
+.project
+.classpath
+.factorypath
+bin/
+*.springBeans
+
+### Metadata & Logs ###
+.metadata/
+RemoteSystemsTempFiles/
+Servers/
+*.log
+
+### OS Specific ###
+.DS_Store
+Thumbs.db
+
+### Local Environment (Optional) ###
+# 로컬 DB 설정이나 API 키가 포함된 설정 파일이 있다면 추가하세요.
+# src/main/resources/config/local-properties.xml

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+  <settings>
+    <!-- 컬러명이 c_name 일 경우  cName 변환 -->
+    <setting name="mapUnderscoreToCamelCase" value="true"/>
+  </settings>
+  <typeAliases>
+    <!-- <typeAlias type="org.doit.ik.domain.DeptDTO" alias="DeptDTO" /> --> 
+    <typeAlias type="java.util.Map" alias="Map" />
+    <typeAlias type="java.util.HashMap" alias="HashMap" />
+    <typeAlias type="java.util.List" alias="List" />
+  </typeAliases>
+</configuration>   
+ 
