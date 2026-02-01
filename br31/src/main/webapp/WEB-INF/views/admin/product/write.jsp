@@ -57,7 +57,7 @@
 
             <!-- (추천) 컨트롤러에서 categoryList 내려주는 방식 -->
             <c:forEach var="cat" items="${category}">
-              <option value="${cat.category_id}">${cat.category_name}</option>
+              <option value="${cat.categoryId}">${cat.categoryName}</option>
             </c:forEach>
 
             <!-- categoryList 없을 때 임시 옵션 (원하면 지워) -->

@@ -12,16 +12,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MenuViewDTO {
-	private int products_id;
-	private int category_id;
-	private String product_name;
-	private String english_name;
+	private Integer productsId;
+	private Integer categoryId;
+	private String productName;
+	private String englishName;
 	private String description;
-	private String category_name;
-	private int price;
-	private String bg_color;
-	private String img_path;
-	private String poster_path;
+	private String categoryName;
+	private Integer price;
+	private String bgColor;
+	private String imgPath;
+	private String posterPath;
 	private IceNutritionDTO iceNutritionDTO;
 	private List<IngredientDTO> ingredientDTO; 
 	

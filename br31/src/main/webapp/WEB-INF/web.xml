@@ -28,11 +28,11 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
 
-  <!-- ✅ .do / .htm 요청만 스프링이 받도록 (수업 방식) -->
+  <!-- ✅ .do / .ajax 요청만 스프링이 받도록 (수업 방식) -->
   <servlet-mapping>
     <servlet-name>appServlet</servlet-name>
     <url-pattern>*.do</url-pattern>
-    <url-pattern>*.htm</url-pattern>
+    <url-pattern>*.ajax</url-pattern>
   </servlet-mapping>
 
   <!-- UTF-8 Encoding Filter -->

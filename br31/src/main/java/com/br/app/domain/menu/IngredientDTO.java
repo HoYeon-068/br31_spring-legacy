@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class IngredientDTO {
-	private int ingredient_products_id;
-	private int products_id;
-	private int ingredient_id;
-	private String ingredient_name;
-	private String img_path;
+	private Integer ingredientProductsId;
+	private Integer productsId;
+	private Integer ingredientId;
+	private String ingredientName;
+	private String imgPath;
 }

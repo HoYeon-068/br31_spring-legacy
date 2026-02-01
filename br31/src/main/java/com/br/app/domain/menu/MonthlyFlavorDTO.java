@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MonthlyFlavorDTO {
-	private int monthly_flavor_id;
-	private int products_id;
-	private String poster_path;
-	private String youtube_path;
-	private String img_path;
+	private Integer monthlyFlavorId;
+	private Integer productsId;
+	private String posterPath;
+	private String youtubePath;
+	private String imgPath;
 }

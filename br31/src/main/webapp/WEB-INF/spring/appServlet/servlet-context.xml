@@ -25,25 +25,25 @@
    <context:component-scan base-package="com.br.app" />
 
    <!-- 4) Tiles 설정 (수업 구조) -->
-   <!-- <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+   <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
       <beans:property name="definitions">
          <beans:list>
             <beans:value>/WEB-INF/tiles/tiles.xml</beans:value>
          </beans:list>
       </beans:property>
-   </beans:bean> -->
+   </beans:bean>
 
    <!-- Tiles ViewResolver (우선순위 1) -->
-   <!-- <beans:bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+   <beans:bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
       <beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
       <beans:property name="order" value="1" />
-   </beans:bean> -->
+   </beans:bean>
 
    <!-- JSP ViewResolver (우선순위 2) -->
    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
       <beans:property name="prefix" value="/WEB-INF/views/" />
       <beans:property name="suffix" value=".jsp" />
-      <beans:property name="order" value="1" />
+      <beans:property name="order" value="2" />
    </beans:bean>
 
    <!-- 5) 파일 업로드 (CommonsMultipartResolver) -->

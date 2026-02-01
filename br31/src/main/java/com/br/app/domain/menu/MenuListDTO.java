@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MenuListDTO {
-	private int productsId;
-	private int categoryId;
+	private Integer productsId;
+	private Integer categoryId;
 	private String productName;
 	private String categoryName;
 	private String tags;

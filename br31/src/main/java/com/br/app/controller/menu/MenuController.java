@@ -1,4 +1,4 @@
-package com.br.app.controller;
+package com.br.app.controller.menu;
 
 import java.util.List;
 
@@ -9,7 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.br.app.domain.menu.FomViewDTO;
+import com.br.app.domain.menu.IceNutritionDTO;
+import com.br.app.domain.menu.IngredientDTO;
 import com.br.app.domain.menu.MenuListDTO;
+import com.br.app.domain.menu.MenuViewDTO;
+import com.br.app.domain.menu.MonthlyFlavorDTO;
+import com.br.app.domain.menu.ProductDTO;
+import com.br.app.mapper.menu.IceNutritionMapper;
+import com.br.app.mapper.menu.MonthlyFlavorMapper;
 import com.br.app.mapper.menu.ProductMapper;
 
 @Controller
@@ -19,11 +27,88 @@ public class MenuController {
 	@Autowired
 	private ProductMapper productDao;
 	
-	@GetMapping("/fom.do")
-	public String fom(
+	@Autowired
+	private IceNutritionMapper iceNutritionDAO;
+	
+	@Autowired
+	private MonthlyFlavorMapper monthlyFlavorDAO;
+	
+	@GetMapping("/view.do")
+	public String menuView(
+			@RequestParam("seq") int seq
+			 ,Model model
 							) throws Exception {
 		
-		return "/menu/fom"; // 리다이렉트
+		
+		MenuViewDTO menuViewDTO=null;
+		IceNutritionDTO iceNutritionDTO=null;
+		ProductDTO productDTO=null;
+		ProductDTO prevProductDTO=null;
+		ProductDTO nextProductDTO=null;
+		
+		
+		
+			iceNutritionDTO = iceNutritionDAO.select(seq);
+			productDTO=productDao.selectOne(seq);
+			List<IngredientDTO> list=productDao.selectIngredient(seq);
+			
+			menuViewDTO= MenuViewDTO.builder()
+						 .productsId(productDTO.getProductsId())
+						 .categoryId(productDTO.getCategoryId())
+						 .categoryName(productDTO.getCategoryName())
+						 .productName(productDTO.getProductName())
+						 .englishName(productDTO.getEnglishName())
+						 .price(productDTO.getPrice())
+						 .description(productDTO.getDescription())
+						 .posterPath(productDTO.getPosterPath())
+						 .imgPath(productDTO.getImgPath())
+						 .bgColor(productDTO.getBgColor())
+						 .iceNutritionDTO(iceNutritionDTO)
+						 .ingredientDTO(list)
+						 .build();
+			
+			prevProductDTO=productDao.getPrev(menuViewDTO.getCategoryId(), menuViewDTO.getProductsId());
+			nextProductDTO=productDao.getNext(menuViewDTO.getCategoryId(), menuViewDTO.getProductsId());
+			
+			
+		
+		
+			model.addAttribute("dto", menuViewDTO);
+			model.addAttribute("prevDTO", prevProductDTO);
+			model.addAttribute("nextDTO", nextProductDTO);
+			model.addAttribute("bodyId", "baskinrobbins-menu-view");
+			model.addAttribute("bodyClass", "baskinrobbins-menu-view");
+		
+		return "menu.view";
+	}
+	
+	
+	@GetMapping("/fom.do")
+	public String menuFom(Model model) throws Exception {
+		
+				FomViewDTO fomViewDTO=null;
+				
+					
+					MonthlyFlavorDTO monthlyFlavorDTO=monthlyFlavorDAO.select();
+					
+					int products_id=monthlyFlavorDTO.getProductsId();
+					ProductDTO productDTO=productDao.selectOne(products_id);
+					List<IngredientDTO> ingredientDTO=productDao.selectIngredient(products_id);
+					
+					fomViewDTO=FomViewDTO.builder()
+							.monthlyFlavorDTO(monthlyFlavorDTO)
+							.productDTO(productDTO)
+							.ingredientDTO(ingredientDTO)
+							.build();
+				
+				
+				
+				
+				model.addAttribute("dto", fomViewDTO);
+				model.addAttribute("bodyId", "baskinrobbins-menu-fom");
+				model.addAttribute("bodyClass", "baskinrobbins-menu-fom");
+				
+				return "menu.fom";
 	}
 	
 	
@@ -93,7 +178,10 @@ public class MenuController {
 		model.addAttribute("title", title);
 		model.addAttribute("category", category);
 		model.addAttribute("description", description);
-		String location=category.equals("E")||category.equals("F")?"/menu/list_subcategory":"/menu/list";
+		model.addAttribute("bodyId", "baskinrobbins-menu");
+		model.addAttribute("bodyClass", "baskinrobbins-menu");
+		
+		String location=category.equals("E")||category.equals("F")?"menu.list_subcategory":"menu.list";
 		return location; // 리다이렉트
 	}
 	

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ProductTagDTO {
-	private int product_tag_id;
-	private int products_id;
+	private Integer productTagId;
+	private Integer productsId;
 	private String tag;
 }

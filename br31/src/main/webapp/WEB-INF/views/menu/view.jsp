@@ -1,60 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="ko">
-
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<head>
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<title>배스킨라빈스</title>
-
-<meta name="description" content="행복을 전하는 프리미엄 아이스크림, 배스킨라빈스 공식 홈페이지 입니다.">
-<meta name="keywords" content="baskinrobbins, br31, 배스킨라빈스, 배라, 베라">
-<meta name="author" content="배스킨라빈스">
-<meta property="og:site_name" content="배스킨라빈스">
-<meta property="og:url" content="../index.html">
-<meta property="og:title" content="배스킨라빈스">
-<meta property="og:description" content="행복을 전하는 프리미엄 아이스크림, 배스킨라빈스 공식 홈페이지 입니다.">
-<meta property="og:image" content="${pageContext.request.contextPath}/resources/images/common/img_share.png">
-<meta property="og:type" content="website">
-
-
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendors.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css">
-
-
-<script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
-
-</head>
-<body id="baskinrobbins-menu-view" class="baskinrobbins-menu-view">
-
-<div class="skipnav"><a href="#content">본문 영역으로 바로가기</a></div>
-
-
-<jsp:include page="/WEB-INF/views/layout/header.jsp" />
-
 <div class="site-container">
     <div id="content" class="menu-view">
         <section>
-                        <article class="menu-view-top menu-view-top--${dto.category_name}">
+                        <article class="menu-view-top menu-view-top--${dto.categoryName}">
                 <div class="menu-view-top__container">
                     <div class="menu-view-top__content menu-view-top__content--center">
                         <div class="menu-view-top__box">
                             <header class="menu-view-header">
                                 <div class="menu-view-header__container">
                                     <div class="menu-view-header__content">
-                                        <p class="menu-view-header__category">${dto.category_name}</p>
+                                        <p class="menu-view-header__category">${dto.categoryName}</p>
                                         <h2 class="menu-view-header__title">
                                             <span class="menu-view-header__title--en">
-                                                ${dto.english_name}                                            </span>
+                                                ${dto.englishName}                                            </span>
                                             <span class="menu-view-header__title--ko">
-                                                ${dto.product_name}                                            </span>
+                                                ${dto.productName}                                            </span>
                                         </h2>
                                         <p class="menu-view-header__text">
                                             ${dto.description}                                        </p>
@@ -70,8 +32,8 @@
                                     <ul class="menu-view-ingredients__list">
                                     	<c:forEach items="${dto.ingredientDTO}" var="vo">
                                     		<li class="menu-view-ingredients__item">
-                                                <img src="${pageContext.request.contextPath}${vo.img_path}" alt="${vo.ingredient_name}" class="menu-view-ingredients__image">
-                                                <span class="menu-view-ingredients__name">${vo.ingredient_name}</span>
+                                                <img src="${pageContext.request.contextPath}${vo.imgPath}" alt="${vo.ingredientName}" class="menu-view-ingredients__image">
+                                                <span class="menu-view-ingredients__name">${vo.ingredientName}</span>
                                             </li>
                                     	</c:forEach>
                                     
@@ -85,35 +47,35 @@
                                                     </div>
 
                         <div>
-                            <div class="menu-view-hero ${category_id eq 1?"menu-view-hero--icecream":""} menu-view-hero--current" style="background-color: ${dto.bg_color};">
+                            <div class="menu-view-hero ${category_id eq 1?"menu-view-hero--icecream":""} menu-view-hero--current" style="background-color: ${dto.bgColor};">
 
-                                <img src="${pageContext.request.contextPath}${dto.img_path}" alt="${dto.product_name}" class="menu-view-hero__image">
+                                <img src="${pageContext.request.contextPath}${dto.imgPath}" alt="${dto.productName}" class="menu-view-hero__image">
                             </div>
                         </div>
                     </div>
 
 
 						<c:if test="${not empty prevDTO}">
-							<a href="${pageContext.request.contextPath}/menu/view.do?seq=${prevDTO.products_id}" class="menu-view-top__link menu-view-top__link--prev">
-                            <span class="menu-view-top__text">${prevDTO.product_name}</span>
+							<a href="${pageContext.request.contextPath}/menu/view.do?seq=${prevDTO.productsId}" class="menu-view-top__link menu-view-top__link--prev">
+                            <span class="menu-view-top__text">${prevDTO.productName}</span>
                         </a>
                         <div class="menu-view-top__content menu-view-top__content--left">
                             <!-- 관리자: 이전 컨텐츠 컬러값  -->
-                            <div class="menu-view-hero menu-view-hero--left" style="background-color: ${prevDTO.bg_color}">
-                                <img src="${pageContext.request.contextPath}${prevDTO.img_path}" alt="${prevDTO.product_name}" class="menu-view-hero__image">
+                            <div class="menu-view-hero menu-view-hero--left" style="background-color: ${prevDTO.bgColor}">
+                                <img src="${pageContext.request.contextPath}${prevDTO.imgPath}" alt="${prevDTO.productName}" class="menu-view-hero__image">
                             </div>
                         </div>
 						</c:if>
 
                                             
                         <c:if test="${not empty nextDTO}">
-                        	<a href="${pageContext.request.contextPath}/menu/view.do?seq=${nextDTO.products_id}" class="menu-view-top__link menu-view-top__link--next">
-                            <span class="menu-view-top__text">${nextDTO.product_name}</span>
+                        	<a href="${pageContext.request.contextPath}/menu/view.do?seq=${nextDTO.productsId}" class="menu-view-top__link menu-view-top__link--next">
+                            <span class="menu-view-top__text">${nextDTO.productName}</span>
                         </a>
                         <div class="menu-view-top__content menu-view-top__content--right">
                             <!-- 관리자: 이전 컨텐츠 컬러값  -->
-                            <div class="menu-view-hero menu-view-hero--right" style="background-color:${nextDTO.bg_color}">
-                                <img src="${pageContext.request.contextPath}${nextDTO.img_path}" alt="${nextDTO.product_name}" class="menu-view-hero__image">
+                            <div class="menu-view-hero menu-view-hero--right" style="background-color:${nextDTO.bgColor}">
+                                <img src="${pageContext.request.contextPath}${nextDTO.imgPath}" alt="${nextDTO.productName}" class="menu-view-hero__image">
                             </div>
                         </div>
                         </c:if>
@@ -135,7 +97,7 @@
                             <dl class="menu-view-nutrition__content">
                                 <div class="menu-view-nutrition__item">
                                     <dt class="menu-view-nutrition__name">1회 제공량(g)</dt>
-                                    <dd class="menu-view-nutrition__text">${dto.iceNutritionDTO.serving_size}</dd>
+                                    <dd class="menu-view-nutrition__text">${dto.iceNutritionDTO.servingSize}</dd>
                                 </div>
                                 <div class="menu-view-nutrition__item">
                                     <dt class="menu-view-nutrition__name">열량(kcal)</dt>
@@ -151,7 +113,7 @@
                                 </div>
                                 <div class="menu-view-nutrition__item">
                                     <dt class="menu-view-nutrition__name">포화지방(g)</dt>
-                                    <dd class="menu-view-nutrition__text">${dto.iceNutritionDTO.saturated_fat}</dd>
+                                    <dd class="menu-view-nutrition__text">${dto.iceNutritionDTO.saturatedFat}</dd>
                                 </div>
                                 <div class="menu-view-nutrition__item">
                                     <dt class="menu-view-nutrition__name">나트륨(mg)</dt>
@@ -170,16 +132,16 @@
             			
                                         
                                         
-                         <c:if test="${dto.poster_path!=''}">
+                         <c:if test="${dto.posterPath!=''}">
                          	 <article class="menu-view-content">
                         <div class="menu-view-content__container">
                             <div class="menu-view-content__content">
-                                <p style="text-align&#58; center&#59;"><img alt="" src="${pageContext.request.contextPath}${dto.poster_path}" /></p>                            </div>
+                                <p style="text-align&#58; center&#59;"><img alt="" src="${pageContext.request.contextPath}${dto.posterPath}" /></p>                            </div>
                         </div>
                     </article>                    
                          </c:if>
                     
-                    <c:if test="${dto.category_name=='icecream'}">
+                    <c:if test="${dto.categoryName=='icecream'}">
                                     <article class="menu-view-size">
                         <h3 class="menu-view-size__title">SELECT SIZE</h3>
 
@@ -291,9 +253,3 @@
     </div>
 </div>
 
-<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
-
-</body>
-
-
-</html>

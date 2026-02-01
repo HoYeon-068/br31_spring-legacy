@@ -40,5 +40,121 @@
 
 </select>
 
+
+<select id="selectOne" resultType="com.br.app.domain.menu.ProductDTO">
+        SELECT 
+            p.products_id,
+            p.category_id,
+            c.category_name,
+            p.price,
+            p.product_name,
+            p.english_name,
+            p.sub_title,
+            p.description,
+            p.product_status,
+            p.img_path,
+            p.bg_color,
+            p.span_color,
+            p.poster_path,
+            p.release_date
+        FROM products p
+        LEFT JOIN category c
+            ON p.category_id = c.category_id
+        WHERE p.products_id = #{products_id}
+    </select>
+
+ <select id="selectIngredient" resultType="com.br.app.domain.menu.IngredientDTO">
+
+        SELECT 
+            p.ingredient_products_id,
+            p.products_id,
+            i.ingredient_id,
+            i.ingredient_name,
+            i.img_path
+        FROM ingredient_products p
+        JOIN ingredient i
+          ON p.ingredient_id = i.ingredient_id
+        WHERE p.products_id = #{products_id}
+
+    </select>
+    
+    
+    
+    <select id="getPrev"
+            resultType="com.br.app.domain.menu.ProductDTO">
+
+        SELECT *
+        FROM (
+            SELECT *
+            FROM products
+            <where>
+                <choose>
+                    <when test="categoryId == 2 or categoryId == 3">
+                        category_id IN (2,3)
+                        AND products_id &lt; #{productsId}
+                    </when>
+                    <otherwise>
+                        category_id = #{categoryId}
+                        AND products_id &lt; #{productsId}
+                    </otherwise>
+                </choose>
+            </where>
+            ORDER BY products_id DESC
+        )
+        WHERE ROWNUM = 1
+
+    </select>
+
+
+    <!-- 다음 상품 -->
+    <select id="getNext"
+            resultType="com.br.app.domain.menu.ProductDTO">
+
+        SELECT *
+        FROM (
+            SELECT *
+            FROM products
+            <where>
+                <choose>
+                    <when test="categoryId == 2 or categoryId == 3">
+                        category_id IN (2,3)
+                        AND products_id &gt; #{productsId}
+                    </when>
+                    <otherwise>
+                        category_id = #{categoryId}
+                        AND products_id &gt; #{productsId}
+                    </otherwise>
+                </choose>
+            </where>
+            ORDER BY products_id ASC
+        )
+        WHERE ROWNUM = 1
+
+    </select>
+
+  <select id="getProductsCount" resultType="int">
+  	SELECT count(*) FROM products
+  </select>
   
+  <select id="select" resultType="com.br.app.domain.menu.ProductDTO">
+    SELECT 
+        p.products_id,
+        p.category_id,
+        c.category_name,
+        p.price,
+        p.product_name,
+        p.english_name,
+        p.sub_title,
+        p.description,
+        p.product_status,
+        p.img_path,
+        p.bg_color,
+        p.span_color,
+        p.poster_path,
+        p.release_date
+    FROM products p
+    LEFT JOIN category c
+        ON p.category_id = c.category_id
+    ORDER BY p.products_id
+</select>
 </mapper>  

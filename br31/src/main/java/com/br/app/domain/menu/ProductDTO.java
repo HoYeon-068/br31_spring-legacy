@@ -14,19 +14,19 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProductDTO {
 	
-	private int products_id;
-	private int category_id;
-	private String category_name;
-	private String product_name;
-	private String english_name;
-	private String sub_title;
+	private Integer productsId;
+	private Integer categoryId;
+	private String categoryName;
+	private String productName;
+	private String englishName;
+	private String subTitle;
 	private String description;
-	private String product_status;
-	private String img_path;
-	private String bg_color;
-	private String span_color;
-	private String poster_path;
+	private String productStatus;
+	private String imgPath;
+	private String bgColor;
+	private String spanColor;
+	private String posterPath;
 	private int price;
-	private Date release_date;
+	private Date releaseDate;
 	
 }

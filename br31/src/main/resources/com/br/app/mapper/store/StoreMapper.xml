@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.br.app.mapper.store.StoreMapper">
+  
+    <select id="select" resultType="com.br.app.domain.store.StoreDTO">
+
+SELECT *
+FROM (
+    SELECT s.*
+    FROM store s
+
+    <where>
+
+        <!-- 서비스 AND 조건 -->
+        <if test="service_info != null and service_info.length > 0">
+            s.store_id IN (
+                SELECT ss.store_id
+                FROM store_services ss
+                JOIN services sv
+                  ON ss.services_id = sv.services_id
+                WHERE sv.service_name IN
+                <foreach collection="service_info" item="service" open="(" close=")" separator=",">
+                    #{service}
+                </foreach>
+                GROUP BY ss.store_id
+                HAVING COUNT(DISTINCT sv.service_name) = #{service_info.length}
+            )
+        </if>
+
+        <!-- 매장명 -->
+        <if test="store_name != null and store_name != ''">
+            AND s.store_name LIKE '%' || #{store_name} || '%'
+        </if>
+
+        <!-- 시도 -->
+        <if test="sido != null and sido != ''">
+            AND s.sido LIKE '%' || #{sido} || '%'
+        </if>
+
+        <!-- 시군구 -->
+        <if test="sigungu != null and sigungu != ''">
+            AND s.sigungu LIKE '%' || #{sigungu} || '%'
+        </if>
+
+        <!-- 매장 타입 -->
+        <if test="store_type != null and store_type.length > 0">
+            AND s.store_type IN
+            <foreach collection="store_type" item="type" open="(" close=")" separator=",">
+                #{type}
+            </foreach>
+        </if>
+
+    </where>
+
+    ORDER BY s.store_id
+)
+WHERE ROWNUM &lt;= 100
+
+</select>
+  
+</mapper>  

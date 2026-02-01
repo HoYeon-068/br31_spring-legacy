@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.br.app.mapper.menu.IceNutritionMapper">
+  
+   <select id="select" parameterType="int" resultType="com.br.app.domain.menu.IceNutritionDTO">
+        SELECT 
+            ice_nutrition_id,
+            products_id,
+            serving_size,
+            calories,
+            sugar,
+            protein,
+            saturated_fat,
+            sodium,
+            allergens
+        FROM ice_nutrition
+        WHERE products_id = #{products_id}
+    </select>
+
+  
+</mapper>  

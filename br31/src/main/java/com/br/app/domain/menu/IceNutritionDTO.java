@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class IceNutritionDTO {
-	private int ice_nutrition_id;
-	private int products_id;
-	private int serving_size;
-	private int calories;
-	private int sugar;
-	private int protein;
-	private int saturated_fat;
-	private int sodium;
+	private Integer iceNutritionId;
+	private Integer productsId;
+	private Integer servingSize;
+	private Integer calories;
+	private Integer sugar;
+	private Integer protein;
+	private Integer saturatedFat;
+	private Integer sodium;
 	private String allergens;
 }

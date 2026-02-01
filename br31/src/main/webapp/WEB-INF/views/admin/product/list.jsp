@@ -52,19 +52,19 @@
           
           <c:forEach items="${list}" var="vo">
           	<tr>
-            <td>${vo.products_id}</td>
+            <td>${vo.productsId}</td>
             <td>
               <div class="product-thumb">
-                <img src="${pageContext.request.contextPath}${vo.img_path}" alt="${vo.product_name}">
+                <img src="${pageContext.request.contextPath}${vo.imgPath}" alt="${vo.productName}">
               </div>
             </td>
-            <td>${vo.product_name}</td>
-            <td>${vo.category_name}</td>
-            <td>${vo.release_date}</td>
+            <td>${vo.productName}</td>
+            <td>${vo.categoryName}</td>
+            <td>${vo.releaseDate}</td>
             <td>
               <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn${vo.product_status == '판매중'?'':'-outline'}-success">판매중</button>
-                <button type="button" class="btn btn${vo.product_status != '판매중'?'':'-outline'}-secondary">판매중지</button>
+                <button type="button" class="btn btn${vo.productStatus == '판매중'?'':'-outline'}-success">판매중</button>
+                <button type="button" class="btn btn${vo.productStatus != '판매중'?'':'-outline'}-secondary">판매중지</button>
               </div>
             </td>
             <td>
