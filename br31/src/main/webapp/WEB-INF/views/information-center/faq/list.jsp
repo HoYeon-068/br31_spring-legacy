@@ -7,7 +7,6 @@
 <meta charset="UTF-8">
 <title>배스킨라빈스 | 자주하는 질문</title>
 
-
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/vendors.css">
 <link rel="stylesheet"
@@ -102,18 +101,12 @@
   opacity: 0.3;
   pointer-events: none;
 }
-
-
-
 </style>
-
-
 </head>
 
 <body id="baskinrobbins-faq" class="baskinrobbins-faq">
-	<c:set var="categoryId"
-		value="${empty param.category ? 0 : param.category}" />
 
+	<c:set var="categoryId" value="${empty param.category ? 0 : param.category}" />
 
 	<jsp:include page="/WEB-INF/views/layout/header.jsp" />
 
@@ -136,144 +129,125 @@
 			<!-- 카테고리 탭 -->
 			<nav class="page-tab">
 				<ul class="page-tab__list">
-					<li
-						class="page-tab__item ${categoryId == 0 ? 'page-tab__item--active' : ''}">
-						<a
-						href="${pageContext.request.contextPath}/faq/list.do?category=0"
-						class="page-tab__link">전체</a>
+					<li class="page-tab__item ${categoryId == 0 ? 'page-tab__item--active' : ''}">
+						<a href="${pageContext.request.contextPath}/information-center/faq/list.do?category=0"
+						   class="page-tab__link">전체</a>
 					</li>
 
-					<li
-						class="page-tab__item ${categoryId == 1 ? 'page-tab__item--active' : ''}">
-						<a
-						href="${pageContext.request.contextPath}/faq/list.do?category=1"
-						class="page-tab__link">제품</a>
+					<li class="page-tab__item ${categoryId == 1 ? 'page-tab__item--active' : ''}">
+						<a href="${pageContext.request.contextPath}/information-center/faq/list.do?category=1"
+						   class="page-tab__link">제품</a>
 					</li>
 
-					<li
-						class="page-tab__item ${categoryId == 2 ? 'page-tab__item--active' : ''}">
-						<a
-						href="${pageContext.request.contextPath}/faq/list.do?category=2"
-						class="page-tab__link">포인트</a>
+					<li class="page-tab__item ${categoryId == 2 ? 'page-tab__item--active' : ''}">
+						<a href="${pageContext.request.contextPath}/information-center/faq/list.do?category=2"
+						   class="page-tab__link">포인트</a>
 					</li>
 
-					<li
-						class="page-tab__item ${categoryId == 3 ? 'page-tab__item--active' : ''}">
-						<a
-						href="${pageContext.request.contextPath}/faq/list.do?category=3"
-						class="page-tab__link">회원</a>
+					<li class="page-tab__item ${categoryId == 3 ? 'page-tab__item--active' : ''}">
+						<a href="${pageContext.request.contextPath}/information-center/faq/list.do?category=3"
+						   class="page-tab__link">회원</a>
 					</li>
 
-					<li
-						class="page-tab__item ${categoryId == 4 ? 'page-tab__item--active' : ''}">
-						<a
-						href="${pageContext.request.contextPath}/faq/list.do?category=4"
-						class="page-tab__link">기타</a>
+					<li class="page-tab__item ${categoryId == 4 ? 'page-tab__item--active' : ''}">
+						<a href="${pageContext.request.contextPath}/information-center/faq/list.do?category=4"
+						   class="page-tab__link">기타</a>
 					</li>
-
 				</ul>
 			</nav>
 
 			<!-- FAQ 목록 -->
 			<section class="faq-list__container">
 				<div class="faq-list__content">
-    <ul class="faq-list__list">
-  <c:forEach var="dto" items="${list}">
-<li class="faq-list__item">
-  <button type="button" class="faq-list__title">
-    ${dto.question}
-  </button>
+					<ul class="faq-list__list">
+						<c:forEach var="dto" items="${list}">
+							<li class="faq-list__item">
+								<button type="button" class="faq-list__title">
+									${dto.question}
+								</button>
 
-  <div class="faq-list__answer">
-    <p>${dto.answer}</p>
-  </div>
-</li>
+								<div class="faq-list__answer">
+									<!-- ANSWER가 CLOB이고 HTML(예: <br>) 포함 가능하면 escapeXml=false -->
+									<p><c:out value="${dto.answer}" escapeXml="false"/></p>
+								</div>
+							</li>
+						</c:forEach>
+					</ul>
+				</div>
 
+				<ul class="pagination">
 
+					<!-- 이전 블록 -->
+					<li class="pagination__item pagination__item--icon pagination__item--prev">
+						<a class="pagination__link"
+						   href="${prevBlockPage == null
+								  ? 'javascript:void(0);'
+								  : pageContext.request.contextPath.concat('/information-center/faq/list.do?category=')
+										.concat(categoryId)
+										.concat('&page=')
+										.concat(prevBlockPage)}">
+							<span class="pagination__name">이전</span>
+						</a>
+					</li>
 
-  </c:forEach>
-</ul>
+					<!-- 페이지 번호 -->
+					<c:forEach var="i" begin="${startPage}" end="${endPage}">
+						<li class="pagination__item ${i == currentPage ? 'pagination__item--current' : ''}">
+							<a class="pagination__link"
+							   href="${pageContext.request.contextPath}/information-center/faq/list.do?category=${categoryId}&page=${i}">
+								<span class="pagination__name">${i}</span>
+							</a>
+						</li>
+					</c:forEach>
 
-</div>
+					<!-- 다음 블록 -->
+					<li class="pagination__item pagination__item--icon pagination__item--next">
+						<a class="pagination__link"
+						   href="${nextBlockPage == null
+								  ? 'javascript:void(0);'
+								  : pageContext.request.contextPath.concat('/information-center/faq/list.do?category=')
+										.concat(categoryId)
+										.concat('&page=')
+										.concat(nextBlockPage)}">
+							<span class="pagination__name">다음</span>
+						</a>
+					</li>
 
-<ul class="pagination">
-
-  <!-- 이전 : 1~5페이지 클릭 X / 6~7페이지 클릭 O -->
-  <li class="pagination__item pagination__item--icon pagination__item--prev">
-    <a class="pagination__link"
-       href="${prevBlockPage == null 
-              ? 'javascript:void(0);'
-              : pageContext.request.contextPath.concat('/faq/list.do?category=')
-                    .concat(categoryId)
-                    .concat('&page=')
-                    .concat(prevBlockPage)}">
-      <span class="pagination__name">이전</span>
-    </a>
-  </li>
-
-  <!-- 페이지 번호 -->
-  <c:forEach var="i" begin="${startPage}" end="${endPage}">
-    <li class="pagination__item ${i == currentPage ? 'pagination__item--current' : ''}">
-      <a class="pagination__link"
-         href="${pageContext.request.contextPath}/faq/list.do?category=${categoryId}&page=${i}">
-        <span class="pagination__name">${i}</span>
-      </a>
-    </li>
-  </c:forEach>
-
-  <!-- 다음 : 1~5페이지 클릭 O / 6~7페이지 클릭 X -->
-  <li class="pagination__item pagination__item--icon pagination__item--next">
-    <a class="pagination__link"
-       href="${nextBlockPage == null
-              ? 'javascript:void(0);'
-              : pageContext.request.contextPath.concat('/faq/list.do?category=')
-                    .concat(categoryId)
-                    .concat('&page=')
-                    .concat(nextBlockPage)}">
-      <span class="pagination__name">다음</span>
-    </a>
-  </li>
-
-</ul>
-
-
+				</ul>
 			</section>
+
 		</section>
 	</div>
-<script>
-document.querySelectorAll(".faq-list__title").forEach(btn => {
-  btn.addEventListener("click", function () {
 
-    const currentItem = this.closest(".faq-list__item");
-    const currentAnswer = currentItem.querySelector(".faq-list__answer");
+	<script>
+	document.querySelectorAll(".faq-list__title").forEach(btn => {
+	  btn.addEventListener("click", function () {
 
-    // 다른 FAQ 닫기
-    document.querySelectorAll(".faq-list__item").forEach(item => {
-      if (item !== currentItem) {
-        item.classList.remove("is-open");
-        const answer = item.querySelector(".faq-list__answer");
-        answer.style.maxHeight = null;
-      }
-    });
+	    const currentItem = this.closest(".faq-list__item");
+	    const currentAnswer = currentItem.querySelector(".faq-list__answer");
 
-    // 현재 FAQ 토글
-    if (currentItem.classList.contains("is-open")) {
-      currentItem.classList.remove("is-open");
-      currentAnswer.style.maxHeight = null;
-    } else {
-      currentItem.classList.add("is-open");
-      currentAnswer.style.maxHeight = currentAnswer.scrollHeight + "px";
-    }
-  });
-});
-</script>
+	    // 다른 FAQ 닫기
+	    document.querySelectorAll(".faq-list__item").forEach(item => {
+	      if (item !== currentItem) {
+	        item.classList.remove("is-open");
+	        const answer = item.querySelector(".faq-list__answer");
+	        answer.style.maxHeight = null;
+	      }
+	    });
 
-
-
+	    // 현재 FAQ 토글
+	    if (currentItem.classList.contains("is-open")) {
+	      currentItem.classList.remove("is-open");
+	      currentAnswer.style.maxHeight = null;
+	    } else {
+	      currentItem.classList.add("is-open");
+	      currentAnswer.style.maxHeight = currentAnswer.scrollHeight + "px";
+	    }
+	  });
+	});
+	</script>
 
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
-
-
 
 </body>
 </html>

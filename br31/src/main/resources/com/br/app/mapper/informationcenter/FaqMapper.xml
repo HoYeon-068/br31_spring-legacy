@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.br.app.mapper.informationcenter.FaqMapper">
+
+  <select id="selectList" resultType="com.br.app.domain.informationcenter.FaqDTO">
+    SELECT *
+    FROM (
+      SELECT ROWNUM rn, f.*
+      FROM (
+        SELECT
+          faq.faq_id,
+          faq.question,
+          faq.answer,
+          faq.reg_date,
+          faq.faq_category_id,
+          cat.name AS category_name
+        FROM faq faq
+        JOIN faq_category cat
+          ON faq.faq_category_id = cat.faq_category_id
+        WHERE (#{categoryId} = 0 OR faq.faq_category_id = #{categoryId})
+        ORDER BY faq.reg_date DESC
+      ) f
+    )
+    WHERE rn BETWEEN #{startRow} AND #{endRow}
+  </select>
+
+  <select id="getTotalCount" resultType="int">
+    SELECT COUNT(*)
+    FROM faq
+    WHERE (#{categoryId} = 0 OR faq_category_id = #{categoryId})
+  </select>
+
+  <select id="selectOne" resultType="com.br.app.domain.informationcenter.FaqDTO">
+    SELECT
+      faq.faq_id,
+      faq.question,
+      faq.answer,
+      faq.reg_date,
+      faq.faq_category_id,
+      cat.name AS category_name
+    FROM faq faq
+    JOIN faq_category cat
+      ON faq.faq_category_id = cat.faq_category_id
+    WHERE faq.faq_id = #{faqId}
+  </select>
+
+</mapper>

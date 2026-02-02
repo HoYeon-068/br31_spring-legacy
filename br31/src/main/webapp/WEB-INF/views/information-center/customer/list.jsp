@@ -1,33 +1,31 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>배스킨라빈스 | 고객센터</title>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendors.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css">
-<script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendors.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css">
+    <script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
 
-<style>
-    .customer-list__process--item {
-        position: relative;
-    }
+    <style>
+        .customer-list__process--item { position: relative; }
 
-    .customer-list__process--item:not(:last-of-type)::after {
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        width: 40px;
-        height: 40px;
-        right: -55px;
-    }
+        .customer-list__process--item:not(:last-of-type)::after {
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            width: 40px;
+            height: 40px;
+            right: -55px;
+        }
 
-    .has-footer-menu footer .site-footer-menu {
-        display: block;
-    }
-</style>
+        .has-footer-menu footer .site-footer-menu { display: block; }
+    </style>
 </head>
 
 <body id="baskinrobbins-information-center-customer-list"
@@ -37,43 +35,50 @@
 
 <div class="site-container">
 
+    <!-- ✅ 상단 탭: 무조건 /information-center/... 로 통일 -->
     <nav class="page-menu">
         <ul class="page-menu__list">
+
             <li class="page-menu__item page-menu__item--active">
-                <a href="${pageContext.request.contextPath}/customer/list.do" class="page-menu__link">
+                <a href="<c:url value='/information-center/customer/list.do'/>" class="page-menu__link">
                     <div class="page-menu__box">
                         <span class="page-menu__name">고객센터</span>
                     </div>
                 </a>
             </li>
+
             <li class="page-menu__item">
-                <a href="${pageContext.request.contextPath}/customer/ccm.do" class="page-menu__link">
+                <a href="<c:url value='/information-center/customer/ccm.do'/>" class="page-menu__link">
                     <div class="page-menu__box">
                         <span class="page-menu__name">소비자중심경영(CCM)</span>
                     </div>
                 </a>
             </li>
+
             <li class="page-menu__item">
-                <a href="${pageContext.request.contextPath}/notice/list.do" class="page-menu__link">
+                <a href="<c:url value='/information-center/notice/list.do'/>" class="page-menu__link">
                     <div class="page-menu__box">
                         <span class="page-menu__name">공지사항</span>
                     </div>
                 </a>
             </li>
+
             <li class="page-menu__item">
-                <a href="${pageContext.request.contextPath}/press/list.do" class="page-menu__link">
+                <a href="<c:url value='/information-center/press/list.do'/>" class="page-menu__link">
                     <div class="page-menu__box">
                         <span class="page-menu__name">보도자료</span>
                     </div>
                 </a>
             </li>
+
             <li class="page-menu__item">
-                <a href="${pageContext.request.contextPath}/fairtrade/list.do" class="page-menu__link">
+                <a href="<c:url value='/information-center/fairtrade/list.do'/>" class="page-menu__link">
                     <div class="page-menu__box">
                         <span class="page-menu__name">공정거래자율준수</span>
                     </div>
                 </a>
             </li>
+
         </ul>
     </nav>
 
@@ -98,6 +103,7 @@
                 <div class="customer-list__content">
 
                     <ul class="customer-list__faq">
+
                         <li class="customer-list__faq--item">
                             <div>
                                 <h4 class="customer-list__faq--title">자주하는 질문</h4>
@@ -107,7 +113,7 @@
                                 </p>
                             </div>
                             <div>
-                                <a href="${pageContext.request.contextPath}/faq/list.do"
+                                <a href="<c:url value='/information-center/faq/list.do'/>"
                                    class="customer-list__faq--link">FAQ</a>
                             </div>
                         </li>
@@ -125,10 +131,11 @@
                                 </p>
                             </div>
                             <div>
-                                <a href="${pageContext.request.contextPath}/inquiry/create.do"
+                                <a href="<c:url value='/information-center/inquiry/create.do'/>"
                                    class="customer-list__faq--link">1:1문의하기</a>
-                               <a href="${pageContext.request.contextPath}/inquiry/list.do"
-   class="customer-list__faq--link">문의내역 보기</a>
+
+                                <a href="<c:url value='/information-center/inquiry/list.do'/>"
+                                   class="customer-list__faq--link">문의내역 보기</a>
                             </div>
                         </li>
 
@@ -161,6 +168,7 @@
                                    class="customer-list__faq--link">자세히 보기</a>
                             </div>
                         </li>
+
                     </ul>
 
                 </div>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.br.app.mapper.search.BoardSearchMapper">
+
+  <!-- 통합검색 전체 건수 -->
+  <select id="countAll" resultType="int">
+    SELECT SUM(cnt)
+    FROM (
+      SELECT COUNT(*) cnt
+      FROM NOTICE
+      WHERE TITLE   LIKE '%' || #{keyword} || '%'
+         OR CONTENT LIKE '%' || #{keyword} || '%'
+
+      UNION ALL
+
+      SELECT COUNT(*) cnt
+      FROM PRESS_RELEASE
+      WHERE TITLE   LIKE '%' || #{keyword} || '%'
+         OR CONTENT LIKE '%' || #{keyword} || '%'
+    )
+  </select>
+
+  <!-- 통합검색 목록(최신순) + 페이징 -->
+  <select id="searchAll" resultType="com.br.app.domain.search.BoardSearchDTO">
+    SELECT *
+    FROM (
+      SELECT ROWNUM rnum, x.*
+      FROM (
+        SELECT
+          'NOTICE' AS type,
+          n.NOTICE_ID AS id,
+          n.TITLE AS title,
+          TO_CHAR(n.REG_DATE, 'YYYY.MM.DD') AS regDate
+        FROM NOTICE n
+        WHERE n.TITLE   LIKE '%' || #{keyword} || '%'
+           OR n.CONTENT LIKE '%' || #{keyword} || '%'
+
+        UNION ALL
+
+        SELECT
+          'PRESS' AS type,
+          p.PR_ID AS id,
+          p.TITLE AS title,
+          TO_CHAR(p.REG_DATE, 'YYYY.MM.DD') AS regDate
+        FROM PRESS_RELEASE p
+        WHERE p.TITLE   LIKE '%' || #{keyword} || '%'
+           OR p.CONTENT LIKE '%' || #{keyword} || '%'
+
+        ORDER BY regDate DESC
+      ) x
+      WHERE ROWNUM <![CDATA[<=]]> #{endRow}
+    )
+    WHERE rnum <![CDATA[>=]]> #{startRow}
+  </select>
+
+</mapper>

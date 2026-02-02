@@ -108,8 +108,9 @@
 
         <!-- 목록 버튼 -->
         <div class="voc-submit voc-submit--right">
-            <a href="${pageContext.request.contextPath}/inquiry/list.do"
-               class="btn-list">목록</a>
+            <a href="${pageContext.request.contextPath}/information-center/inquiry/list.do" class="btn-list">목록</a>
+
+            
         </div>
     </div>
 

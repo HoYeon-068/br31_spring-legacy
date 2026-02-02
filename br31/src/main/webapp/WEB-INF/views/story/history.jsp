@@ -86,7 +86,7 @@
             <ul class="page-tab__list">
                 <!-- 현재 페이지인 경우 page-tab__item--active 추가 -->
                 <li class="page-tab__item ${viewMode eq 'year' ? 'page-tab__item--active' : ''} ">
-                    <a href="${pageContext.request.contextPath}/story/history.do?release_year=2025#page-tab" class="page-tab__link">
+                    <a href="${pageContext.request.contextPath}/story/history.do?releaseYear=2025#page-tab" class="page-tab__link">
                         <span class="page-tab__text">연도별 보기</span>
                     </a>
                 </li>
@@ -103,29 +103,29 @@
         <nav id="story-history-menu" class="story-history-menu story-history-nav  ${viewMode eq 'year' ? 'story-history-nav--active' : ''}">
             <div class="story-history-menu__container">
                 <ul class="story-history-menu__list">
-                        <li class="story-history-menu__item ${release_year == 2025 ? 'story-history-menu__item--active' : ''}">
-                            <a href="${pageContext.request.contextPath}/story/history.do?release_year=2025#page-tab" class="story-history-menu__link">2025</a>
+                        <li class="story-history-menu__item ${releaseYear == 2025 ? 'story-history-menu__item--active' : ''}">
+                            <a href="${pageContext.request.contextPath}/story/history.do?releaseYear=2025#page-tab" class="story-history-menu__link">2025</a>
                         </li>
-                        <li class="story-history-menu__item ${release_year == 2024 ? 'story-history-menu__item--active' : ''} ">
-                            <a href="${pageContext.request.contextPath}/story/history.do?release_year=2024#page-tab" class="story-history-menu__link">2024</a>
+                        <li class="story-history-menu__item ${releaseYear == 2024 ? 'story-history-menu__item--active' : ''} ">
+                            <a href="${pageContext.request.contextPath}/story/history.do?releaseYear=2024#page-tab" class="story-history-menu__link">2024</a>
                         </li>
-                        <li class="story-history-menu__item ${release_year == 2023 ? 'story-history-menu__item--active' : ''} ">
-                            <a href="${pageContext.request.contextPath}/story/history.do?release_year=2023#page-tab" class="story-history-menu__link">2023</a>
+                        <li class="story-history-menu__item ${releaseYear == 2023 ? 'story-history-menu__item--active' : ''} ">
+                            <a href="${pageContext.request.contextPath}/story/history.do?releaseYear=2023#page-tab" class="story-history-menu__link">2023</a>
                         </li>
-                        <li class="story-history-menu__item ${release_year == 2022 ? 'story-history-menu__item--active' : ''} ">
-                            <a href="${pageContext.request.contextPath}/story/history.do?release_year=2022#page-tab" class="story-history-menu__link">2022</a>
+                        <li class="story-history-menu__item ${releaseYear == 2022 ? 'story-history-menu__item--active' : ''} ">
+                            <a href="${pageContext.request.contextPath}/story/history.do?releaseYear=2022#page-tab" class="story-history-menu__link">2022</a>
                         </li>
-                        <li class="story-history-menu__item ${release_year == 2021 ? 'story-history-menu__item--active' : ''} ">
-                            <a href="${pageContext.request.contextPath}/story/history.do?release_year=2021#page-tab" class="story-history-menu__link">2021</a>
+                        <li class="story-history-menu__item ${releaseYear == 2021 ? 'story-history-menu__item--active' : ''} ">
+                            <a href="${pageContext.request.contextPath}/story/history.do?releaseYear=2021#page-tab" class="story-history-menu__link">2021</a>
                         </li>
-                        <li class="story-history-menu__item ${release_year == 2020 ? 'story-history-menu__item--active' : ''} ">
-                            <a href="${pageContext.request.contextPath}/story/history.do?release_year=2020#page-tab" class="story-history-menu__link">2020</a>
+                        <li class="story-history-menu__item ${releaseYear == 2020 ? 'story-history-menu__item--active' : ''} ">
+                            <a href="${pageContext.request.contextPath}/story/history.do?releaseYear=2020#page-tab" class="story-history-menu__link">2020</a>
                         </li>
-                        <li class="story-history-menu__item ${release_year == 2019 ? 'story-history-menu__item--active' : ''} ">
-                            <a href="${pageContext.request.contextPath}/story/history.do?release_year=2019#page-tab" class="story-history-menu__link">2019</a>
+                        <li class="story-history-menu__item ${releaseYear == 2019 ? 'story-history-menu__item--active' : ''} ">
+                            <a href="${pageContext.request.contextPath}/story/history.do?releaseYear=2019#page-tab" class="story-history-menu__link">2019</a>
                         </li>
-                        <li class="story-history-menu__item ${release_year == 2018 ? 'story-history-menu__item--active' : ''} ">
-                            <a href="${pageContext.request.contextPath}/story/history.do?release_year=2018#page-tab" class="story-history-menu__link">2018</a>
+                        <li class="story-history-menu__item ${releaseYear == 2018 ? 'story-history-menu__item--active' : ''} ">
+                            <a href="${pageContext.request.contextPath}/story/history.do?releaseYear=2018#page-tab" class="story-history-menu__link">2018</a>
                         </li>
                  </ul>
             </div>
@@ -167,7 +167,7 @@
 	                        <li class="story-history-list__item">
 	                            <div class="story-history-list__content">
 	                                <div class="story-history-list__menu">
-	                                    <img src="${pageContext.request.contextPath}${y.history_img_path}" alt="${y.history_ice_name}" class="story-history-list__image">
+	                                    <img src="${pageContext.request.contextPath}${y.historyImgPath}" alt="${y.historyIceName}" class="story-history-list__image">
 	                                </div>
 	                            </div>
 	                        </li>
@@ -194,6 +194,5 @@
 <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
 
 
-<img src="https://t.co/1/i/adsct?bci=4&amp;dv=Etc%2FGMT-9%26ko-KR%2Cko%2Cen-US%2Cen%26Google%20Inc.%26Win32%26255%261920%261080%2624%2624%261920%261032%260%26na&amp;eci=3&amp;event=%7B%7D&amp;event_id=ed802de7-4403-4666-8885-24f0ea282494&amp;integration=advertiser&amp;p_id=Twitter&amp;p_user_id=0&amp;pl_id=e0ff9085-fb41-4342-a548-5544562dd012&amp;pt=%EB%B0%B0%EC%8A%A4%ED%82%A8%EB%9D%BC%EB%B9%88%EC%8A%A4&amp;tw_document_href=https%3A%2F%2Fwww.baskinrobbins.co.kr%2Fstory%2Fhistory.php%3Frelease_year%3D2025&amp;tw_iframe_status=0&amp;txn_id=ogfh2&amp;type=javascript&amp;version=2.3.35" height="1" width="1" style="display: none;"><img src="https://analytics.twitter.com/1/i/adsct?bci=4&amp;dv=Etc%2FGMT-9%26ko-KR%2Cko%2Cen-US%2Cen%26Google%20Inc.%26Win32%26255%261920%261080%2624%2624%261920%261032%260%26na&amp;eci=3&amp;event=%7B%7D&amp;event_id=ed802de7-4403-4666-8885-24f0ea282494&amp;integration=advertiser&amp;p_id=Twitter&amp;p_user_id=0&amp;pl_id=e0ff9085-fb41-4342-a548-5544562dd012&amp;pt=%EB%B0%B0%EC%8A%A4%ED%82%A8%EB%9D%BC%EB%B9%88%EC%8A%A4&amp;tw_document_href=https%3A%2F%2Fwww.baskinrobbins.co.kr%2Fstory%2Fhistory.php%3Frelease_year%3D2025&amp;tw_iframe_status=0&amp;txn_id=ogfh2&amp;type=javascript&amp;version=2.3.35" height="1" width="1" style="display: none;">
 </body>
 </html>

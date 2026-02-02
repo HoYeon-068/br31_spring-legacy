@@ -1,22 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>배스킨라빈스</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendors.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/sdk1659.js?appkey=8c71dfbb0129b7e25a985c72328e967b"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
-</head>
-<body id="baskinrobbins-store-map" class="baskinrobbins-store-map">
-
-<jsp:include page="/WEB-INF/views/layout/header.jsp" />
 <div class="site-container">
     <jsp:include page="../store/layout/store_header.jsp" /> 
 
@@ -155,7 +139,6 @@
         </div>
     </section>
 </div>
-<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
 
 <script>
 var contextPath = "${pageContext.request.contextPath}";
@@ -364,5 +347,3 @@ $('.store-map-option__button').on('click', function() {
 
 </script>
 
-</body>
-</html>

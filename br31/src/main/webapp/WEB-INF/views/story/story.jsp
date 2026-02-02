@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-<html lang="ko"><head>
+<head>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -110,7 +110,7 @@
         <!-- 제목 -->
         <h3 class="story-story__title story-story__title--${st.index + 1} aos-init"
             data-aos="fade-up">
-          ${s.story_title}
+          ${s.storyTitle}
         </h3>
 
         <!-- 설명: DB에 줄바꿈(\n) 있으면 그대로 보이게 -->
@@ -118,13 +118,13 @@
            data-aos="fade-up"
            data-aos-delay="100"
            style="white-space:pre-line;">
-          ${s.story_description}
+          ${s.storyDescription}
         </p>
 
         <!-- YEAR + (로고스토리/아이콘은 네 원본 구조에 맞춰 유지) -->
         <div class="story-story__logo-story">
           <p class="story-story__logo-story--year">
-            <span>YEAR</span> ${s.story_year}
+            <span>YEAR</span> ${s.storyYear}
           </p>
 
           <!-- 1번만 버튼/aside가 있었던 구조를 “원하면” 조건으로 유지 -->
@@ -158,8 +158,8 @@
         <!-- 이미지(로고/스토리 이미지 경로) -->
         <div class="story-story__visual">
 		  <img
-		    src="${pageContext.request.contextPath}${s.story_img_path}"
-		    alt="${s.story_title}"
+		    src="${pageContext.request.contextPath}${s.storyImgPath}"
+		    alt="${s.storyTitle}"
 		    class="story-story__image aos-init"
 		    data-aos="fade-up"
 		    data-aos-delay="200"
@@ -178,4 +178,3 @@
 <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
 
 
-<img src="https://t.co/1/i/adsct?bci=4&amp;dv=Etc%2FGMT-9%26ko-KR%2Cko%2Cen-US%2Cen%26Google%20Inc.%26Win32%26255%261920%261080%2624%2624%261920%261032%260%26na&amp;eci=3&amp;event=%7B%7D&amp;event_id=bad8a9ae-7b7a-4a20-a34a-0ba15a4df430&amp;integration=advertiser&amp;p_id=Twitter&amp;p_user_id=0&amp;pl_id=1daf11a8-c4d4-4813-a59f-3febb576d5b0&amp;pt=%EB%B0%B0%EC%8A%A4%ED%82%A8%EB%9D%BC%EB%B9%88%EC%8A%A4&amp;tw_document_href=https%3A%2F%2Fwww.baskinrobbins.co.kr%2Fstory%2Fstory.php&amp;tw_iframe_status=0&amp;txn_id=ogfh2&amp;type=javascript&amp;version=2.3.35" height="1" width="1" style="display: none;"><img src="https://analytics.twitter.com/1/i/adsct?bci=4&amp;dv=Etc%2FGMT-9%26ko-KR%2Cko%2Cen-US%2Cen%26Google%20Inc.%26Win32%26255%261920%261080%2624%2624%261920%261032%260%26na&amp;eci=3&amp;event=%7B%7D&amp;event_id=bad8a9ae-7b7a-4a20-a34a-0ba15a4df430&amp;integration=advertiser&amp;p_id=Twitter&amp;p_user_id=0&amp;pl_id=1daf11a8-c4d4-4813-a59f-3febb576d5b0&amp;pt=%EB%B0%B0%EC%8A%A4%ED%82%A8%EB%9D%BC%EB%B9%88%EC%8A%A4&amp;tw_document_href=https%3A%2F%2Fwww.baskinrobbins.co.kr%2Fstory%2Fstory.php&amp;tw_iframe_status=0&amp;txn_id=ogfh2&amp;type=javascript&amp;version=2.3.35" height="1" width="1" style="display: none;"></body></html>

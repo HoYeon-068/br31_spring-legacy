@@ -14,8 +14,9 @@
     <div class="voc-visual__inner voc-visual--flex">
         <h2>MY <span>VOC</span></h2>
 
-        <a href="${pageContext.request.contextPath}/inquiry/list.do"
-           class="voc-btn">
+        <a href="${pageContext.request.contextPath}/information-center/inquiry/list.do" class="voc-btn"></a>
+
+         
         </a>
     </div>
 </div>
@@ -64,7 +65,8 @@
                 <td>${dto.counselType}</td>
                 <td>${dto.detailType}</td>
                 <td class="title">
-                    <a href="${pageContext.request.contextPath}/inquiry/view.do?inquiry_id=${dto.inquiryId}">
+                    <a href="${pageContext.request.contextPath}/information-center/inquiry/view.do?inquiry_id=${dto.inquiryId}">
+
                         ${dto.title}
                     </a>
                 </td>

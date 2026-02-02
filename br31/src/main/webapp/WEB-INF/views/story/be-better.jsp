@@ -306,65 +306,65 @@
   <li class="story-be-better-list__item story-be-better-list__item--dream">
 
     <!-- 1) 스위치 -->
-    <input type="checkbox" id="modal${c.campaign_id}" class="modal-toggle" />
+    <input type="checkbox" id="modal${c.campaignId}" class="modal-toggle" />
 
     <!-- 2) 카드 -->
     <div class="story-be-better-list__wrapper">
       <div class="story-be-better-list__frame">
-        <img src="${pageContext.request.contextPath}${c.campaign_img_path}"
-             alt="${c.campaign_name}" class="story-be-better-list__image">
+        <img src="${pageContext.request.contextPath}${c.campaignImgPath}"
+             alt="${c.campaignName}" class="story-be-better-list__image">
       </div>
 
       <div class="story-be-better-list__box">
-        <h3 class="story-be-better-list__title">${c.campaign_name}</h3>
+        <h3 class="story-be-better-list__title">${c.campaignName}</h3>
 
         <div class="story-be-better-list__inner">
-          <p class="story-be-better-list__text">${c.campaign_subtitle}</p>
+          <p class="story-be-better-list__text">${c.campaignSubtitle}</p>
 
-          <!-- ✅ label 클릭 가능하게 버튼처럼 -->
-          <label for="modal${c.campaign_id}" class="story-be-better-list__link btn-open">
+          <!--  label 클릭 가능하게 버튼처럼 -->
+          <label for="modal${c.campaignId}" class="story-be-better-list__link btn-open">
             더보기
           </label>
         </div>
 
-        <p class="story-be-better-list__description">${c.campaign_description}</p>
-        <pre class="story-be-better-list__content">${c.campaign_summary}</pre>
+        <p class="story-be-better-list__description">${c.campaignDescription}</p>
+        <pre class="story-be-better-list__content">${c.campaignSummary}</pre>
       </div>
     </div>
 
     <!-- 3) 모달 -->
     <div class="modal-wrap">
-  <label for="modal${c.campaign_id}" class="modal-dim"></label>
+  <label for="modal${c.campaignId}" class="modal-dim"></label>
 
   <div class="modal-box" role="dialog" aria-modal="true">
-    <label for="modal${c.campaign_id}" class="modal-close">×</label>
+    <label for="modal${c.campaignId}" class="modal-close">×</label>
 
     <!-- 상단 제목 -->
     <h2 class="modal-top-title">
-      ‘${c.campaign_name}’
+      ‘${c.campaignName}’
     </h2>
     <hr class="modal-line"/>
 
     <div class="modal-grid">
       <c:set var="hasItem" value="false" />
 
-      <c:forEach var="it" items="${infoAll}">
-        <c:if test="${it.campaign_id == c.campaign_id}">
+      <c:forEach var="it" items="${campaignInfoAll}">
+        <c:if test="${it.campaignId == c.campaignId}">
           <c:set var="hasItem" value="true" />
 
           <div class="modal-card">
             <!-- 왼쪽 이미지 -->
             <div class="modal-card__img">
               <img
-                src="${pageContext.request.contextPath}${it.campaign_activity_img_path}"
-                alt="${it.campaign_activity_title}">
+                src="${pageContext.request.contextPath}${it.campaignActivityImgPath}"
+                alt="${it.campaignActivityTitle}">
             </div>
 
             <!-- 오른쪽 텍스트 -->
             <div class="modal-card__txt">
-              <div class="modal-card__ym">${it.campaign_activity_ym}</div>
-              <div class="modal-card__title">${it.campaign_activity_title}</div>
-              <div class="modal-card__desc">${it.campaign_activity_description}</div>
+              <div class="modal-card__ym">${it.campaignActivityYm}</div>
+              <div class="modal-card__title">${it.campaignActivityTitle}</div>
+              <div class="modal-card__desc">${it.campaignActivityDescription}</div>
             </div>
           </div>
 

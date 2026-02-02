@@ -1,15 +1,16 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>배스킨라빈스 | 보도자료</title>
 
-  
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendors.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css">
     <script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
 </head>
 
 <body id="baskinrobbins-press"
@@ -31,28 +32,26 @@
 
         <article class="board-view__article">
 
-           
             <header class="board-view__header">
-               <h3 class="board-view__title">${dto.title}</h3>
-
-             <p class="board-view__date">${dto.reg_date}</p>
-
+                <h3 class="board-view__title">${dto.title}</h3>
+                <!-- list.jsp와 동일하게 regDateText 사용 -->
+                <p class="board-view__date">${dto.regDateText}</p>
             </header>
 
-         
             <div class="board-view__container">
-           
-			<div class="board-view__content"">
-    ${dto.content}
-</div>
-			
-               
+                <div class="board-view__content">
+                    ${dto.content}
+                </div>
             </div>
 
-            
-            <p class="board-view__back">
-                <a href="${pageContext.request.contextPath}/press/list.do">목록</a>
+            <!-- ✅ 목록 복귀 URL (page/keyword 유지) -->
+            <c:url var="listUrl" value="/information-center/press/list.do">
+                <c:param name="page" value="${page}" />
+                <c:param name="keyword" value="${keyword}" />
+            </c:url>
 
+            <p class="board-view__back">
+                <a href="${listUrl}">목록</a>
             </p>
 
         </article>

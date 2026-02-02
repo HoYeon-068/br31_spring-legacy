@@ -31,46 +31,61 @@ public class StoreController {
 	public String storeCatering(Model model) throws Exception {
 		
 			model.addAttribute("activeMenu", "catering");
-		
-		return "/store/catering";
+			model.addAttribute("bodyId", "baskinrobbins-store-catering");
+			model.addAttribute("bodyClass", "baskinrobbins-store-catering");
+		return "store.catering";
 	}
 	
 	@GetMapping("/catering-order.do")
-	public String storeCateringOrder() throws Exception {
+	public String storeCateringOrder(Model model) throws Exception {
 		
+		model.addAttribute("bodyId", "baskinrobbins-store-catering-order-order");
+		model.addAttribute("bodyClass", "baskinrobbins-store-catering-order-order");
 		
-		return "/store/catering-order";
+		return "store.catering-order";
 	}
 	
 	@GetMapping("/delivary.do")
 	public String storeDelivary(Model model) throws Exception {
 		
 			model.addAttribute("activeMenu", "delivary");
-		
-		return "/store/delivary";
+			
+			model.addAttribute("bodyId", "baskinrobbins-store-delivary");
+			model.addAttribute("bodyClass", "baskinrobbins-store-delivary");
+			
+		return "store.delivary";
 	}
 	
 	@GetMapping("/flavor.do")
 	public String storeFlavor(Model model) throws Exception {
 		
 			model.addAttribute("activeMenu", "flavor");
+			
+			model.addAttribute("bodyId", "baskinrobbins-store-flavor");
+			model.addAttribute("bodyClass", "baskinrobbins-store-flavor");
 		
-		return "/store/flavor";
+		return "store.flavor";
 	}
 	
 	@GetMapping("/map.do")
 	public String storeMap(Model model) throws Exception {
 		
 			model.addAttribute("activeMenu", "map");
-		
-		return "/store/map";
+			
+			model.addAttribute("bodyId", "baskinrobbins-store-map");
+			model.addAttribute("bodyClass", "baskinrobbins-store-map");
+			
+		return "store.map";
 	}
 	
 	@GetMapping("/workshop.do")
 	public String storeWorkshop(Model model) throws Exception {
 		
 			model.addAttribute("activeMenu", "workshop");
+			
+			model.addAttribute("bodyId", "baskinrobbins-store-workshop");
+			model.addAttribute("bodyClass", "baskinrobbins-store-workshop");
 		
-		return "/store/workshop";
+		return "store.workshop";
 	}
 }

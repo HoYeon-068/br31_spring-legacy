@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.br.app.mapper.informationcenter.InquiryMapper">
+
+  <insert id="insertInquiry" parameterType="com.br.app.domain.informationcenter.InquiryDTO">
+    <!-- 시퀀스명은 DB 실제 이름으로 교체 -->
+    <selectKey keyProperty="inquiryId" resultType="long" order="BEFORE">
+      SELECT INQUIRY_SEQ.NEXTVAL FROM DUAL
+    </selectKey>
+
+    INSERT INTO INQUIRY (
+      INQUIRY_ID,
+      COUNSEL_TYPE,
+      DETAIL_TYPE,
+      TITLE,
+      OCCUR_DATE,
+      CONTENT,
+      NAME,
+      PHONE,
+      EMAIL,
+      POST_PW,
+      REG_DATE,
+      USER_ID,
+      STORE_ID
+    ) VALUES (
+      #{inquiryId},
+      #{counselType},
+      #{detailType},
+      #{title},
+      #{occurDate, jdbcType=TIMESTAMP},
+      #{content, jdbcType=CLOB},
+      #{name, jdbcType=VARCHAR},
+      #{phone, jdbcType=VARCHAR},
+      #{email, jdbcType=VARCHAR},
+      #{postPw, jdbcType=VARCHAR},
+      SYSDATE,
+      #{userId},
+      #{storeId, jdbcType=NUMERIC}
+    )
+  </insert>
+  
+    <select id="selectMyInquiryList"
+          parameterType="string"
+          resultType="com.br.app.domain.informationcenter.InquiryListDTO">
+    SELECT
+      i.INQUIRY_ID,
+      i.REG_DATE,
+      i.OCCUR_DATE,
+      i.COUNSEL_TYPE,
+      i.DETAIL_TYPE,
+      i.TITLE,
+      a.ANSWER
+    FROM INQUIRY i
+    LEFT JOIN INQUIRY_ANSWER a
+      ON i.INQUIRY_ID = a.INQUIRY_ID
+    WHERE i.USER_ID = #{userId}
+    ORDER BY i.REG_DATE DESC
+  </select>
+  
+
+<select id="selectInquiryView"
+        resultType="com.br.app.domain.informationcenter.InquiryViewDTO">
+  SELECT
+    i.INQUIRY_ID,
+    i.COUNSEL_TYPE,
+    i.DETAIL_TYPE,
+    i.TITLE,
+    i.OCCUR_DATE,
+    i.CONTENT,
+    i.REG_DATE,
+    i.STORE_ID,
+    s.STORE_NAME,
+    a.ANSWER,
+    a.REG_DATE AS ANSWER_DATE
+  FROM INQUIRY i
+  LEFT JOIN STORE s
+    ON i.STORE_ID = s.STORE_ID
+  LEFT JOIN INQUIRY_ANSWER a
+    ON i.INQUIRY_ID = a.INQUIRY_ID
+  WHERE i.INQUIRY_ID = #{inquiryId}
+</select>
+
+
+</mapper>

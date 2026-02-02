@@ -64,7 +64,7 @@
         </h3>
 
 <form class="voc-form"
-      action="${pageContext.request.contextPath}/inquiry/create.do"
+      action="${pageContext.request.contextPath}/information-center/inquiry/create.do"
       method="post"
       onsubmit="return confirm('VOC를 등록하시겠습니까?');">
       

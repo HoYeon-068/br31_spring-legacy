@@ -76,6 +76,7 @@ public class MenuController {
 			model.addAttribute("dto", menuViewDTO);
 			model.addAttribute("prevDTO", prevProductDTO);
 			model.addAttribute("nextDTO", nextProductDTO);
+			
 			model.addAttribute("bodyId", "baskinrobbins-menu-view");
 			model.addAttribute("bodyClass", "baskinrobbins-menu-view");
 		

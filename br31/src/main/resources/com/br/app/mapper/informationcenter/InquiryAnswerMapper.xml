@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.br.app.mapper.informationcenter.InquiryAnswerMapper">
+
+  <insert id="insertAnswer" parameterType="com.br.app.domain.informationcenter.InquiryAnswerDTO">
+    <!-- 시퀀스명은 DB 실제 이름으로 교체 -->
+    <selectKey keyProperty="inquiryAnswerId" resultType="long" order="BEFORE">
+      SELECT INQUIRY_ANSWER_SEQ.NEXTVAL FROM DUAL
+    </selectKey>
+
+    INSERT INTO INQUIRY_ANSWER (
+      INQUIRY_ANSWER_ID,
+      ANSWER,
+      REG_DATE,
+      INQUIRY_ID
+    ) VALUES (
+      #{inquiryAnswerId},
+      #{answer, jdbcType=CLOB},
+      SYSDATE,
+      #{inquiryId}
+    )
+  </insert>
+
+</mapper>

@@ -5,60 +5,21 @@
     <meta charset="UTF-8">
     <title>배스킨라빈스 | 소비자중심경영(CCM)</title>
 
-    <!-- 공통 CSS -->
+    <!-- 공통 CSS/JS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendors.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css">
     <script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
-    
+    <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
 </head>
 
-<body id="baskinrobbins-ccm"
-      class="baskinrobbins-ccm">
+<body id="baskinrobbins-ccm" class="baskinrobbins-ccm">
 
 <jsp:include page="/WEB-INF/views/layout/header.jsp" />
 
 <div class="site-container">
 
-    <nav class="page-menu">
-        <ul class="page-menu__list">
-            <li class="page-menu__item">
-               <a href="${pageContext.request.contextPath}/customer/list.do" class="page-menu__link">
-                    <div class="page-menu__box">
-                        <span class="page-menu__name">고객센터</span>
-                    </div>
-                </a>
-            </li>
-            <li class="page-menu__item page-menu__item--active">
-              <a href="${pageContext.request.contextPath}/customer/ccm.do" class="page-menu__link">
-                    <div class="page-menu__box">
-                        <span class="page-menu__name">소비자중심경영(CCM)</span>
-                    </div>
-                </a>
-            </li>
-            <li class="page-menu__item">
-                <a href="${pageContext.request.contextPath}/notice/list.do" class="page-menu__link">
-                    <div class="page-menu__box">
-                        <span class="page-menu__name">공지사항</span>
-                    </div>
-                </a>
-            </li>
-            <li class="page-menu__item">
-               <a href="${pageContext.request.contextPath}/press/list.do" class="page-menu__link">
-                    <div class="page-menu__box">
-                        <span class="page-menu__name">보도자료</span>
-                    </div>
-                </a>
-            </li>
-            <li class="page-menu__item">
-               <a href="${pageContext.request.contextPath}/fairtrade/list.do" class="page-menu__link">
-                    <div class="page-menu__box">
-                        <span class="page-menu__name">공정거래자율준수</span>
-                    </div>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <!-- 고객센터 공통 메뉴 -->
+    <jsp:include page="/WEB-INF/views/information-center/_customerMenu.jsp" />
 
     <div id="content">
 
@@ -119,9 +80,9 @@
                         <div>
                             <h3>우리의 CCM 인증서</h3>
                             <div class="customer-ccm__certificate">
-                                <img src="${pageContext.request.contextPath}/resources/images/information-center/customer/ccm_brk.jpg">
-                                <img src="${pageContext.request.contextPath}/resources/images/information-center/customer/ccm_certifi_23_en.png">
-                                <img src="${pageContext.request.contextPath}/resources/images/information-center/customer/ccm_certifi_23_kr.png">
+                                <img src="${pageContext.request.contextPath}/resources/images/information-center/customer/ccm_brk.jpg" alt="CCM 인증서 1">
+                                <img src="${pageContext.request.contextPath}/resources/images/information-center/customer/ccm_certifi_23_en.png" alt="CCM 인증서 2(EN)">
+                                <img src="${pageContext.request.contextPath}/resources/images/information-center/customer/ccm_certifi_23_kr.png" alt="CCM 인증서 3(KR)">
                             </div>
                         </div>
                     </div>

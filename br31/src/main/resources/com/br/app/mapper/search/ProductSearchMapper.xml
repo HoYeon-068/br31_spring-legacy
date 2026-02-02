@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.br.app.mapper.search.ProductSearchMapper">
+
+    <sql id="baseWhere">
+        WHERE PRODUCT_STATUS = '판매중'
+        <if test="keyword != null and keyword.trim().length() &gt; 0">
+            AND (
+                PRODUCT_NAME LIKE '%' || #{keyword} || '%'
+                OR ENGLISH_NAME LIKE '%' || #{keyword} || '%'
+                OR SUB_TITLE LIKE '%' || #{keyword} || '%'
+            )
+        </if>
+        <if test="categoryId != null">
+            AND CATEGORY_ID = #{categoryId}
+        </if>
+    </sql>
+
+    <select id="selectSearchList" resultType="com.br.app.domain.search.ProductDTO">
+        SELECT
+            PRODUCTS_ID    AS products_id,
+            CATEGORY_ID    AS category_id,
+            PRODUCT_NAME   AS product_name,
+            ENGLISH_NAME   AS english_name,
+            SUB_TITLE      AS sub_title,
+            DESCRIPTION    AS description,
+            PRODUCT_STATUS AS product_status,
+            IMG_PATH       AS img_path,
+            BG_COLOR       AS bg_color,
+            SPAN_COLOR     AS span_color,
+            POSTER_PATH    AS poster_path,
+            PRICE          AS price,
+            RELEASE_DATE   AS release_date
+        FROM PRODUCTS
+        <include refid="baseWhere"/>
+        ORDER BY PRODUCT_NAME
+    </select>
+
+    <select id="selectSearchCount" resultType="int">
+        SELECT COUNT(*)
+        FROM PRODUCTS
+        <include refid="baseWhere"/>
+    </select>
+
+</mapper>

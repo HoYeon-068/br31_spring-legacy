@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.br.app.mapper.informationcenter.NewStoreBoardMapper">
+  
+    <select id="selectList" resultType="com.br.app.domain.informationcenter.NewStoreBoardDTO">
+    	SELECT * FROM new_store_board
+    </select>
+  
+  <select id="select" resultType="com.br.app.domain.informationcenter.NewStoreBoardDTO">
+
+        SELECT *
+        FROM (
+            SELECT ROWNUM rnum, A.*
+            FROM (
+                SELECT *
+                FROM new_store_board
+
+                <if test="loc != null and loc != ''">
+                    WHERE sido = #{loc}
+                </if>
+
+                ORDER BY new_store_board_id DESC
+            ) A
+            WHERE ROWNUM &lt;= ( (#{currentPage} - 1) * #{numberPerPage} + #{numberPerPage} )
+        )
+        WHERE rnum &gt;= ( (#{currentPage} - 1) * #{numberPerPage} + 1 )
+
+    </select>
+    
+    
+    <select id="getTotalPages" resultType="int">
+
+        SELECT CEIL(COUNT(*) / #{numberPerPage})
+        FROM new_store_board
+
+        <if test="loc != null and loc != ''">
+            WHERE sido = #{loc}
+        </if>
+
+    </select>
+    
+    <select id="selectOne" resultType="com.br.app.domain.informationcenter.NewStoreBoardDTO">
+        SELECT *
+        FROM new_store_board
+        WHERE new_store_board_id = #{seq}
+    </select>
+    
+    <select id="getTotalNum" resultType="int">
+        SELECT COUNT(*)
+        FROM new_store_board
+        <if test="loc != null and loc != ''">
+            WHERE sido = #{loc}
+        </if>
+    </select>
+    
+    
+    <select id="getPrevId" resultType="int">
+        SELECT new_store_board_id
+        FROM (
+            SELECT new_store_board_id
+            FROM new_store_board
+            WHERE is_deleted = 0
+            <if test="sido != null and sido != ''">
+                AND sido = #{sido}
+            </if>
+            AND new_store_board_id &lt; #{boardId}
+            ORDER BY new_store_board_id DESC
+        )
+        WHERE ROWNUM = 1
+    </select>
+    
+    <select id="getNextId" resultType="int">
+        SELECT new_store_board_id
+        FROM (
+            SELECT new_store_board_id
+            FROM new_store_board
+            WHERE is_deleted = 0
+            <if test="sido != null and sido != ''">
+                AND sido = #{sido}
+            </if>
+            AND new_store_board_id &gt; #{boardId}
+            ORDER BY new_store_board_id ASC
+        )
+        WHERE ROWNUM = 1
+    </select>
+    
+    
+</mapper>  

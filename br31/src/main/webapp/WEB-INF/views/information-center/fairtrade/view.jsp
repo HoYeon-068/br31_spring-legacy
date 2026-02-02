@@ -20,38 +20,8 @@
 
 <div class="site-container">
 
-    <!-- page menu -->
-    <nav class="page-menu">
-        <ul class="page-menu__list">
-            <li class="page-menu__item">
-                <a href="../customer/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">고객센터</span></div>
-                </a>
-            </li>
-            <li class="page-menu__item">
-                <a href="../customer/ccm.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">소비자중심경영(CCM)</span></div>
-                </a>
-            </li>
-            <li class="page-menu__item">
-                <a href="../notice/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">공지사항</span></div>
-                </a>
-            </li>
-            <li class="page-menu__item">
-                <a href="../press/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">보도자료</span></div>
-                </a>
-            </li>
-            <li class="page-menu__item page-menu__item--active">
-                <a href="list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">공정거래자율준수</span></div>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <%-- 고객센터 메뉴 include로 통일 가능 --%>
 
-    <!-- content -->
     <section id="content" class="press-list board-view">
 
         <header class="page-header">
@@ -63,8 +33,6 @@
         </header>
 
         <article class="board-view__article">
-
-            <!-- 제목 / 날짜 -->
             <header class="board-view__header">
                 <h3 class="board-view__title">${dto.title}</h3>
                 <p class="board-view__date">
@@ -72,18 +40,15 @@
                 </p>
             </header>
 
-            <!-- 본문 -->
             <div class="board-view__container">
                 <div class="board-view__content">
                     <c:out value="${dto.content}" escapeXml="false"/>
                 </div>
             </div>
 
-            <!-- 목록 -->
             <p class="board-view__back">
-                <a href="list.do">목록</a>
+                <a href="${pageContext.request.contextPath}/information-center/fairtrade/list.do">목록</a>
             </p>
-
         </article>
 
     </section>
