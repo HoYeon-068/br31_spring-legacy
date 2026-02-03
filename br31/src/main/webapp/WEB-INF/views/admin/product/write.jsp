@@ -139,7 +139,7 @@
   <label class="form-label fw-semibold">글꼴색상</label>
   <div class="input-group">
     <input type="color" id="fontColorPicker" class="form-control form-control-color" value="#000000">
-    <input type="text" name="fontColor" id="fontColorText"
+    <input type="text" name="spanColor" id="fontColorText"
            class="form-control" value="#000000" placeholder="#000000">
   </div>
 </div>
