@@ -13,10 +13,11 @@ public class PlazaWriteDTO {
 	
 	private String title;
     private String content;
-    private int isAuthorPublic;       // 1/0
+    private Integer isAuthorPublic;       // 1/0
     private String userId;            // loginUserId
-    private int personalInfoConsent;  // 1/0
-    private int termsAgreement;       // 1/0
-    private int plazaCategoryId;      // 1(아이디어) / 2(콜라보)
-    private int ideaOfferAgreement;   // 1/0
+    private Integer personalInfoConsent;  // 1/0
+    private Integer termsAgreement;       // 1/0
+    private Integer plazaCategoryId;      // 1(아이디어) / 2(콜라보)
+    private Integer ideaOfferAgreement;   // 1/0
+    private Integer plazaId;
 }

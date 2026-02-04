@@ -1,5 +1,11 @@
 package com.br.app;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -54,5 +60,30 @@ public class AjaxRestController {
 	      
 	      
 	}
+	
+	
+	@GetMapping(value = "/api/store-address.do", produces = "application/json; charset=UTF-8")
+    public String storeAddressProxy(
+            @RequestParam(value="sido", required=false, defaultValue="") String sido
+    ) throws Exception {
+
+        String target = "https://www.baskinrobbins.co.kr/api/store-address.php?sido="
+                + URLEncoder.encode(sido, StandardCharsets.UTF_8);
+
+        HttpURLConnection conn = (HttpURLConnection) new URL(target).openConnection();
+        conn.setRequestMethod("GET");
+        conn.setConnectTimeout(5000);
+        conn.setReadTimeout(5000);
+
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) sb.append(line);
+
+            return sb.toString();
+        }
+    }
 	
 }

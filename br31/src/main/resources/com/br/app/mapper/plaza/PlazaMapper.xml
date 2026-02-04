@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.br.app.mapper.plaza.PlazaMapper">
+
+  <!-- List<PlazaSelectDTO> select(); -->
+  <select id="select" resultType="com.br.app.domain.plaza.PlazaSelectDTO">
+    SELECT plaza_id, title, plaza_category_id, content,
+           SUBSTR(user_id, 1, 3) || RPAD('*', LENGTH(user_id) - 3, '*')  AS userId 
+    FROM plaza 
+    WHERE status = 0 
+    ORDER BY plaza_id DESC
+  </select>
+  
+  <!-- List<PlazaSelectDTO> selectCategory(String categoryId); -->
+  <select id="selectCategory" resultType="com.br.app.domain.plaza.PlazaSelectDTO">
+    SELECT plaza_id, title, plaza_category_id, content,
+           SUBSTR(user_id, 1, 3) || RPAD('*', LENGTH(user_id) - 3, '*')  AS userId 
+    FROM plaza 
+    WHERE plaza_category_id = #{category} AND status = 0 
+    ORDER BY plaza_id DESC
+  </select>
+  
+  <!-- PlazaViewDTO view(int seq); -->
+  <select id="view" resultType="com.br.app.domain.plaza.PlazaViewDTO">
+    SELECT name ,plaza_id, title, content, is_author_public, plaza_category_id
+	FROM plaza p
+	JOIN users u ON u.user_id = p.user_id
+	WHERE plaza_id = #{seq} AND p.status = 0
+  </select>
+  
+  <!-- int insertConsulting(ConsultingDTO dto); -->
+  <insert id="insertConsulting">
+   INSERT INTO consulting ( 
+     investment_amount, desired_opening_date, store_area, 
+     personal_info_consent, content, name, tel, time, 
+     email, preferred_region, zipcode, address, status 
+   ) VALUES ( 
+     #{investmentAmount}, #{desiredOpeningDate}, #{storeArea}, 
+     #{personalInfoConsent}, #{content}, #{name}, #{tel}, #{time}, 
+     #{email}, #{preferredRegion}, #{zipcode}, #{address}, 0 
+   )
+  </insert>
+  
+  <!-- int insertPlazaReturnId(PlazaWriteDTO dto); -->
+  <insert id="insertPlazaReturnId" parameterType="com.br.app.domain.plaza.PlazaWriteDTO">
+  <selectKey keyProperty="plazaId" resultType="int" order="BEFORE">
+    SELECT plaza_seq.NEXTVAL FROM dual
+  </selectKey>
+    INSERT INTO plaza (
+      plaza_id, title, content, reg_date, is_author_public, user_id,
+      personal_info_consent, terms_agreement, plaza_category_id, status, idea_offer_agreement
+    ) VALUES (
+      #{plazaId}, #{title}, #{content}, SYSDATE, #{isAuthorPublic}, #{userId},
+      #{personalInfoConsent}, #{termsAgreement}, #{plazaCategoryId}, 0, #{ideaOfferAgreement}
+    )
+  </insert>
+
+  
+</mapper>
