@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="site-container">
-    <jsp:include page="../consulting/layout/consulting_header.jsp" /> 
-
         <section class="consulting-store-view__container">
             <div class="consulting-store-view__content">
                 <h3>
@@ -108,7 +105,6 @@
             </div>
         </section>
     </div>
-</div>
 
 
 

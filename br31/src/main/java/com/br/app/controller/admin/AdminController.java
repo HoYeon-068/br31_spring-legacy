@@ -49,69 +49,14 @@ public class AdminController {
 	private ProductTagMapper productTagDao;
 	
 	@GetMapping("/main.do")
-	public String adminMain(
-			@RequestParam(value = "view", required = false, defaultValue = "") String view
-			,Model model
+	public String adminMain(Model model
 			) throws Exception {
 		
-				
 
-				String contentPage = "/WEB-INF/views/admin/admin_main.jsp";
-				switch (view == null ? "" : view) {
-				  case "productList":
-				    contentPage = "/WEB-INF/views/admin/product/list.jsp";
-				     
-				    
-				    java.util.List<ProductDTO> list = null;
-				   
-				    
-				    
-				    list = productDao.select();
-				    model.addAttribute("list", list);
-				    
-				    break;
-				    
-				  case "productWrite":
-					    contentPage = "/WEB-INF/views/admin/product/write.jsp";
-					    java.util.List<CategoryDTO> category = null;
-					    category=categoryDao.select();
-					    model.addAttribute("category", category);
-					    break;
-				  default:
-					int productsCount=productDao.getProductsCount();
-					model.addAttribute("productsCount", productsCount);
-				    break;
-				    
-				}
+				int productsCount=productDao.getProductsCount();
+				model.addAttribute("productsCount", productsCount);
 				
-				/*
-				// 회원관리
-				String action = request.getParameter("action");
-				switch (view == null ? "" : view) {
-				case "adminUser":
-					if ("delete".equals(action)) {
-						String userId = request.getParameter("userId");
-						if("admin_master".equalsIgnoreCase(userId)) {
-							response.sendRedirect(request.getContextPath() + "/admin/main.do?view=adminUser&msg=admin_cant_delete");
-							return null;
-						}
-						new UserService().deleteUser(userId);
-						response.sendRedirect(request.getContextPath() + "/admin/main.do?view=adminUser");
-				        return null; 
-					}
-					contentPage = "/WEB-INF/views/admin/user/adminUser.jsp";
-					List<UserDTO> userList = new UserService().getUserList();
-					request.setAttribute("userList", userList);
-					break;
-
-				default:
-					break;
-				}
-				
-				*/
-			
-				model.addAttribute("contentPage", contentPage);
-				return "/admin/admin_layout";
+				return "admin.admin_main";
 				
 				
 	}
@@ -162,6 +107,17 @@ public class AdminController {
 
 	} */
 	
+	@GetMapping("/product/list.do")
+	public String adminProductList(Model model) throws Exception {
+		
+		java.util.List<ProductDTO> list = null;
+		
+	    list = productDao.select();
+	    model.addAttribute("list", list);
+		
+		return "admin.product.list";
+	}
+	
 	@GetMapping("/product/write.do")
 	public String adminProductWrite(Model model) throws Exception {
 		
@@ -177,7 +133,7 @@ public class AdminController {
 		    
 		 model.addAttribute("category", category);
 		
-		return "/admin/product/write";
+		return "admin.product.write";
 	}
 	
 	@PostMapping("/product/write.do")
@@ -260,7 +216,7 @@ public class AdminController {
 		        return "redirect:/admin/main.do?view=error";
 		    }
 
-		    return "redirect:/admin/main.do?view=productList";
+		    return "redirect:/admin/product/list.do";
 		
 	}
 }

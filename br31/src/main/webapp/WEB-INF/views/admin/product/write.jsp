@@ -1,29 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin</title>
-
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="${pageContext.request.contextPath}/resources/js/admin.js"></script>
-    
-    
-</head>
-<body>
-
-<%@ include file="../admin_header.jsp" %>
-
-<div class="container-fluid">
-  <div class="row">
-
-    <%@ include file="../admin_sidebar.jsp" %>
-
-    <main class="col-md-10 p-4">
-      <div class="container-fluid">
-
   <!-- 페이지 타이틀 -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold">배스킨라빈스 상품 등록</h3>
@@ -229,17 +205,11 @@
     updateButtons();
   })();
 </script>
-    </main>
-
-  </div>
-</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 
-</body>
-</html>
 
 
 

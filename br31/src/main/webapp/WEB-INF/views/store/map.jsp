@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="site-container">
-    <jsp:include page="../store/layout/store_header.jsp" /> 
-
     <section id="content" class="store-map">
         <header class="page-header">
             <div class="page-header__container">
@@ -138,7 +135,6 @@
             <div id="store-map-field" class="store-map-field"></div>
         </div>
     </section>
-</div>
 
 <script>
 var contextPath = "${pageContext.request.contextPath}";
