@@ -52,7 +52,7 @@
 
   <div class="fi-form">
   <!-- 휴대폰번호로 찾기 -->
-  <form id="phoneForm" class="find-form ${activeTab == 'email' ? 'hidden' : ''}" method="post" action="${pageContext.request.contextPath}/login/findIdPhone.do">
+  <form id="phoneForm" class="find-form ${activeTab == 'email' ? 'hidden' : ''}" method="post" action="${pageContext.request.contextPath}/login/findIdByPhone.do">
     <div class="field">
       <label class="lab">이름</label>
       <input type="text" name="name" placeholder="이름을 입력해 주세요" />
@@ -60,18 +60,19 @@
 
     <div class="field">
       <label class="lab">휴대폰 번호</label>
-      <input type="text" name="phone_no" placeholder="휴대폰 번호를 입력해 주세요" />
+      <input type="text" name="phoneNo" placeholder="휴대폰 번호를 입력해 주세요" />
     </div>
 
 	<c:if test="${not empty pMessage}">
 	  <div class="errorMsg">${pMessage}</div>
 	</c:if>   
     <button type="submit" class="check-btn">확인</button>
+     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
   </form>
 
   
   <!-- 이메일로 찾기 -->
-  <form id="emailForm" class="find-form ${activeTab == 'email' ? '' : 'hidden'}" method="post" action="${pageContext.request.contextPath}/login/findIdEmail.do">
+  <form id="emailForm" class="find-form ${activeTab == 'email' ? '' : 'hidden'}" method="post" action="${pageContext.request.contextPath}/login/findIdByEmail.do">
     <div class="field">
       <label class="lab">이름</label>
       <input type="text" name="name" placeholder="이름을 입력해 주세요" />
@@ -85,6 +86,7 @@
 		<div class="errorMsg">${eMessage}</div>
 	</c:if>
     <button type="submit" class="check-btn">확인</button>
+     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
   </form>
   </div>
   

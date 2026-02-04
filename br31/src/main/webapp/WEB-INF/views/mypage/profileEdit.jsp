@@ -57,19 +57,19 @@
   <!-- 변경 전 값(값을 안 바꿨으면 중복확인/인증 없이 저장 가능하게) -->
   <input type="hidden" id="originNickname" value="${loginUser.nickname}" />
   <input type="hidden" id="originEmail"    value="${loginUser.email}" />
-  <input type="hidden" id="originPhone"    value="${loginUser.phone_no}" />
+  <input type="hidden" id="originPhone"    value="${loginUser.phoneNo}" />
 
   <!-- 서버에서 profile_img_path를 기대하는 경우 대비 -->
-  <input type="hidden" id="profile_img_path" name="profile_img_path" value="${loginUser.profile_img_path}" />
+  <input type="hidden" id="profileImgPath" name="profileImgPath" value="${loginUser.profileImgPath}" />
 
   <!-- 프로필 이미지 -->
   <div class="profile-line">
 
     <!-- 현재 프로필 썸네일(미리보기 대상) -->
     <c:choose>
-      <c:when test="${not empty loginUser.profile_img_path}">
+      <c:when test="${not empty loginUser.profileImgPath}">
         <img id="profileThumb"
-             src="${pageContext.request.contextPath}${loginUser.profile_img_path}"
+             src="${pageContext.request.contextPath}${loginUser.profileImgPath}"
              alt="profile"
              class="profile-thumb">
       </c:when>
@@ -85,7 +85,7 @@
     <div class="profile-select">
       <label class="profile-select__item">
         <input type="radio" name="profile_img" value="A"
-          <c:if test="${empty loginUser.profile_img_path || loginUser.profile_img_path == '/resources/images/mypage/img_profile_1.png'}">checked</c:if>
+          <c:if test="${empty loginUser.profileImgPath  || loginUser.profileImgPath  == '/resources/images/mypage/img_profile_1.png'}">checked</c:if>
         >
         <span class="profile-select__box">
           <img src="${pageContext.request.contextPath}/resources/images/mypage/img_profile_1.png" alt="프로필 A">
@@ -94,7 +94,7 @@
 
       <label class="profile-select__item">
         <input type="radio" name="profile_img" value="B"
-          <c:if test="${loginUser.profile_img_path == '/resources/images/mypage/img_profile_2.png'}">checked</c:if>
+          <c:if test="${loginUser.profileImgPath  == '/resources/images/mypage/img_profile_2.png'}">checked</c:if>
         >
         <span class="profile-select__box">
           <img src="${pageContext.request.contextPath}/resources/images/mypage/img_profile_2.png" alt="프로필 B">
@@ -107,8 +107,8 @@
   <div class="row">
     <div class="lab">아이디</div>
     <div class="ctrl">
-      <input type="text" value="${loginUser.user_id}" disabled="disabled"/>
-      <input type="hidden" name="user_id" value="${loginUser.user_id}">
+      <input type="text" value="${loginUser.userId}" disabled="disabled"/>
+      <input type="hidden" name="user_id" value="${loginUser.userId}">
     </div>
   </div>
 <!-- 비밀번호 -->
@@ -150,9 +150,10 @@
   <div class="row">
     <div class="lab">이메일</div>
     <div class="ctrl email">
-      <c:set var="emailFull" value="${loginUser.email}" />
-      <c:set var="emailId" value="${fn:split(emailFull,'@')[0]}" />
-      <c:set var="emailDomain" value="${fn:split(emailFull,'@')[1]}" />
+        <c:set var="emailFull" value="${empty loginUser.email ? '' : loginUser.email}" />
+		<c:set var="emailParts" value="${fn:split(emailFull,'@')}" />
+		<c:set var="emailId" value="${fn:length(emailParts) > 0 ? emailParts[0] : ''}" />
+		<c:set var="emailDomain" value="${fn:length(emailParts) > 1 ? emailParts[1] : ''}" />
 
       <input type="text" name="email_id" id="email_id" value="${emailId}" placeholder="예: scoop" />
       <span class="at">@</span>
@@ -175,8 +176,8 @@
 
     <div class="phone-wrap">
       <div class="ctrl phone">
-        <input type="text" name="phone_no" id="phone_no"
-               value="${loginUser.phone_no}"
+        <input type="text" name="phoneNo" id="phoneNo"
+               value="${loginUser.phoneNo}"
                placeholder="숫자만 입력해주세요." />
         <button type="button" class="subbtn" id="btnPhoneSend">인증번호 받기</button>
       </div>
@@ -200,21 +201,25 @@
   <div class="delete-link">
   	<a href="${pageContext.request.contextPath}/mypage/withdraw.do">탈퇴하기</a>
   </div>
-
+ <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 </form>
 
 </div>
 
 <script>
+
+
 (() => {
   const ctx = "${pageContext.request.contextPath}";
-
+  const csrfParam = "${_csrf.parameterName}";
+  const csrfToken = "${_csrf.token}";
   function setChecked(id, ok){
     const el = document.getElementById(id);
     if(el) el.value = ok ? "true" : "false";
   }
 
   function formTextFetch(url, params){
+    params[csrfParam] = csrfToken;
     return fetch(url, {
       method: "POST",
       headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
@@ -250,8 +255,11 @@
       alert("닉네임을 입력해주세요.");
       return;
     }
+    
+    
 
     const raw = await formTextFetch(ctx + "/mypage/nicknameCheck.do", { nickname: nick });
+    console.log("nicknameCheck raw=", raw); 
     let data;
     try { data = JSON.parse(raw); }
     catch(e){
@@ -317,13 +325,13 @@
      5) 휴대폰 인증(발송/확인)
   */
   document.getElementById("btnPhoneSend")?.addEventListener("click", async () => {
-    const phone = document.getElementById("phone_no").value.trim();
+    const phone = document.getElementById("phoneNo").value.trim();
     if(!phone){
       alert("휴대폰 번호를 입력해주세요.");
       return;
     }
 
-    const text = (await formTextFetch(ctx + "/mypage/phoneSendCode.do", { phone_no: phone })).trim();
+    const text = (await formTextFetch(ctx + "/mypage/phoneSendCode.do", { phoneNo: phone })).trim();
 
     if(text === "SENT"){
       document.getElementById("phoneMsg").textContent = "인증번호를 발송했습니다. (5분 이내 입력)";
@@ -335,7 +343,7 @@
   });
 
   document.getElementById("btnPhoneVerify")?.addEventListener("click", async () => {
-    const phone = document.getElementById("phone_no").value.trim();
+    const phone = document.getElementById("phoneNo").value.trim();
     const code  = document.getElementById("phone_code").value.trim();
 
     if(!phone || !code){
@@ -343,7 +351,7 @@
       return;
     }
 
-    const text = (await formTextFetch(ctx + "/mypage/phoneVerifyCode.do", { phone_no: phone, code })).trim();
+    const text = (await formTextFetch(ctx + "/mypage/phoneVerifyCode.do", { phoneNo: phone, code })).trim();
 
     if(text === "OK"){
       document.getElementById("phoneMsg").textContent = "휴대폰 인증 완료";
@@ -354,7 +362,7 @@
     }
   });
 
-  document.getElementById("phone_no")?.addEventListener("input", () => {
+  document.getElementById("phoneNo")?.addEventListener("input", () => {
     setChecked("phoneChecked", false);
     document.getElementById("phoneMsg").textContent = "";
   });

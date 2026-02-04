@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html lang="ko"><head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -55,8 +56,8 @@
                         <div class="mypage-info__content">
                             <div class="mypage-info__frame">
                                 <c:choose>
-								  <c:when test="${not empty loginUser.profile_img_path}">
-								    <img src="${pageContext.request.contextPath}${loginUser.profile_img_path}" alt="" class="mypage-info__image">
+								  <c:when test="${not empty loginUser.profileImgPath}">
+								    <img src="${pageContext.request.contextPath}${loginUser.profileImgPath}" alt="" class="mypage-info__image">
 								  </c:when>
 								  <c:otherwise>
 								    <img src="${pageContext.request.contextPath}/resources/images/mypage/img_profile_1.png" alt="" class="mypage-info__image">
@@ -64,7 +65,7 @@
 								</c:choose>
                             </div>
 
-                            <a class="mypage-info__button"   href="${pageContext.request.contextPath}/mypage/profileEditForm.do">
+                            <a class="mypage-info__button"   href="${pageContext.request.contextPath}/mypage/profileEdit.do">
 							  프로필 수정
 							</a>
                         </div>

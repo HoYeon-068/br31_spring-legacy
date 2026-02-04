@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns="http://www.springframework.org/schema/security"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+      http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+	<!-- p682 보안 필터 체인의 적용 대상에서 제외 -->
+   <http pattern="/static/**" security="none"/>   
+   <http pattern="/design/**" security="none"/>
+   <http pattern="/css/**" security="none"/>
+   <http pattern="/js/**" security="none"/>
+
+
+	<http use-expressions="true">
+		<intercept-url pattern="/customer/noticeReg.htm" access="isAuthenticated()"/>
+		<intercept-url pattern="/customer/noticeDel.htm" access="hasRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/mypage/**" access="hasRole('USER')"/>
+		<intercept-url pattern="/**" access="permitAll"/>
+		
+		<form-login login-page="/login/login.do"  login-processing-url="/login/login.do" default-target-url="/index.do" 
+							username-parameter="username" password-parameter="password"
+							authentication-failure-url="/login/login.do?error=true" 
+							authentication-success-handler-ref="loginSuccessHandler"
+							/>
+		<logout  logout-url="/login/logout.do" invalidate-session="true" logout-success-url="/index.do" />
+		
+		<access-denied-handler ref="loginAccessDeniedHandler" />
+		
+	</http>    
+	
+<!-- 	PasswordEncoder -->
+	<beans:bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
+
+	
+	<authentication-manager>
+		<authentication-provider user-service-ref="customUserDetailsService">
+			
+			<password-encoder ref="bCryptPasswordEncoder"></password-encoder>
+		</authentication-provider>
+	</authentication-manager>
+	
+	
+
+</beans:beans>

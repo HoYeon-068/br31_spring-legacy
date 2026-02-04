@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,18 +64,26 @@
        						value="${empty redirectUrl ? (empty param.redirectUrl ? '/' : param.redirectUrl) : redirectUrl}">
 
                             <label class="login__label">
-                                <input type="text" name="user_id" placeholder="아이디" class="login__input">
+                                <input type="text" name="username" placeholder="아이디" class="login__input">
                             </label>
 
                             <label class="login__label">
                                 <input type="password" name="password" placeholder="비밀번호" class="login__input">
                             </label>
                             
-                            <c:if test="${not empty loginError}">
-                            	<p class="login-error">${loginError}</p>
-                            </c:if>
+							<c:if test="${not empty param.error or not empty sessionScope.SPRING_SECURITY_LAST_EXCEPTION}">
+							  <div>
+							    <strong style="color:red">아이디 또는 패스워드가 일치하지 않습니다.</strong><br/>
+							    <c:if test="${not empty sessionScope.SPRING_SECURITY_LAST_EXCEPTION}">
+							      Message :
+							      <c:out value="${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}" />
+							    </c:if>
+							  </div>
+							</c:if>
+
 
                             <button type="submit" class="login__button login__button--login">제출하기</button>
+                             <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
                         </fieldset>
                     </form>
 
