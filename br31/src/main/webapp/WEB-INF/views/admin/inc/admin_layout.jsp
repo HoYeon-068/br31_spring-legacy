@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -14,15 +15,15 @@
 </head>
 <body>
 
-<%@ include file="admin_header.jsp" %>
+<tiles:insertAttribute name="admin_header" />
 
 <div class="container-fluid">
   <div class="row">
 
-    <%@ include file="admin_sidebar.jsp" %>
+    <tiles:insertAttribute name="admin_sidebar" />
 
     <main class="col-md-10 p-4">
-      <jsp:include page="${contentPage}" />
+      <tiles:insertAttribute name="content" />
     </main>
 
   </div>
