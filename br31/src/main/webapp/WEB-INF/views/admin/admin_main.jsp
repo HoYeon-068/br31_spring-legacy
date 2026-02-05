@@ -9,7 +9,7 @@
     <div class="card">
         <h3>상품 관리</h3>
         <p class="count">${productsCount}</p>
-        <a href="${pageContext.request.contextPath}/admin/main.do?view=productList"
+        <a href="${pageContext.request.contextPath}/admin/product/list.do"
            class="card-link">바로가기</a>
     </div>
 

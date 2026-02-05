@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="site-container">
-    <jsp:include page="../store/layout/store_header.jsp" /> 
 
     <div class="store-catering-order">
         <div id="content" class="store-catering-order__container">
@@ -632,5 +630,4 @@
             </div>
         </div>
     </div>
-</div>
 
