@@ -58,7 +58,7 @@ List<UserDTO> select() throws SQLException;
 
     // 관리자페이지/회원탈퇴
     List<UserDTO> getUserList() throws SQLException;
-    int deleteUser(String userId) throws SQLException;
+    int deleteUser(@Param("userId") String userId) throws SQLException;
 
 	
 }

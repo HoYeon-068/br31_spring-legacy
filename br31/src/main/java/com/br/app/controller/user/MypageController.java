@@ -228,7 +228,7 @@ public class MypageController {
         }
 
         // 4) 관리자 계정 탈퇴 금지 (필요한 값으로 바꿔)
-        if ("admin_master".equalsIgnoreCase(dbUser.getUserId())) { // 필드명 수정
+        if ("admin".equalsIgnoreCase(dbUser.getUserId())) { // 필드명 수정
             model.addAttribute("error", "관리자 계정은 탈퇴할 수 없습니다.");
             model.addAttribute("loginUser", loginUser);
             return "mypage.withdraw";

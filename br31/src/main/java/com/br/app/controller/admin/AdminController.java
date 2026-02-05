@@ -1,8 +1,6 @@
 package com.br.app.controller.admin;
 
 import java.io.File;
-import java.io.IOException;
-import java.security.Principal;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
@@ -16,24 +14,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.br.app.domain.menu.CategoryDTO;
-import com.br.app.domain.menu.FomViewDTO;
-import com.br.app.domain.menu.IceNutritionDTO;
-import com.br.app.domain.menu.IngredientDTO;
-import com.br.app.domain.menu.MenuListDTO;
-import com.br.app.domain.menu.MenuViewDTO;
-import com.br.app.domain.menu.MonthlyFlavorDTO;
 import com.br.app.domain.menu.ProductDTO;
 import com.br.app.domain.menu.ProductUploadDTO;
+import com.br.app.domain.user.UserDTO;
 import com.br.app.mapper.menu.CategoryMapper;
-import com.br.app.mapper.menu.IceNutritionMapper;
-import com.br.app.mapper.menu.MonthlyFlavorMapper;
 import com.br.app.mapper.menu.ProductMapper;
 import com.br.app.mapper.menu.ProductTagMapper;
+import com.br.app.mapper.user.UserMapper;
 
 @Controller
 @RequestMapping("/admin/*")
@@ -219,4 +209,49 @@ public class AdminController {
 		    return "redirect:/admin/product/list.do";
 		
 	}
+	
+	
+	// ================== 회원관리=======================
+	@Autowired
+	private UserMapper userMapper;
+	
+	
+	@GetMapping("/user/adminUser.do")
+	public String adminUser(Model model) throws SQLException {
+		
+		List<UserDTO> userList = userMapper.getUserList();
+		model.addAttribute("userList", userList);
+		
+		return "admin.user.adminUser";
+	}
+	
+	@PostMapping("/user/adminUserDelete.do")
+	public String adminUserDelete(
+								@RequestParam String userId
+								, RedirectAttributes rttr
+										) throws SQLException{
+		if ("admin".equals(userId)) {
+		    rttr.addFlashAttribute("errorMsg", "해당 계정은 삭제할 수 없습니다.");
+		    return "redirect:/admin/user/adminUser.do";
+		}
+		int result = userMapper.deleteUser(userId);
+		if (result > 0) {
+	        rttr.addFlashAttribute("msg", "회원이 정상적으로 삭제되었습니다.");
+	    } else {
+	        rttr.addFlashAttribute("errorMsg", "회원 삭제에 실패했습니다.");
+	    }
+		
+		
+		
+		
+		return "redirect:/admin/user/adminUser.do";
+	}
+	
+	
+	// ================== 회원관리=======================
+	
+	
+	
+	
+	
 }
