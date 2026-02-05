@@ -139,6 +139,10 @@
 <!--     // 관리자페이지 -->
 <!--     List<UserDTO> getUserList() throws SQLException; -->
 <!--     int deleteUser(String userId) throws SQLException; -->
+	<delete id="deleteUser">
+		DELETE FROM users
+		WHERE user_id =#{userId}
+	</delete>
   
   
   

@@ -73,5 +73,19 @@ public class UserService {
 	 public UserDTO getUserById(String userId) throws Exception {
 	        return userMapper.selectByUserId(userId);
 	    }
+	 
+	 // 비밀번호 재발급
+	 public int resetPasswordByUserIdAndPhoneAndName(String userId, String tempPwd, String name, String phone) throws Exception {
+	            
+	         // phone이 하이픈 포함될 수 있으니 맞춰주기
+	            String purePhone = phone == null ? null : phone.replace("-", "").trim();
+
+	            UserDTO userDTO = userMapper.selectByUserIdAndNameAndPhone(userId, name, purePhone);
+	            if (userDTO == null) return 0;
+
+	            // 반드시 암호화해서 저장
+	            String encPwd = passwordEncoder.encode(tempPwd);
+	            return userMapper.resetPwd(userId, encPwd);
+	    }
 	
 }

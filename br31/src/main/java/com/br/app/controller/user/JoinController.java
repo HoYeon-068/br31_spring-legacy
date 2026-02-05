@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -33,13 +34,17 @@ public class JoinController {
 	
 	// 1. 회원가입
 	@GetMapping("/join.do")
-	public String join() throws Exception{
-		return "/join/join";
+	public String join(Model model) throws Exception{
+		model.addAttribute("bodyId", "join");
+        model.addAttribute("bodyClass", "join");
+		return "join.join";
 	}
 	
 	@GetMapping("/joinComplete.do")
-	public String joinComplete() {
-	    return "join/joinComplete"; 
+	public String joinComplete(Model model) {
+		model.addAttribute("bodyId", "joinComplete");
+        model.addAttribute("bodyClass", "joinComplete");
+	    return "join.joinComplete"; 
 	}
 	
 	// 1-1. 가입

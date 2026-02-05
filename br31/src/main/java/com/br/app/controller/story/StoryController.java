@@ -30,7 +30,9 @@ public class StoryController {
 		List<StoryDTO> list = storyMapper.storyList();
 		System.out.println(">>>🍍🍍🍍🍍🍍🍍🍍🍍🍍 storyList called, size=" + list.size());
 		model.addAttribute("storyList", list );
-		return"/story/story";
+		model.addAttribute("bodyId", "baskinrobbins-story-story");
+	    model.addAttribute("bodyClass", "baskinrobbins-story-story");
+		return"story.story";
 	}
 	
 	@GetMapping("/history.do")
@@ -39,6 +41,8 @@ public class StoryController {
 							@RequestParam(value = "mkt", required = false) String mkt,
 							Model model
 							) {
+		model.addAttribute("bodyId", "baskinrobbins-story-history");
+	    model.addAttribute("bodyClass", "baskinrobbins-story-history");
 		if (mkt != null && !mkt.isBlank()) {
 			int themeId = convertMktToThemeId(mkt);
 			List<HistoryFlavorDTO> list = storyMapper.listByTheme(themeId);
@@ -54,7 +58,7 @@ public class StoryController {
 			model.addAttribute("releaseYear", year);
 		}
 		
-		return "/story/history";
+		return "story.history";
 	}
 
 	private int convertMktToThemeId(String mkt) {
@@ -73,7 +77,9 @@ public class StoryController {
 		List<CampaignInfoDTO> cInfoList = storyMapper.campaignInfoAll();
 		model.addAttribute("campaignList", list );
 		model.addAttribute("campaignInfoAll", cInfoList );
-		return"/story/be-better";
+		model.addAttribute("bodyId", "baskinrobbins-story-be-better");
+	    model.addAttribute("bodyClass", "baskinrobbins-story-be-better");
+		return"story.be-better";
 	}
 	
 	

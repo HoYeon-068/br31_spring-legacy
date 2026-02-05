@@ -5,6 +5,26 @@
 	
 <tiles-definitions>
 	
+  <definition name="mypage.withdraw" template="/WEB-INF/views/mypage/inc/layout.jsp">
+    <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"></put-attribute>
+    <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"></put-attribute>
+    <put-attribute name="content"  value="/WEB-INF/views/mypage/withdraw.jsp"></put-attribute>  
+  </definition>
+  <definition name="withdraw.withdrawResult" template="/WEB-INF/views/withdraw/inc/layout.jsp">
+    <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"></put-attribute>
+    <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"></put-attribute>
+    <put-attribute name="content"  value="/WEB-INF/views/withdraw/withdrawResult.jsp"></put-attribute>  
+  </definition>
+  <definition name="join.*" template="/WEB-INF/views/join/inc/layout.jsp">
+    <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"></put-attribute>
+    <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"></put-attribute>
+    <put-attribute name="content"  value="/WEB-INF/views/join/{1}.jsp"></put-attribute>  
+  </definition>
+  <definition name="login.*" template="/WEB-INF/views/login/inc/layout.jsp">
+    <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"></put-attribute>
+    <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"></put-attribute>
+    <put-attribute name="content"  value="/WEB-INF/views/login/{1}.jsp"></put-attribute>  
+  </definition>
 	
   <definition name="*/*.*" template="/WEB-INF/views/layout/layout.jsp">
     <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"></put-attribute>
@@ -37,6 +57,13 @@
   </definition> -->
 
   <!-- 
+  <definition name="customer.*" template="/WEB-INF/views/customer/inc/layout.jsp">
+    <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp"></put-attribute>
+    <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp"></put-attribute>
+    <put-attribute name="visual" value="/WEB-INF/views/customer/inc/visual.jsp"></put-attribute>
+    <put-attribute name="aside"  value="/WEB-INF/views/customer/inc/aside.jsp"></put-attribute>
+    <put-attribute name="content"  value="/WEB-INF/views/customer/{1}.jsp"></put-attribute>
+  </definition>
   <definition name="customer.*" template="/WEB-INF/views/customer/inc/layout.jsp">
     <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp"></put-attribute>
     <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp"></put-attribute>
