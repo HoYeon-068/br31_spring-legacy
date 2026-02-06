@@ -73,8 +73,9 @@
     </c:if>
 
     <!-- ===== hidden fields (버튼 값 전달용) ===== -->
-    <input type="hidden" name="counsel_type" id="counselType">
-    <input type="hidden" name="detail_type" id="detailType">
+<input type="hidden" name="counselType" id="counselType">
+<input type="hidden" name="detailType" id="detailType">
+
 
     <!-- 상담유형 -->
     <div class="form-row">

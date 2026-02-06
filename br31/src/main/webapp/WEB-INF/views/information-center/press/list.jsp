@@ -1,22 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<title>배스킨라빈스 | 보도자료</title>
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendors.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css">
-<script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
-
 <style>
-.board-search { margin: 60px auto 40px; max-width: 720px; width: 100%; }
-.board-search__inner { position: relative; border-bottom: 2px solid #000; }
+.board-search {
+	margin: 60px auto 40px;
+	max-width: 720px;
+	width: 100%;
+}
+
+.board-search__inner {
+	position: relative;
+	border-bottom: 2px solid #000;
+}
+
 .board-search__input {
 	width: 100%;
 	border: none;
@@ -26,7 +21,12 @@
 	background: transparent;
 	text-align: center;
 }
-.board-search__input::placeholder { color: #aaa; text-align: center; }
+
+.board-search__input::placeholder {
+	color: #aaa;
+	text-align: center;
+}
+
 .board-search__button {
 	position: absolute;
 	top: 50%;
@@ -35,21 +35,15 @@
 	height: 39px;
 	transform: translateY(-50%);
 	border: none;
-	background: url(${pageContext.request.contextPath}/resources/images/information-center/btn_search.png)
+	background:
+		url(${pageContext.request.contextPath}/resources/images/information-center/btn_search.png)
 		no-repeat center center/auto 39px;
 	cursor: pointer;
 }
 </style>
-</head>
-
-<body>
-
-<jsp:include page="/WEB-INF/views/layout/header.jsp" />
+<c:url var="listAction" value="/information-center/press/list.do" />
 
 <div class="site-container">
-
-	<jsp:include page="/WEB-INF/views/information-center/_customerMenu.jsp" />
-
 	<section id="content" class="press-list board-list">
 
 		<header class="page-header">
@@ -65,15 +59,10 @@
 			</div>
 		</header>
 
-		<form action="${pageContext.request.contextPath}/information-center/press/list.do"
-			  method="get"
-			  class="board-search">
+		<form action="${listAction}" method="get" class="board-search">
 			<div class="board-search__inner">
-				<input type="text"
-					   name="keyword"
-					   class="board-search__input"
-					   placeholder="검색어를 입력해주세요"
-					   value="${keyword}">
+				<input type="text" name="keyword" class="board-search__input"
+					placeholder="검색어를 입력해주세요" value="${keyword}">
 				<button type="submit" class="board-search__button"></button>
 			</div>
 		</form>
@@ -93,145 +82,67 @@
 					</colgroup>
 					<tbody>
 
-					<c:choose>
+						<c:choose>
 
-						
-						<c:when test="${isSearch eq true}">
-							<c:choose>
-								<c:when test="${not empty searchList}">
-									<c:forEach var="dto" items="${searchList}">
-										<tr class="board-list__table-list">
-											<td class="board-list__table-number">
-												${dto.id}
-											</td>
 
-											<td class="board-list__table-title">
-												<a href="${dto.viewUrl}">
-													${dto.title}
-												</a>
-											</td>
-
-											<td class="board-list__table-date">
-												${dto.regDate}
-											</td>
+							<c:when test="${isSearch eq true}">
+								<c:choose>
+									<c:when test="${not empty searchList}">
+										<c:forEach var="dto" items="${searchList}">
+											<tr class="board-list__table-list">
+												<td class="board-list__table-number">${dto.id}</td>
+												<td class="board-list__table-title"><a
+													href="${dto.viewUrl}">${dto.title}</a></td>
+												<td class="board-list__table-date">${dto.regDate}</td>
+											</tr>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<td colspan="3" class="board-list__empty">게시글이 없습니다.</td>
 										</tr>
-									</c:forEach>
-								</c:when>
+									</c:otherwise>
+								</c:choose>
+							</c:when>
 
-								<c:otherwise>
-									<tr>
-										<td colspan="3" style="padding:40px; text-align:center;">
-											게시글이 없습니다.
-										</td>
-									</tr>
-								</c:otherwise>
-							</c:choose>
-						</c:when>
 
-						
-						<c:otherwise>
-							<c:choose>
-								<c:when test="${not empty list}">
-									<c:forEach var="dto" items="${list}">
-										<c:url var="viewUrl" value="/information-center/press/view.do">
-											<c:param name="id" value="${dto.prId}" />
-											<c:param name="page" value="${currentPage}" />
-											<c:param name="keyword" value="${keyword}" />
-										</c:url>
+							<c:otherwise>
+								<c:choose>
+									<c:when test="${not empty list}">
+										<c:forEach var="dto" items="${list}">
+											<c:url var="viewUrl"
+												value="/information-center/press/view.do">
 
-										<tr class="board-list__table-list">
-											<td class="board-list__table-number">${dto.prNo}</td>
+												<c:param name="id" value="${dto.prID}" />
+												<c:param name="page" value="${currentPage}" />
+												<c:param name="keyword" value="${keyword}" />
+											</c:url>
 
-											<td class="board-list__table-title">
-												<a href="${viewUrl}">
-													${dto.title}
-												</a>
-											</td>
+											<tr class="board-list__table-list">
 
-											<td class="board-list__table-date">
-												${dto.regDateText}
-											</td>
+												<td class="board-list__table-number">${dto.prNO}</td>
+												<td class="board-list__table-title"><a
+													href="${viewUrl}">${dto.title}</a></td>
+												<td class="board-list__table-date">${dto.regDateText}</td>
+											</tr>
+										</c:forEach>
+									</c:when>
+
+									<c:otherwise>
+										<tr>
+											<td colspan="3" class="board-list__empty">게시글이 없습니다.</td>
 										</tr>
-									</c:forEach>
-								</c:when>
+									</c:otherwise>
+								</c:choose>
+							</c:otherwise>
 
-								<c:otherwise>
-									<tr>
-										<td colspan="3" style="padding:40px; text-align:center;">
-											게시글이 없습니다.
-										</td>
-									</tr>
-								</c:otherwise>
-							</c:choose>
-						</c:otherwise>
-
-					</c:choose>
+						</c:choose>
 
 					</tbody>
 				</table>
 
+
 				<ul class="pagination">
-
-					<li class="pagination__item pagination__item--icon pagination__item--prev
-						${prevBlockPage == null ? 'pagination__item--disabled' : ''}">
-						<c:choose>
-							<c:when test="${prevBlockPage == null}">
-								<a href="javascript:void(0);" class="pagination__link">
-									<span class="pagination__name">이전</span>
-								</a>
-							</c:when>
-							<c:otherwise>
-								<c:url var="prevBlockUrl" value="/information-center/press/list.do">
-									<c:param name="page" value="${prevBlockPage}" />
-									<c:param name="keyword" value="${keyword}" />
-								</c:url>
-								<a href="${prevBlockUrl}" class="pagination__link">
-									<span class="pagination__name">이전</span>
-								</a>
-							</c:otherwise>
-						</c:choose>
-					</li>
-
-					<c:forEach var="i" begin="${startPage}" end="${endPage}">
-						<li class="pagination__item ${i == currentPage ? 'pagination__item--current' : ''}">
-							<c:choose>
-								<c:when test="${i == currentPage}">
-									<strong class="pagination__link">
-										<span class="pagination__name">${i}</span>
-									</strong>
-								</c:when>
-								<c:otherwise>
-									<c:url var="pageUrl" value="/information-center/press/list.do">
-										<c:param name="page" value="${i}" />
-										<c:param name="keyword" value="${keyword}" />
-									</c:url>
-									<a href="${pageUrl}" class="pagination__link">
-										<span class="pagination__name">${i}</span>
-									</a>
-								</c:otherwise>
-							</c:choose>
-						</li>
-					</c:forEach>
-
-					<li class="pagination__item pagination__item--icon pagination__item--next
-						${nextBlockPage == null ? 'pagination__item--disabled' : ''}">
-						<c:choose>
-							<c:when test="${nextBlockPage == null}">
-								<a href="javascript:void(0);" class="pagination__link">
-									<span class="pagination__name">다음</span>
-								</a>
-							</c:when>
-							<c:otherwise>
-								<c:url var="nextBlockUrl" value="/information-center/press/list.do">
-									<c:param name="page" value="${nextBlockPage}" />
-									<c:param name="keyword" value="${keyword}" />
-								</c:url>
-								<a href="${nextBlockUrl}" class="pagination__link">
-									<span class="pagination__name">다음</span>
-								</a>
-							</c:otherwise>
-						</c:choose>
-					</li>
 
 				</ul>
 
@@ -240,8 +151,3 @@
 
 	</section>
 </div>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
-
-</body>
-</html>

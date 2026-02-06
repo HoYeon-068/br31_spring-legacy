@@ -19,17 +19,16 @@ public class SearchController {
     @Autowired
     private ProductSearchService productSearchService;
 
-    // ✅ 상품검색
-    // URL: /search/list.do
-    // - keyword 없으면 전체조회
-    // - keyword 1글자라도 있으면 LIKE 검색
-    // - categoryId 있으면 카테고리 조건
     @GetMapping("/list.do")
     public String productList(
             @RequestParam(value = "keyword", defaultValue = "") String keyword,
             @RequestParam(value = "categoryId", required = false) Long categoryId,
             Model model
     ) {
+       
+        model.addAttribute("bodyId", "baskinrobbins-search");
+        model.addAttribute("bodyClass", "baskinrobbins-search");
+
         String q = (keyword == null) ? "" : keyword.trim();
 
         List<ProductDTO> list = productSearchService.search(q, categoryId);
@@ -40,7 +39,7 @@ public class SearchController {
         model.addAttribute("keyword", q);
         model.addAttribute("categoryId", categoryId);
 
-        // ✅ /WEB-INF/views/search/list.jsp
-        return "search/list";
+       
+        return "search.list";
     }
 }

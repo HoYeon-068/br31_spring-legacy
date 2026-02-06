@@ -5,18 +5,40 @@
 	
 <tiles-definitions>
 	
-	
-  <definition name="*/*.*" template="/WEB-INF/views/layout/layout.jsp">
-    <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"></put-attribute>
-    <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"></put-attribute>
-    <put-attribute name="content"  value="/WEB-INF/views/{1}/{2}/{3}.jsp"></put-attribute>  
-  </definition>
-  
-  <definition name="*.*" template="/WEB-INF/views/layout/layout.jsp">
-    <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"></put-attribute>
-    <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"></put-attribute>
-    <put-attribute name="content"  value="/WEB-INF/views/{1}/{2}.jsp"></put-attribute>  
-  </definition>
+
+
+ <definition name="*.*.*" template="/WEB-INF/views/layout/layout.jsp">
+  <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+  <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+  <put-attribute name="content" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+</definition>
+
+
+
+<definition name="*/*.*" template="/WEB-INF/views/layout/layout.jsp">
+  <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+  <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+  <put-attribute name="content" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+</definition>
+
+
+
+<definition name="*.*" template="/WEB-INF/views/layout/layout.jsp">
+  <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+  <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+  <put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp" />
+</definition> 
+
+<!-- 고객센터 상단 메뉴 -->
+ <definition name="information-center.*.*" template="/WEB-INF/views/layout/informationCenterLayout.jsp">
+  <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"/>
+  <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"/>
+  <put-attribute name="content" value="/WEB-INF/views/information-center/{1}/{2}.jsp"/>
+</definition> 
+
+ 
+
+
 
    <!-- <definition name="home.index" template="/WEB-INF/views/inc/layout.jsp">
     <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp"></put-attribute>

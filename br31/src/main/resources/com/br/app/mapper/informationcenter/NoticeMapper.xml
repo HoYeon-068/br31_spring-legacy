@@ -5,9 +5,17 @@
 
 <mapper namespace="com.br.app.mapper.informationcenter.NoticeMapper">
 
-  <!-- 공지사항 목록 (ROWNUM 페이징) -->
-  <select id="selectList"
-          resultType="com.br.app.domain.informationcenter.NoticeDTO">
+
+  <resultMap id="noticeMap" type="com.br.app.domain.informationcenter.NoticeDTO">
+    <id     column="NOTICE_ID" property="noticeID"/>
+    <result column="NOTICE_NO" property="noticeNO"/>
+    <result column="TITLE"     property="title"/>
+    <result column="CONTENT"   property="content"/>
+    <result column="REG_DATE"  property="regDate"/>
+  </resultMap>
+
+  
+  <select id="selectList" resultMap="noticeMap">
     SELECT *
     FROM (
       SELECT ROWNUM rn, n.*
@@ -23,22 +31,20 @@
     WHERE rn BETWEEN #{startRow} AND #{endRow}
   </select>
 
-  <!-- 전체 건수 -->
   <select id="getTotalCount" resultType="int">
     SELECT COUNT(*)
     FROM NOTICE
   </select>
 
-  <!-- 공지사항 상세 -->
-  <select id="selectOne"
-          resultType="com.br.app.domain.informationcenter.NoticeDTO">
+
+  <select id="selectOne" resultMap="noticeMap">
     SELECT NOTICE_ID,
            NOTICE_NO,
            TITLE,
            CONTENT,
            REG_DATE
     FROM NOTICE
-    WHERE NOTICE_ID = #{noticeId}
+    WHERE NOTICE_ID = #{noticeID}
   </select>
 
 </mapper>

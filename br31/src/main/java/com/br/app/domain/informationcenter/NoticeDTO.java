@@ -2,51 +2,29 @@ package com.br.app.domain.informationcenter;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class NoticeDTO {
 
-    private int noticeId;       // NOTICE_ID
-    private String noticeNo;    // NOTICE_NO (TOP 가능)
-    private String title;       // TITLE
-    private String content;     // CONTENT (CLOB -> String)
-    private Date regDate;       // REG_DATE
+    // NOTICE.NOTICE_ID
+    private int noticeID;
 
-    public int getNoticeId() {
-        return noticeId;
-    }
+    // NOTICE.NOTICE_NO (TOP 가능)
+    private String noticeNO;
 
-    public void setNoticeId(int noticeId) {
-        this.noticeId = noticeId;
-    }
+    // NOTICE.TITLE
+    private String title;
 
-    public String getNoticeNo() {
-        return noticeNo;
-    }
+    // NOTICE.CONTENT (CLOB -> String)
+    private String content;
 
-    public void setNoticeNo(String noticeNo) {
-        this.noticeNo = noticeNo;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getRegDate() {
-        return regDate;
-    }
-
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
-    }
+    // NOTICE.REG_DATE
+    private Date regDate;
 }

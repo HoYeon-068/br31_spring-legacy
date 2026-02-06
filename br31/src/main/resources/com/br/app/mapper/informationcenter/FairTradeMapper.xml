@@ -5,8 +5,17 @@
 
 <mapper namespace="com.br.app.mapper.informationcenter.FairTradeMapper">
 
+  <!-- ✅ DTO가 noticeID / noticeNO 이므로 resultMap으로 컬럼-프로퍼티 강제 매핑 -->
+  <resultMap id="FairTradeMap" type="com.br.app.domain.informationcenter.FairTradeDTO">
+    <id     column="NOTICE_ID" property="noticeID"/>
+    <result column="NOTICE_NO" property="noticeNO"/>
+    <result column="TITLE"     property="title"/>
+    <result column="CONTENT"   property="content"/>
+    <result column="REG_DATE"  property="regDate"/>
+  </resultMap>
+
   <!-- 목록 (ROWNUM 페이징) -->
-  <select id="selectList" resultType="com.br.app.domain.informationcenter.FairTradeDTO">
+  <select id="selectList" resultMap="FairTradeMap">
     SELECT *
     FROM (
       SELECT ROWNUM rn, f.*
@@ -30,7 +39,7 @@
   </select>
 
   <!-- 상세 -->
-  <select id="selectOne" resultType="com.br.app.domain.informationcenter.FairTradeDTO">
+  <select id="selectOne" resultMap="FairTradeMap">
     SELECT
       NOTICE_ID,
       NOTICE_NO,

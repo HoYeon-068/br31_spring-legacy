@@ -6,8 +6,7 @@
 <mapper namespace="com.br.app.mapper.informationcenter.InquiryMapper">
 
   <insert id="insertInquiry" parameterType="com.br.app.domain.informationcenter.InquiryDTO">
-    <!-- 시퀀스명은 DB 실제 이름으로 교체 -->
-    <selectKey keyProperty="inquiryId" resultType="long" order="BEFORE">
+    <selectKey keyProperty="inquiryID" resultType="long" order="BEFORE">
       SELECT INQUIRY_SEQ.NEXTVAL FROM DUAL
     </selectKey>
 
@@ -26,7 +25,7 @@
       USER_ID,
       STORE_ID
     ) VALUES (
-      #{inquiryId},
+      #{inquiryID},
       #{counselType},
       #{detailType},
       #{title},
@@ -37,51 +36,49 @@
       #{email, jdbcType=VARCHAR},
       #{postPw, jdbcType=VARCHAR},
       SYSDATE,
-      #{userId},
-      #{storeId, jdbcType=NUMERIC}
+      #{userID, jdbcType=VARCHAR},
+      #{storeID, jdbcType=NUMERIC}
     )
   </insert>
-  
-    <select id="selectMyInquiryList"
+
+  <select id="selectMyInquiryList"
           parameterType="string"
           resultType="com.br.app.domain.informationcenter.InquiryListDTO">
     SELECT
-      i.INQUIRY_ID,
-      i.REG_DATE,
-      i.OCCUR_DATE,
-      i.COUNSEL_TYPE,
-      i.DETAIL_TYPE,
-      i.TITLE,
-      a.ANSWER
+      i.INQUIRY_ID   AS inquiryID,
+      i.REG_DATE     AS regDate,
+      i.OCCUR_DATE   AS occurDate,
+      i.COUNSEL_TYPE AS counselType,
+      i.DETAIL_TYPE  AS detailType,
+      i.TITLE        AS title,
+      a.ANSWER       AS answer
     FROM INQUIRY i
     LEFT JOIN INQUIRY_ANSWER a
       ON i.INQUIRY_ID = a.INQUIRY_ID
     WHERE i.USER_ID = #{userId}
     ORDER BY i.REG_DATE DESC
   </select>
-  
 
-<select id="selectInquiryView"
-        resultType="com.br.app.domain.informationcenter.InquiryViewDTO">
-  SELECT
-    i.INQUIRY_ID,
-    i.COUNSEL_TYPE,
-    i.DETAIL_TYPE,
-    i.TITLE,
-    i.OCCUR_DATE,
-    i.CONTENT,
-    i.REG_DATE,
-    i.STORE_ID,
-    s.STORE_NAME,
-    a.ANSWER,
-    a.REG_DATE AS ANSWER_DATE
-  FROM INQUIRY i
-  LEFT JOIN STORE s
-    ON i.STORE_ID = s.STORE_ID
-  LEFT JOIN INQUIRY_ANSWER a
-    ON i.INQUIRY_ID = a.INQUIRY_ID
-  WHERE i.INQUIRY_ID = #{inquiryId}
-</select>
-
+  <select id="selectInquiryView"
+          resultType="com.br.app.domain.informationcenter.InquiryViewDTO">
+    SELECT
+      i.INQUIRY_ID   AS inquiryID,
+      i.COUNSEL_TYPE AS counselType,
+      i.DETAIL_TYPE  AS detailType,
+      i.TITLE        AS title,
+      i.OCCUR_DATE   AS occurDate,
+      i.CONTENT      AS content,
+      i.REG_DATE     AS regDate,
+      i.STORE_ID     AS storeID,
+      s.STORE_NAME   AS storeName,
+      a.ANSWER       AS answer,
+      a.REG_DATE     AS answerDate
+    FROM INQUIRY i
+    LEFT JOIN STORE s
+      ON i.STORE_ID = s.STORE_ID
+    LEFT JOIN INQUIRY_ANSWER a
+      ON i.INQUIRY_ID = a.INQUIRY_ID
+    WHERE i.INQUIRY_ID = #{inquiryId}
+  </select>
 
 </mapper>
