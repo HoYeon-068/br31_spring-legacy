@@ -70,7 +70,7 @@
   </filter-mapping>
 
   <!-- ✅ Security Filter Chain (multipartFilter 아래에 오면 실패함. 반드시 이 위치) -->
-  <filter>
+ 
   <!-- (선택) Spring Security Filter Chain -->
   <filter>
     <filter-name>springSecurityFilterChain</filter-name>
@@ -82,3 +82,4 @@
   </filter-mapping>
 
 </web-app>
+
