@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -27,13 +27,14 @@
   <select id="searchAll" resultType="com.br.app.domain.search.BoardSearchDTO">
     SELECT *
     FROM (
-      SELECT ROWNUM rnum, x.*
+      SELECT ROWNUM no, x.*
       FROM (
         SELECT
           'NOTICE' AS type,
           n.NOTICE_ID AS id,
           n.TITLE AS title,
-          TO_CHAR(n.REG_DATE, 'YYYY.MM.DD') AS regDate
+          TO_CHAR(n.REG_DATE, 'YYYY.MM.DD') AS regDate,
+          n.REG_DATE AS sortDate
         FROM NOTICE n
         WHERE n.TITLE   LIKE '%' || #{keyword} || '%'
            OR n.CONTENT LIKE '%' || #{keyword} || '%'
@@ -44,16 +45,17 @@
           'PRESS' AS type,
           p.PR_ID AS id,
           p.TITLE AS title,
-          TO_CHAR(p.REG_DATE, 'YYYY.MM.DD') AS regDate
+          TO_CHAR(p.REG_DATE, 'YYYY.MM.DD') AS regDate,
+          p.REG_DATE AS sortDate
         FROM PRESS_RELEASE p
         WHERE p.TITLE   LIKE '%' || #{keyword} || '%'
            OR p.CONTENT LIKE '%' || #{keyword} || '%'
 
-        ORDER BY regDate DESC
+        ORDER BY sortDate DESC
       ) x
       WHERE ROWNUM <![CDATA[<=]]> #{endRow}
     )
-    WHERE rnum <![CDATA[>=]]> #{startRow}
+    WHERE no <![CDATA[>=]]> #{startRow}
   </select>
 
 </mapper>

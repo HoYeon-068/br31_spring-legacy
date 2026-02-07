@@ -5,7 +5,16 @@
 
 <mapper namespace="com.br.app.mapper.informationcenter.PressMapper">
 
-  <select id="selectList" resultType="com.br.app.domain.informationcenter.PressDTO">
+  <resultMap id="pressMap" type="com.br.app.domain.informationcenter.PressDTO">
+    <id     column="PR_ID"         property="prID"/>
+    <result column="PR_NO"         property="prNO"/>
+    <result column="TITLE"         property="title"/>
+    <result column="CONTENT"       property="content"/>
+    <result column="REG_DATE"      property="regDate"/>
+    <result column="REG_DATE_TEXT" property="regDateText"/>
+  </resultMap>
+
+  <select id="selectList" resultMap="pressMap">
     SELECT *
     FROM (
       SELECT ROWNUM rn, p.*
@@ -14,7 +23,8 @@
           PR_ID,
           PR_NO,
           TITLE,
-          REG_DATE
+          REG_DATE,
+          TO_CHAR(REG_DATE, 'YYYY-MM-DD') AS REG_DATE_TEXT
         FROM BR31.PRESS_RELEASE
         ORDER BY REG_DATE DESC
       ) p
@@ -27,13 +37,14 @@
     FROM BR31.PRESS_RELEASE
   </select>
 
-  <select id="selectOne" resultType="com.br.app.domain.informationcenter.PressDTO">
+  <select id="selectOne" resultMap="pressMap">
     SELECT
       PR_ID,
       PR_NO,
       TITLE,
       CONTENT,
-      REG_DATE
+      REG_DATE,
+      TO_CHAR(REG_DATE, 'YYYY-MM-DD') AS REG_DATE_TEXT
     FROM BR31.PRESS_RELEASE
     WHERE PR_ID = #{id}
   </select>
