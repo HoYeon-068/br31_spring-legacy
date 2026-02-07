@@ -64,7 +64,7 @@ public class PlazaController {
 	
 	model.addAttribute("list", list);
 	model.addAttribute("loginId", loginId);
-	return "play/plaza/list";
+	return "play.plaza.list";
 	}
 	
 	@GetMapping("/view")
@@ -78,13 +78,13 @@ public class PlazaController {
 
 		  model.addAttribute("dto", dto);
 		  model.addAttribute("loginId", loginId);
-		  return "play/plaza/view";
+		  return "play.plaza.view";
 		}
 
 	
 	@GetMapping("/consulting")
-	public void consulting() {
-		
+	public String consulting() {
+		return "play.plaza.consulting";
 	}
 	
 	@PostMapping("/consulting")
@@ -104,7 +104,7 @@ public class PlazaController {
 	    String userId = principal.getName();
 	    UserDTO loginUser = userMapper.selectByUserId(userId);
 	    model.addAttribute("loginUser", loginUser);
-	    return "play/plaza/new";
+	    return "play.plaza.new";
 	}
 	
 	@PostMapping("/new")
@@ -195,7 +195,7 @@ public class PlazaController {
 	    UserDTO loginUser = userMapper.selectByUserId(userId);
 	    model.addAttribute("loginUser", loginUser);
 
-	    return "play/plaza/collabo";
+	    return "play.plaza.collabo";
 	}
 
 	

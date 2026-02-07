@@ -44,7 +44,7 @@ public class EventController {
 	    }
 
 	    model.addAttribute("list", list);
-	    return "play/event/list";
+	    return "play.event.list";
 	}
 	
 	@GetMapping("/view")
@@ -83,7 +83,7 @@ public class EventController {
         model.addAttribute("ongoingList", ongoingList);
 	    
 	    
-	    return "play/event/view";
+	    return "play.event.view";
 	}
 
 	

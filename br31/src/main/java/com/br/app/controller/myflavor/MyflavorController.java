@@ -38,12 +38,12 @@ public class MyflavorController {
 
     @GetMapping("/list.do")
     public String list() {
-        return "play/myflavor/list";
+        return "play.myflavor.list";
     }
 
     @GetMapping("/register.do")
     public String registerForm() {
-        return "play/myflavor/register";
+        return "play.myflavor.register";
     }
 
     @PostMapping("/register.do")
@@ -89,7 +89,7 @@ public class MyflavorController {
         if (session == null || session.getAttribute("MYFLAVOR_" + seq) == null) {
             return "redirect:/play/myflavor/list.do";
         }
-        return "play/myflavor/register-complete";
+        return "play.myflavor.register-complete";
     }
 
     // ================== 이미지 생성 ==================
