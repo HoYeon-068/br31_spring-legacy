@@ -13,74 +13,6 @@ if (dto == null) {
 }
 %>
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="format-detection" content="date=no">
-    <meta name="format-detection" content="address=no">
-    <meta name="format-detection" content="email=no">
-
-    <title>배스킨라빈스</title>
-
-    <meta name="description" content="내 맘대로 하는 맛조합, 마이플레이버 리스트">
-    <meta name="keywords" content="baskinrobbins, myflavor">
-    <meta name="author" content="배스킨라빈스">
-
-    <meta property="og:site_name" content="배스킨라빈스">
-    <meta property="og:url" content="${pageContext.request.contextPath}/">
-    <meta property="og:title" content="[배스킨라빈스] 마이플레이버 리스트">
-    <meta property="og:description" content="나만의 플레이버 리스트 등록 완료">
-    <meta property="og:image" content="${pageContext.request.contextPath}/resources/images/common/img_share.png">
-    <meta property="og:type" content="website">
-
-    <!-- 프로젝트 리소스 -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendors.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css">
-
-    <script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
-</head>
-<body id="baskinrobbins-play-myflavor-register-complete"
-      class="baskinrobbins-play-myflavor-register-complete">
-
-<div class="skipnav"><a href="#content">본문 영역으로 바로가기</a></div>
-
-<!-- HEADER -->
-<jsp:include page="/WEB-INF/views/layout/header.jsp" />
-
-<section class="site-container">
-
-    <!-- page-menu -->
-    <nav class="page-menu">
-        <ul class="page-menu__list">
-            <li class="page-menu__item">
-                <a href="${pageContext.request.contextPath}/play/event/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">이벤트</span></div>
-                </a>
-            </li>
-            <li class="page-menu__item">
-                <a href="${pageContext.request.contextPath}/play/plaza/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">배라광장</span></div>
-                </a>
-            </li>
-            <li class="page-menu__item">
-                <a href="${pageContext.request.contextPath}/play/recipe/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">BR 레시피</span></div>
-                </a>
-            </li>
-            <li class="page-menu__item page-menu__item--active">
-                <a href="${pageContext.request.contextPath}/play/myflavor/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">마이플레이버 리스트</span></div>
-                </a>
-            </li>
-        </ul>
-    </nav>
-
     <!-- CONTENT -->
     <!-- ✅ recipe-view 제거 -->
     <div id="content" class="myflavor-register-complete-wrap">
@@ -143,11 +75,4 @@ if (dto == null) {
         </article>
 
     </div>
-</section>
-
-<!-- FOOTER -->
-<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
-
-</body>
-</html>
 

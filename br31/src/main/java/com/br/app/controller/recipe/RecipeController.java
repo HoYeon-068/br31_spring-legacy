@@ -56,12 +56,14 @@ public class RecipeController {
         model.addAttribute("category", category);
         model.addAttribute("pageVO", pageVO);
 
-        return "play/recipe/list";
+        return "play.recipe.list";
     }
     
     @GetMapping("/view")
-    public void view(@RequestParam("recipeId") int recipeId, Model model) {
-    	RecipeViewDTO dto = recipeMapper.view(recipeId);
-    	model.addAttribute("dto", dto);
+    public String view(@RequestParam("recipeId") int recipeId, Model model) {
+      RecipeViewDTO dto = recipeMapper.view(recipeId);
+      model.addAttribute("dto", dto);
+      return "play.recipe.view";
     }
+
 }

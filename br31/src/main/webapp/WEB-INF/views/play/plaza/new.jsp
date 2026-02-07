@@ -2,92 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="format-detection" content="date=no" />
-  <meta name="format-detection" content="address=no" />
-  <meta name="format-detection" content="email=no" />
-
-  <title>배스킨라빈스</title>
-
-  <meta name="description" content="행복을 전하는 프리미엄 아이스크림, 배스킨라빈스 공식 홈페이지 입니다." />
-  <meta name="keywords" content="baskinrobbins, br31, 배스킨라빈스, 배라, 베라" />
-  <meta name="author" content="배스킨라빈스" />
-
-  <meta property="og:site_name" content="배스킨라빈스" />
-  <meta property="og:url" content="https://www.baskinrobbins.co.kr" />
-  <meta property="og:title" content="[배스킨라빈스] 배라광장" />
-  <meta property="og:description" content="배스킨라빈스에게 다양한 의견을 전달해주세요." />
-  <meta property="og:image" content="https://www.baskinrobbins.co.kr/assets/images/common/img_share.png" />
-  <meta property="og:type" content="website" />
-
-  <script>
-    if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
-      window.location = "microsoft-edge:" + window.location;
-      setTimeout(function () {
-        window.location = "https://go.microsoft.com/fwlink/?linkid=2135547";
-      }, 13);
-    }
-  </script>
-
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendors.css" />
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css" />
-
-  <script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
-  <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
-
-  <%-- 주말 룰: 분석/트래킹 스크립트들은 필요하면 layout 쪽에 몰아넣기 추천 --%>
-</head>
-
-<body id="baskinrobbins-play-plaza-new" class="baskinrobbins-play-plaza-new">
-  <div class="skipnav"><a href="#content">본문 영역으로 바로가기</a></div>
-
-  <jsp:include page="/WEB-INF/views/layout/header.jsp" />
-
-  <section class="site-container">
-    <!-- page-menu는 페이지 본문에서 1번만 -->
-    <nav class="page-menu">
-      <ul class="page-menu__list">
-        <li class="page-menu__item">
-          <a href="${pageContext.request.contextPath}/play/event/list.do" class="page-menu__link">
-            <div class="page-menu__box">
-              <span class="page-menu__name">이벤트</span>
-            </div>
-          </a>
-        </li>
-
-        <li class="page-menu__item page-menu__item--active">
-          <a href="${pageContext.request.contextPath}/play/plaza/list.do" class="page-menu__link">
-            <div class="page-menu__box">
-              <span class="page-menu__name">배라광장</span>
-            </div>
-          </a>
-        </li>
-
-        <li class="page-menu__item">
-          <a href="${pageContext.request.contextPath}/play/recipe/list.do" class="page-menu__link">
-            <div class="page-menu__box">
-              <span class="page-menu__name">BR 레시피</span>
-            </div>
-          </a>
-        </li>
-
-        <li class="page-menu__item">
-          <a href="${pageContext.request.contextPath}/play/myflavor/list.do" class="page-menu__link">
-            <div class="page-menu__box">
-              <span class="page-menu__name">마이플레이버 리스트</span>
-            </div>
-          </a>
-        </li>
-      </ul>
-    </nav>
-
     <div id="content">
       <header class="page-header">
         <div class="page-header__container">
@@ -337,8 +251,4 @@
         </div>
       </div>
     </div>
-  </section>
 
-  <jsp:include page="/WEB-INF/views/layout/footer.jsp" />
-</body>
-</html>
