@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 
 <head>
@@ -35,6 +36,11 @@
 <script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/join.css" />
+
+
+<!-- csrf -->
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 
 
@@ -44,7 +50,7 @@
 <jsp:include page="/WEB-INF/views/layout/header.jsp" />
 
   <div class="page-title">
-	  <div class="title">회원가입</div>
+     <div class="title">회원가입</div>
   </div>
 
 
@@ -59,7 +65,7 @@
     <div class="row">
       <div class="lab">아이디</div>
       <div class="ctrl">
-        <input type="text" name="user_id" id="user_id" placeholder="아이디를 입력해주세요" />
+        <input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요" />
         <input type="hidden" id="idChecked" value="false" />
         <button type="button" class="subbtn" id="btnIdCheck">중복확인</button>
       </div>
@@ -70,10 +76,10 @@
       <div class="lab">비밀번호</div>
       <div class="ctrl pw">
         <input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요" />
-		
-		<input type="password" name="password_confirm" id="password_confirm"
-		       placeholder="비밀번호를 한번 더 입력해주세요" />
-		<span class="msg" id="pwMsg"></span>
+      
+      <input type="password" name="password_confirm" id="password_confirm"
+             placeholder="비밀번호를 한번 더 입력해주세요" />
+      <span class="msg" id="pwMsg"></span>
       </div>
     </div>
 
@@ -100,18 +106,18 @@
       <div class="lab">이메일</div>
       <div class="ctrl email">
         <input type="text" name="email_id" id="email_id" placeholder="예: scoop" />
-			<span class="at">@</span>
-			
-			<select name="email_domain" id="email_domain">
-			  <option value="">선택하기</option>
-			  <option value="naver.com">naver.com</option>
-			  <option value="gmail.com">gmail.com</option>
-			  <option value="daum.net">daum.net</option>
-			  <option value="kakao.com">kakao.com</option>
-			</select>
-			
-			<input type="hidden" id="emailChecked" value="false" />
-			<button type="button" class="subbtn" id="btnEmailCheck">중복확인</button>
+         <span class="at">@</span>
+         
+         <select name="email_domain" id="email_domain">
+           <option value="">선택하기</option>
+           <option value="naver.com">naver.com</option>
+           <option value="gmail.com">gmail.com</option>
+           <option value="daum.net">daum.net</option>
+           <option value="kakao.com">kakao.com</option>
+         </select>
+         
+         <input type="hidden" id="emailChecked" value="false" />
+         <button type="button" class="subbtn" id="btnEmailCheck">중복확인</button>
         
         
       </div>
@@ -119,23 +125,23 @@
     </div>
 
     <div class="row phone-row">
-	  <div class="lab">휴대폰</div>
-	
-	  <div class="phone-wrap">
-		    <div class="ctrl phone">
-		      <input type="text" name="phone_no" id="phone_no" placeholder="숫자만 입력해주세요." />
-		      <button type="button" class="subbtn" id="btnPhoneSend">인증번호 받기</button>
-		    </div>
-		
-		    <div class="ctrl phone verify">
-		      <input type="text" id="phone_code" placeholder="인증번호 6자리" />
-		      <button type="button" class="subbtn" id="btnPhoneVerify">인증확인</button>
-		      <input type="hidden" id="phoneChecked" value="false" />
-		    </div>
-		
-		    <span class="msg" id="phoneMsg"></span>
-		</div>
-	</div>
+     <div class="lab">휴대폰</div>
+   
+     <div class="phone-wrap">
+          <div class="ctrl phone">
+            <input type="text" name="phoneNo" id="phoneNo" placeholder="숫자만 입력해주세요." />
+            <button type="button" class="subbtn" id="btnPhoneSend">인증번호 받기</button>
+          </div>
+      
+          <div class="ctrl phone verify">
+            <input type="text" id="phone_code" placeholder="인증번호 6자리" />
+            <button type="button" class="subbtn" id="btnPhoneVerify">인증확인</button>
+            <input type="hidden" id="phoneChecked" value="false" />
+          </div>
+      
+          <span class="msg" id="phoneMsg"></span>
+      </div>
+   </div>
 
 
     <div class="row">
@@ -150,37 +156,37 @@
     <div class="row">
       <div class="lab">생년월일</div>
       <div class="ctrl birth">
-		<select name="birthY" id="birthY" >
-			<option value="">YYYY</option>		
-		<%
-			int thisYear = LocalDate.now().getYear();
-			for(int i = thisYear; i>= 1900; i--){
-		%>				
-			<option value="<%= i%>"><%= i%></option>
-		<%
-			}
-		%>
-		</select>
-		<select name="birthM"  id="birthM">
-			<option value="">MM</option>		
-		<%
-			for(int i = 1; i<=12; i++){
-		%>				
-			<option value="<%= i%>"><%= i%></option>
-		<%
-			}
-		%>
-		</select>
-		<select name="birthD" id="birthD" >
-			<option value="">DD</option>		
-		<%
-			for(int i = 1; i<=31; i++){
-		%>				
-			<option value="<%= i%>"><%= i%></option>
-		<%
-			}
-		%>
-		</select>
+      <select name="birthY" id="birthY" >
+         <option value="">YYYY</option>      
+      <%
+         int thisYear = LocalDate.now().getYear();
+         for(int i = thisYear; i>= 1900; i--){
+      %>            
+         <option value="<%= i%>"><%= i%></option>
+      <%
+         }
+      %>
+      </select>
+      <select name="birthM"  id="birthM">
+         <option value="">MM</option>      
+      <%
+         for(int i = 1; i<=12; i++){
+      %>            
+         <option value="<%= i%>"><%= i%></option>
+      <%
+         }
+      %>
+      </select>
+      <select name="birthD" id="birthD" >
+         <option value="">DD</option>      
+      <%
+         for(int i = 1; i<=31; i++){
+      %>            
+         <option value="<%= i%>"><%= i%></option>
+      <%
+         }
+      %>
+      </select>
       </div>
       <span class="msg" id="birthMsg"></span>
     </div>
@@ -243,6 +249,7 @@
     <button type="submit" class="joinbtn">가입하기</button>
   </div>
 </div>
+ <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
   </form>
 
   </body>
@@ -258,6 +265,15 @@
  */
 
 $(function () {
+   
+   const csrfToken  = $("meta[name='_csrf']").attr("content");
+   const csrfHeader = $("meta[name='_csrf_header']").attr("content");
+   
+   $(document).ajaxSend(function (e, xhr) {
+        if (csrfHeader && csrfToken) {
+          xhr.setRequestHeader(csrfHeader, csrfToken);
+        }
+      });
 
   // 공통 유틸
   function setMsg($el, msg, type) { // type: "success" | "error"
@@ -331,47 +347,47 @@ $(function () {
   // 이메일 : 영어 숫자만
   const EMAIL_ID_REGEX = /^[A-Za-z0-9]+$/;
   function validateEmailId(emailId) {
-	  if (!emailId) return { ok: false, msg: "이메일 아이디를 입력하세요." };
-	  if (!EMAIL_ID_REGEX.test(emailId)) {
-	      return { ok: false, msg: "이메일 아이디는 영문/숫자만 입력 가능합니다." };
-	    }
-	  return { ok: true, msg: "이메일 아이디 형식이 올바릅니다. (중복확인 필요)" };
-  		
-	}
+     if (!emailId) return { ok: false, msg: "이메일 아이디를 입력하세요." };
+     if (!EMAIL_ID_REGEX.test(emailId)) {
+         return { ok: false, msg: "이메일 아이디는 영문/숫자만 입력 가능합니다." };
+       }
+     return { ok: true, msg: "이메일 아이디 형식이 올바릅니다. (중복확인 필요)" };
+        
+   }
   
   
   // 이름 : 한글만
   const NAME_REGEX = /^[가-힣]+$/;
   function validateName(name) {
-	  if (!name) return { ok: false, msg: "이름을 입력하세요." };
-	    if (!NAME_REGEX.test(name)) {
-	      return { ok: false, msg: "이름은 한글만 입력 가능합니다." };
-	    }
-	    return { ok: true, msg: "" };
-	  
+     if (!name) return { ok: false, msg: "이름을 입력하세요." };
+       if (!NAME_REGEX.test(name)) {
+         return { ok: false, msg: "이름은 한글만 입력 가능합니다." };
+       }
+       return { ok: true, msg: "" };
+     
 }
   
   // 휴대폰번호: 숫자만
-  function normalizePhone(phone) {
+  function normalizePhone(콜) {
     return (phone || "").replaceAll(/[^0-9]/g, "");
   }
   
   function validatePhone(phoneRaw) {
-	  const phone = normalizePhone(phoneRaw);
-	  if (!phone) return { ok: false, msg: "휴대폰 번호를 입력하세요." };
-	    if (phone.length < 10 || phone.length > 11) {
-	      return { ok: false, msg: "휴대폰 번호는 10~11자리 숫자만 입력하세요." };
-	    }
-	    return { ok: true, msg: "" };
+     const phone = normalizePhone(phoneRaw);
+     if (!phone) return { ok: false, msg: "휴대폰 번호를 입력하세요." };
+       if (phone.length < 10 || phone.length > 11) {
+         return { ok: false, msg: "휴대폰 번호는 10~11자리 숫자만 입력하세요." };
+       }
+       return { ok: true, msg: "" };
   }
   
   
   // 생년월일 선택
   function validateBirth(y, m, d) {
-	  if (!y || !m || !d) {
-	    return { ok: false, msg: "생년월일을 모두 선택해주세요." };
+     if (!y || !m || !d) {
+       return { ok: false, msg: "생년월일을 모두 선택해주세요." };
   }
-  	return { ok: true, msg: "" };
+     return { ok: true, msg: "" };
   }
 
   
@@ -398,22 +414,21 @@ $(function () {
   }
 
   // 아이디 입력/중복확인
-  $("#user_id").on("input", function () {
+  $("#userId").on("input", function () {
     invalidateIdCheck();
 
-    const userId = $("#user_id").val().trim();
+    const userId = $("#userId").val().trim();
     const v = validateUserId(userId);
     setMsg($("#idMsg"), v.msg, v.ok ? "success" : "error");
   });
 
   $("#btnIdCheck").on("click", function () {
-	  const userId = $("#user_id").val().trim();
-
+     const userId = $("#userId").val().trim();
     const v = validateUserId(userId);
     if (!v.ok) {
       setMsg($("#idMsg"), v.msg, "error");
       $("#idChecked").val("false");
-      $("#user_id").focus();
+      $("#userId").focus();
       return;
     }
 
@@ -481,17 +496,17 @@ $(function () {
 
   // 이메일 중복확인
   $("#email_id").on("input", function () {
-	  invalidateEmailCheck();
-	
-	  const cleaned = $(this).val().replace(/[^A-Za-z0-9]/g, "");
-	  if ($(this).val() !== cleaned) $(this).val(cleaned);
-	
-	  const v = validateEmailId(cleaned);
-	  setMsg($("#emailMsg"), v.msg, v.ok ? "success" : "error");
+     invalidateEmailCheck();
+   
+     const cleaned = $(this).val().replace(/[^A-Za-z0-9]/g, "");
+     if ($(this).val() !== cleaned) $(this).val(cleaned);
+   
+     const v = validateEmailId(cleaned);
+     setMsg($("#emailMsg"), v.msg, v.ok ? "success" : "error");
   });
   $("#email_domain").on("change", function () {
-	  invalidateEmailCheck();
-	});
+     invalidateEmailCheck();
+   });
 
   $("#btnEmailCheck").on("click", function () {
     const emailId = trimVal("#email_id");
@@ -527,9 +542,9 @@ $(function () {
   });
 
   // 휴대폰 인증 (전송/확인)
-  $("#phone_no").on("input", function () {
+  $("#phoneNo").on("input", function () {
     invalidatePhoneAuth();
- 	// 숫자만 남기기(한글/기호 자동 제거)
+    // 숫자만 남기기(한글/기호 자동 제거)
     const cleaned = normalizePhone($(this).val());
     if ($(this).val() !== cleaned) $(this).val(cleaned);
 
@@ -540,12 +555,12 @@ $(function () {
   });
 
   $("#btnPhoneSend").on("click", function () {
-    const phone = trimVal("#phone_no");
+    const phone = trimVal("#phoneNo");
 
     if (!phone) {
       setMsg($("#phoneMsg"), "휴대폰 번호를 입력하세요.", "error");
       $("#phoneChecked").val("false");
-      $("#phone_no").focus();
+      $("#phoneNo").focus();
       return;
     }
 
@@ -555,12 +570,12 @@ $(function () {
       dataType: "text",
       data: { phone_no: phone },
       success: function (res) {
-   	  	if ($.trim(res) === "DUPLICATE") {
-   		    setMsg($("#phoneMsg"), "이미 가입된 휴대폰 번호입니다.", "error");
-   		    $("#phoneChecked").val("false");
-   		    return;
-   		  }
-    	  
+           if ($.trim(res) === "DUPLICATE") {
+             setMsg($("#phoneMsg"), "이미 가입된 휴대폰 번호입니다.", "error");
+             $("#phoneChecked").val("false");
+             return;
+           }
+         
         if ($.trim(res) === "SENT") {
           setMsg($("#phoneMsg"), "인증번호를 전송했습니다. (콘솔 확인)", "success");
           $("#phoneChecked").val("false");
@@ -577,13 +592,13 @@ $(function () {
   });
 
   $("#btnPhoneVerify").on("click", function () {
-    const phone = trimVal("#phone_no");
+    const phone = trimVal("#phoneNo");
     const code = trimVal("#phone_code");
 
     if (!phone) {
       setMsg($("#phoneMsg"), "휴대폰 번호를 입력하세요.", "error");
       $("#phoneChecked").val("false");
-      $("#phone_no").focus();
+      $("#phoneNo").focus();
       return;
     }
     if (!code) {
@@ -631,31 +646,31 @@ $(function () {
   
   // 이벤트 등 프로모션 정보 수신 동의 (선택) SMS 이메일
   $(".event input[type='checkbox']").on("change", function () {
-	    const checked = $(this).is(":checked");
-	    $(".event2 input[type='checkbox']").prop("checked", checked);
-	  });
+       const checked = $(this).is(":checked");
+       $(".event2 input[type='checkbox']").prop("checked", checked);
+     });
   
   $(".event2 input[type='checkbox']").on("change", function () {
-	    const total = $(".event2 input[type='checkbox']").length;
-	    const checkedCount = $(".event2 input[type='checkbox']:checked").length;
-	    $(".event input[type='checkbox']").prop("checked", total === checkedCount);
-	  });
+       const total = $(".event2 input[type='checkbox']").length;
+       const checkedCount = $(".event2 input[type='checkbox']:checked").length;
+       $(".event input[type='checkbox']").prop("checked", total === checkedCount);
+     });
 
   // 가입 submit 최종 검증
   $(".join-form").on("submit", function () {
-	  console.log("✅ submit 들어옴");
-	  console.log("idChecked=", $("#idChecked").val(),
-	              "nickChecked=", $("#nicknameChecked").val(),
-	              "emailChecked=", $("#emailChecked").val(),
-	              "phoneChecked=", $("#phoneChecked").val());
-	  
-	  
-	  
+     console.log("✅ submit 들어옴");
+     console.log("idChecked=", $("#idChecked").val(),
+                 "nickChecked=", $("#nicknameChecked").val(),
+                 "emailChecked=", $("#emailChecked").val(),
+                 "phoneChecked=", $("#phoneChecked").val());
+     
+     
+     
     // 아이디 형식
-    const idv = validateUserId(trimVal("#user_id"));
+    const idv = validateUserId(trimVal("#userId"));
     if (!idv.ok) {
       setMsg($("#idMsg"), idv.msg, "error");
-      $("#user_id").focus();
+      $("#userId").focus();
       return false;
     }
 
@@ -682,17 +697,17 @@ $(function () {
     }
 
     //  휴대폰 숫자만 + 자리수
-    const pv = validatePhone(trimVal("#phone_no"));
+    const pv = validatePhone(trimVal("#phoneNo"));
     if (!pv.ok) {
       setMsg($("#phoneMsg"), pv.msg, "error");
-      $("#phone_no").focus();
+      $("#phoneNo").focus();
       return false;
     }
 
     // 아이디 중복확인 완료 여부
     if ($("#idChecked").val() !== "true") {
       setMsg($("#idMsg"), "아이디 중복확인을 해주세요.", "error");
-      $("#user_id").focus();
+      $("#userId").focus();
       return false;
     }
 
@@ -712,7 +727,7 @@ $(function () {
     // 휴대폰 인증
     if ($("#phoneChecked").val() !== "true") {
       setMsg($("#phoneMsg"), "휴대폰 인증을 완료해주세요.", "error");
-      $("#phone_no").focus();
+      $("#phoneNo").focus();
       return false;
     }
 

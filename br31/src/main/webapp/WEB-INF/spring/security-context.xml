@@ -16,7 +16,13 @@
 		<intercept-url pattern="/customer/noticeReg.htm" access="isAuthenticated()"/>
 		<intercept-url pattern="/customer/noticeDel.htm" access="hasRole('ROLE_ADMIN')"/>
 		<intercept-url pattern="/mypage/**" access="hasRole('USER')"/>
+		
+        <intercept-url pattern="/play/plaza/new.do" access="isAuthenticated()"/>
+		
+		<intercept-url pattern="/play/myflavor/register.do" access="isAuthenticated()"/>
+		
 		<intercept-url pattern="/**" access="permitAll"/>
+		
 		
 		<form-login login-page="/login/login.do"  login-processing-url="/login/login.do" default-target-url="/index.do" 
 							username-parameter="username" password-parameter="password"
@@ -29,9 +35,18 @@
 		
 	</http>    
 	
-<!-- 	PasswordEncoder -->
+	<!-- 	PasswordEncoder -->
 	<beans:bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
-
+	<beans:bean id="passwordEncoder"
+    class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	<!-- ✅ MultipartFilter가 사용할 Commons resolver (RootContext에 있어야 함) -->
+	<beans:bean id="filterMultipartResolver"
+	            class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	  <beans:property name="maxUploadSize" value="-1" />
+	  <beans:property name="maxInMemorySize" value="10240" />
+	  <beans:property name="defaultEncoding" value="UTF-8" />
+	</beans:bean>
+		
 	
 	<authentication-manager>
 		<authentication-provider user-service-ref="customUserDetailsService">

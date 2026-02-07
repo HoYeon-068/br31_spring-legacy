@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-  <!-- Root Spring Container (공통 빈: DB, MyBatis, Tx, Security 등) -->
+  <!-- Root Spring Container -->
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
       /WEB-INF/spring/root-context.xml
-      <!-- /WEB-INF/spring/security-context.xml -->
+      /WEB-INF/spring/security-context.xml
     </param-value>
   </context-param>
 
@@ -28,7 +28,7 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
 
-  <!-- ✅ .do / .ajax 요청만 스프링이 받도록 (수업 방식) -->
+  <!-- *.do / *.ajax -->
   <servlet-mapping>
     <servlet-name>appServlet</servlet-name>
     <url-pattern>*.do</url-pattern>
@@ -53,14 +53,30 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
-  <!-- (선택) Spring Security Filter Chain -->
- <!--  <filter>
+  <!-- ✅ multipartFilter: CSRF 검사 전에 multipart 파싱되게 만들기 -->
+  <filter>
+    <filter-name>multipartFilter</filter-name>
+    <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+
+    <!-- MultipartFilter가 사용할 resolver bean 이름 -->
+    <init-param>
+      <param-name>multipartResolverBeanName</param-name>
+      <param-value>filterMultipartResolver</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>multipartFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- ✅ Security Filter Chain (multipartFilter 아래에 오면 실패함. 반드시 이 위치) -->
+  <filter>
     <filter-name>springSecurityFilterChain</filter-name>
     <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>springSecurityFilterChain</filter-name>
     <url-pattern>/*</url-pattern>
-  </filter-mapping> -->
+  </filter-mapping>
 
 </web-app>

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import lombok.extern.log4j.Log4j;
 // 권한 없을 때 
 // 403 접근 금지 에러를 다양한 처리를 직접하기 위한 클래스 (객체)
-@Component
+@Component("loginAccessDeniedHandler")
 @Log4j
 public class LoginAccessDeniedHandler implements AccessDeniedHandler {
 

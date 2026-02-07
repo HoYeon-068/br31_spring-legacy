@@ -103,7 +103,6 @@ if (dto == null) {
         <article class="myflavor-register-complete">
             <h3>마이플레이버 리스트<br>등록 완료!</h3>
 
-            <!-- ✅ 원본 구조대로 래퍼 복원 -->
             <div class="myflavor-flavorlist-image">
                 <!-- 미리보기(정사각 이미지) -->
                 <div class="myflavor-flavorlist-image__preview"

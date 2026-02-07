@@ -1,12 +1,6 @@
 package com.br.app.controller.admin;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.Principal;
-import java.sql.SQLException;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,21 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.br.app.domain.menu.CategoryDTO;
-import com.br.app.domain.menu.FomViewDTO;
-import com.br.app.domain.menu.IceNutritionDTO;
-import com.br.app.domain.menu.IngredientDTO;
-import com.br.app.domain.menu.MenuListDTO;
-import com.br.app.domain.menu.MenuViewDTO;
-import com.br.app.domain.menu.MonthlyFlavorDTO;
 import com.br.app.domain.menu.ProductDTO;
+import com.br.app.domain.plaza.ConsultingDTO;
+import com.br.app.domain.plaza.PlazaSelectDTO;
+import com.br.app.domain.plaza.PlazaViewDTO;
 import com.br.app.mapper.menu.CategoryMapper;
-import com.br.app.mapper.menu.IceNutritionMapper;
-import com.br.app.mapper.menu.MonthlyFlavorMapper;
 import com.br.app.mapper.menu.ProductMapper;
+import com.br.app.mapper.plaza.PlazaMapper;
 
 @Controller
 @RequestMapping("/admin/*")
@@ -40,6 +29,9 @@ public class AdminController {
 	
 	@Autowired
 	private CategoryMapper categoryDao;
+	
+	@Autowired
+	private PlazaMapper plazaMapper;
 	
 	@GetMapping("/main.do")
 	public String adminMain(
@@ -303,4 +295,62 @@ public class AdminController {
 		
 		return "/admin/product/write";
 	}
+	
+	@GetMapping("/plaza/list")
+	public String adminPlazaList(
+	        @RequestParam(value="category", required=false) String category,
+	        Model model
+	) {
+	    List<PlazaSelectDTO> list = plazaMapper.adminSelect(category);
+	    model.addAttribute("list", list);
+	    model.addAttribute("category", category == null ? "ALL" : category);
+	    return "admin.plaza.list"; // /WEB-INF/views/admin/plaza/list.jsp
+	}
+	
+	@GetMapping("/plaza/view")
+	public String adminPlazaView(
+	        @RequestParam("seq") int seq,
+	        Model model
+	) {
+	    PlazaViewDTO dto = plazaMapper.adminView(seq);
+	    model.addAttribute("dto", dto);
+	    return "admin.plaza.view";
+	}
+	
+	@PostMapping("/plaza/status")
+	public String adminPlazaStatus(
+	        @RequestParam("seq") int seq,
+	        @RequestParam("status") int status,
+	        RedirectAttributes rttr
+	) {
+	    plazaMapper.updatePlazaStatus(seq, status);
+	    // rttr.addFlashAttribute("msg", "updated");
+	    return "redirect:/admin/plaza/view.do?seq=" + seq;
+	}
+	
+	@GetMapping("/consulting/list")
+	public String adminConsultingList(Model model) {
+	    List<ConsultingDTO> list = plazaMapper.selectAdminList();
+	    model.addAttribute("list", list);
+	    return "admin.consulting.list";
+	}
+	
+	@GetMapping("/consulting/view")
+	public String adminConsultingView(
+	        @RequestParam("id") int id,
+	        Model model
+	) {
+	    ConsultingDTO dto = plazaMapper.selectAdminView(id);
+	    model.addAttribute("dto", dto);
+	    return "admin.consulting.view";
+	}
+	
+	@PostMapping("/consulting/complete")
+	public String consultingComplete(
+	        @RequestParam("id") int id
+	) {
+	    plazaMapper.updateAdminStatus(id, 1);
+	    return "redirect:/admin/consulting/view.do?id=" + id;
+	}
+
 }
