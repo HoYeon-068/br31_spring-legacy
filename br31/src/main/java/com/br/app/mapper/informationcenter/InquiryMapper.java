@@ -1,7 +1,6 @@
 package com.br.app.mapper.informationcenter;
 
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 import com.br.app.domain.informationcenter.InquiryDTO;

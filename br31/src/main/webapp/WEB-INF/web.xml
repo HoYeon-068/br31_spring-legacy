@@ -53,6 +53,24 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
+  <!-- ✅ multipartFilter: CSRF 검사 전에 multipart 파싱되게 만들기 -->
+  <filter>
+    <filter-name>multipartFilter</filter-name>
+    <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+
+    <!-- MultipartFilter가 사용할 resolver bean 이름 -->
+    <init-param>
+      <param-name>multipartResolverBeanName</param-name>
+      <param-value>filterMultipartResolver</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>multipartFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- ✅ Security Filter Chain (multipartFilter 아래에 오면 실패함. 반드시 이 위치) -->
+ 
   <!-- (선택) Spring Security Filter Chain -->
   <filter>
     <filter-name>springSecurityFilterChain</filter-name>
@@ -64,3 +82,4 @@
   </filter-mapping>
 
 </web-app>
+

@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
 <c:if test="${empty dto}">
   <div class="alert alert-danger">존재하지 않는 글입니다.</div>
@@ -58,6 +60,7 @@
       <div class="card-body d-flex gap-2">
 
         <form method="post" action="${pageContext.request.contextPath}/admin/plaza/status.do">
+          <sec:csrfInput/>
           <input type="hidden" name="seq" value="${dto.plazaId}">
           <input type="hidden" name="status" value="0">
           <button type="submit" class="btn btn-success"
@@ -67,6 +70,7 @@
         </form>
 
         <form method="post" action="${pageContext.request.contextPath}/admin/plaza/status.do">
+          <sec:csrfInput/>
           <input type="hidden" name="seq" value="${dto.plazaId}">
           <input type="hidden" name="status" value="1">
           <button type="submit" class="btn btn-secondary"

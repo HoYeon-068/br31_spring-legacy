@@ -11,12 +11,12 @@
       SELECT ROWNUM rn, f.*
       FROM (
         SELECT
-          faq.faq_id,
-          faq.question,
-          faq.answer,
-          faq.reg_date,
-          faq.faq_category_id,
-          cat.name AS category_name
+          faq.faq_id           AS faqID,
+          faq.question         AS question,
+          faq.answer           AS answer,
+          faq.reg_date         AS regDate,
+          faq.faq_category_id  AS faqCategoryID,
+          cat.name             AS categoryName
         FROM faq faq
         JOIN faq_category cat
           ON faq.faq_category_id = cat.faq_category_id
@@ -35,12 +35,12 @@
 
   <select id="selectOne" resultType="com.br.app.domain.informationcenter.FaqDTO">
     SELECT
-      faq.faq_id,
-      faq.question,
-      faq.answer,
-      faq.reg_date,
-      faq.faq_category_id,
-      cat.name AS category_name
+      faq.faq_id           AS faqID,
+      faq.question         AS question,
+      faq.answer           AS answer,
+      faq.reg_date         AS regDate,
+      faq.faq_category_id  AS faqCategoryID,
+      cat.name             AS categoryName
     FROM faq faq
     JOIN faq_category cat
       ON faq.faq_category_id = cat.faq_category_id

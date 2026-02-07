@@ -1,12 +1,16 @@
 package com.br.app.domain.informationcenter;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class FaqCategoryDTO {
-    private int faqCategoryId;
+
+    private int faqCategoryID;
     private String name;
-
-    public int getFaqCategoryId() { return faqCategoryId; }
-    public void setFaqCategoryId(int faqCategoryId) { this.faqCategoryId = faqCategoryId; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
 }

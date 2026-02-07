@@ -1,27 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<title>배스킨라빈스 | 자주하는 질문</title>
-
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/vendors.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/app.css">
-<script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
-
 <style>
-/* FAQ 아이템 기본 */
 .faq-list__item {
   position: relative;
   overflow: visible;
 }
 
-/* 답변 영역 (슬라이딩 핵심) */
+
 .faq-list__answer {
   overflow: hidden;
   max-height: 0;
@@ -40,7 +25,7 @@
   font-weight: 400;
 }
 
-/* 활성 탭 */
+
 .page-tab__item--active {
   background: #fff;
   border-bottom: 2px solid #000;
@@ -83,7 +68,7 @@
   font-weight: 600;
 }
 
-/* 이전 / 다음 */
+
 .pagination__item--icon {
   border: none;
 }
@@ -96,158 +81,134 @@
   content: "›";
 }
 
-/* 비활성 */
 .pagination__item--disabled {
   opacity: 0.3;
   pointer-events: none;
 }
 </style>
-</head>
+<c:set var="categoryId" value="${empty param.category ? 0 : param.category}" />
+<div class="site-container">
+<section id="content" class="faq-list">
 
-<body id="baskinrobbins-faq" class="baskinrobbins-faq">
+  <header class="page-header">
+    <div class="page-header__container">
+      <div class="page-header__content">
+        <h2 class="page-header__title">자주하는 질문</h2>
+      </div>
+      <div class="page-header__content">
+        <p class="page-header__text">
+          고객의 소리를 적극 경청하고 고객만족향상 활동을<br> 지속적으로 실천합니다.
+        </p>
+      </div>
+    </div>
+  </header>
 
-	<c:set var="categoryId" value="${empty param.category ? 0 : param.category}" />
+  <nav class="page-tab">
+    <ul class="page-tab__list">
+      <li class="page-tab__item ${categoryId == 0 ? 'page-tab__item--active' : ''}">
+        <c:url var="tab0" value="/information-center/faq/list.do">
+          <c:param name="category" value="0"/>
+        </c:url>
+        <a href="${tab0}" class="page-tab__link">전체</a>
+      </li>
 
-	<jsp:include page="/WEB-INF/views/layout/header.jsp" />
+      <li class="page-tab__item ${categoryId == 1 ? 'page-tab__item--active' : ''}">
+        <c:url var="tab1" value="/information-center/faq/list.do">
+          <c:param name="category" value="1"/>
+        </c:url>
+        <a href="${tab1}" class="page-tab__link">제품</a>
+      </li>
 
-	<div class="site-container">
-		<section id="content" class="faq-list">
+      <li class="page-tab__item ${categoryId == 2 ? 'page-tab__item--active' : ''}">
+        <c:url var="tab2" value="/information-center/faq/list.do">
+          <c:param name="category" value="2"/>
+        </c:url>
+        <a href="${tab2}" class="page-tab__link">포인트</a>
+      </li>
 
-			<header class="page-header">
-				<div class="page-header__container">
-					<div class="page-header__content">
-						<h2 class="page-header__title">자주하는 질문</h2>
-					</div>
-					<div class="page-header__content">
-						<p class="page-header__text">
-							고객의 소리를 적극 경청하고 고객만족향상 활동을<br> 지속적으로 실천합니다.
-						</p>
-					</div>
-				</div>
-			</header>
+      <li class="page-tab__item ${categoryId == 3 ? 'page-tab__item--active' : ''}">
+        <c:url var="tab3" value="/information-center/faq/list.do">
+          <c:param name="category" value="3"/>
+        </c:url>
+        <a href="${tab3}" class="page-tab__link">회원</a>
+      </li>
 
-			<!-- 카테고리 탭 -->
-			<nav class="page-tab">
-				<ul class="page-tab__list">
-					<li class="page-tab__item ${categoryId == 0 ? 'page-tab__item--active' : ''}">
-						<a href="${pageContext.request.contextPath}/information-center/faq/list.do?category=0"
-						   class="page-tab__link">전체</a>
-					</li>
+      <li class="page-tab__item ${categoryId == 4 ? 'page-tab__item--active' : ''}">
+        <c:url var="tab4" value="/information-center/faq/list.do">
+          <c:param name="category" value="4"/>
+        </c:url>
+        <a href="${tab4}" class="page-tab__link">기타</a>
+      </li>
+    </ul>
+  </nav>
 
-					<li class="page-tab__item ${categoryId == 1 ? 'page-tab__item--active' : ''}">
-						<a href="${pageContext.request.contextPath}/information-center/faq/list.do?category=1"
-						   class="page-tab__link">제품</a>
-					</li>
+  <section class="faq-list__container">
+    <div class="faq-list__content">
+      <ul class="faq-list__list">
+        <c:forEach var="dto" items="${list}">
+          <li class="faq-list__item">
+            <button type="button" class="faq-list__title">${dto.question}</button>
+            <div class="faq-list__answer">
+              <p><c:out value="${dto.answer}" escapeXml="false"/></p>
+            </div>
+          </li>
+        </c:forEach>
+      </ul>
+    </div>
 
-					<li class="page-tab__item ${categoryId == 2 ? 'page-tab__item--active' : ''}">
-						<a href="${pageContext.request.contextPath}/information-center/faq/list.do?category=2"
-						   class="page-tab__link">포인트</a>
-					</li>
+    <ul class="pagination">
 
-					<li class="page-tab__item ${categoryId == 3 ? 'page-tab__item--active' : ''}">
-						<a href="${pageContext.request.contextPath}/information-center/faq/list.do?category=3"
-						   class="page-tab__link">회원</a>
-					</li>
+      <li class="pagination__item pagination__item--icon pagination__item--prev ${prevBlockPage == null ? 'pagination__item--disabled' : ''}">
+        <c:choose>
+          <c:when test="${prevBlockPage == null}">
+            <a class="pagination__link" href="javascript:void(0);"><span class="pagination__name">이전</span></a>
+          </c:when>
+          <c:otherwise>
+            <c:url var="prevUrl" value="/information-center/faq/list.do">
+              <c:param name="category" value="${categoryId}"/>
+              <c:param name="page" value="${prevBlockPage}"/>
+            </c:url>
+            <a class="pagination__link" href="${prevUrl}"><span class="pagination__name">이전</span></a>
+          </c:otherwise>
+        </c:choose>
+      </li>
 
-					<li class="page-tab__item ${categoryId == 4 ? 'page-tab__item--active' : ''}">
-						<a href="${pageContext.request.contextPath}/information-center/faq/list.do?category=4"
-						   class="page-tab__link">기타</a>
-					</li>
-				</ul>
-			</nav>
+      <c:forEach var="i" begin="${startPage}" end="${endPage}">
+        <li class="pagination__item ${i == currentPage ? 'pagination__item--current' : ''}">
+          <c:choose>
+            <c:when test="${i == currentPage}">
+              <strong class="pagination__link"><span class="pagination__name">${i}</span></strong>
+            </c:when>
+            <c:otherwise>
+              <c:url var="pageUrl" value="/information-center/faq/list.do">
+                <c:param name="category" value="${categoryId}"/>
+                <c:param name="page" value="${i}"/>
+              </c:url>
+              <a class="pagination__link" href="${pageUrl}">
+                <span class="pagination__name">${i}</span>
+              </a>
+            </c:otherwise>
+          </c:choose>
+        </li>
+      </c:forEach>
 
-			<!-- FAQ 목록 -->
-			<section class="faq-list__container">
-				<div class="faq-list__content">
-					<ul class="faq-list__list">
-						<c:forEach var="dto" items="${list}">
-							<li class="faq-list__item">
-								<button type="button" class="faq-list__title">
-									${dto.question}
-								</button>
+      <li class="pagination__item pagination__item--icon pagination__item--next ${nextBlockPage == null ? 'pagination__item--disabled' : ''}">
+        <c:choose>
+          <c:when test="${nextBlockPage == null}">
+            <a class="pagination__link" href="javascript:void(0);"><span class="pagination__name">다음</span></a>
+          </c:when>
+          <c:otherwise>
+            <c:url var="nextUrl" value="/information-center/faq/list.do">
+              <c:param name="category" value="${categoryId}"/>
+              <c:param name="page" value="${nextBlockPage}"/>
+            </c:url>
+            <a class="pagination__link" href="${nextUrl}"><span class="pagination__name">다음</span></a>
+          </c:otherwise>
+        </c:choose>
+      </li>
 
-								<div class="faq-list__answer">
-									<!-- ANSWER가 CLOB이고 HTML(예: <br>) 포함 가능하면 escapeXml=false -->
-									<p><c:out value="${dto.answer}" escapeXml="false"/></p>
-								</div>
-							</li>
-						</c:forEach>
-					</ul>
-				</div>
+    </ul>
+  </section>
 
-				<ul class="pagination">
-
-					<!-- 이전 블록 -->
-					<li class="pagination__item pagination__item--icon pagination__item--prev">
-						<a class="pagination__link"
-						   href="${prevBlockPage == null
-								  ? 'javascript:void(0);'
-								  : pageContext.request.contextPath.concat('/information-center/faq/list.do?category=')
-										.concat(categoryId)
-										.concat('&page=')
-										.concat(prevBlockPage)}">
-							<span class="pagination__name">이전</span>
-						</a>
-					</li>
-
-					<!-- 페이지 번호 -->
-					<c:forEach var="i" begin="${startPage}" end="${endPage}">
-						<li class="pagination__item ${i == currentPage ? 'pagination__item--current' : ''}">
-							<a class="pagination__link"
-							   href="${pageContext.request.contextPath}/information-center/faq/list.do?category=${categoryId}&page=${i}">
-								<span class="pagination__name">${i}</span>
-							</a>
-						</li>
-					</c:forEach>
-
-					<!-- 다음 블록 -->
-					<li class="pagination__item pagination__item--icon pagination__item--next">
-						<a class="pagination__link"
-						   href="${nextBlockPage == null
-								  ? 'javascript:void(0);'
-								  : pageContext.request.contextPath.concat('/information-center/faq/list.do?category=')
-										.concat(categoryId)
-										.concat('&page=')
-										.concat(nextBlockPage)}">
-							<span class="pagination__name">다음</span>
-						</a>
-					</li>
-
-				</ul>
-			</section>
-
-		</section>
-	</div>
-
-	<script>
-	document.querySelectorAll(".faq-list__title").forEach(btn => {
-	  btn.addEventListener("click", function () {
-
-	    const currentItem = this.closest(".faq-list__item");
-	    const currentAnswer = currentItem.querySelector(".faq-list__answer");
-
-	    // 다른 FAQ 닫기
-	    document.querySelectorAll(".faq-list__item").forEach(item => {
-	      if (item !== currentItem) {
-	        item.classList.remove("is-open");
-	        const answer = item.querySelector(".faq-list__answer");
-	        answer.style.maxHeight = null;
-	      }
-	    });
-
-	    // 현재 FAQ 토글
-	    if (currentItem.classList.contains("is-open")) {
-	      currentItem.classList.remove("is-open");
-	      currentAnswer.style.maxHeight = null;
-	    } else {
-	      currentItem.classList.add("is-open");
-	      currentAnswer.style.maxHeight = currentAnswer.scrollHeight + "px";
-	    }
-	  });
-	});
-	</script>
-
-	<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
-
-</body>
-</html>
+</section>
+</div>

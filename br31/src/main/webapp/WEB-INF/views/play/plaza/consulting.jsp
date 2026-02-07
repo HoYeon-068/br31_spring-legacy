@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -90,8 +91,7 @@
             <div class="plaza-consulting__content">
 
                 <form name="frm" action="${pageContext.request.contextPath}/play/plaza/consulting.do" method="POST" class="plaza-form form">
-                    <input type="hidden" name="csrf_token"
-                           value="MTc2NjMwOTU5OGIwMzIxYWJjMWMzOWIyNDVhZDhjMTU4YzYwN2NmY2U0ZThiNzg4NWUzZGMwYjQ1YjYyOGU5MzA0ZDA5MzM0YjQ1NDVhMmQ5ZTk1NzcwNGJj">
+                	<sec:csrfInput/>
                     <input type="hidden" name="category" value="C">
                     <legend>점포개설문의 입력 폼</legend>
 

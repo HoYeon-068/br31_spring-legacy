@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -35,7 +36,6 @@
     }
   </script>
 
-  <!-- ✅ 프로젝트 리소스 경로로 교체 -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendors.css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css" />
 
@@ -48,7 +48,6 @@
 <body id="baskinrobbins-play-plaza-new" class="baskinrobbins-play-plaza-new">
   <div class="skipnav"><a href="#content">본문 영역으로 바로가기</a></div>
 
-  <!-- ✅ 공통 헤더 include -->
   <jsp:include page="/WEB-INF/views/layout/header.jsp" />
 
   <section class="site-container">
@@ -89,7 +88,6 @@
       </ul>
     </nav>
 
-    <!-- ✅ content id 중복 제거: 여기만 content 유지 -->
     <div id="content">
       <header class="page-header">
         <div class="page-header__container">
@@ -111,8 +109,7 @@
 			      action="${pageContext.request.contextPath}/play/plaza/new.do"
 			      method="POST"
 			      enctype="multipart/form-data">
-
-              <input type="hidden" name="csrf_token" value="MTc2NjMwODc0N2IwMzIxYWJjMWMzOWIyNDVhZDhjMTU4YzYwN2NmY2U0ZThiNzg4NWVlZmNiOWFlZmFkNDlhNDEzYzYxMWEwYjQxOThjNTFkM2ZhMjFkMWFj" />
+			  <sec:csrfInput/>
               <input type="hidden" name="category" value="A" />
 
               <legend>맛 제안 입력 폼</legend>
@@ -212,15 +209,21 @@
                       <dl class="plaza-form-field__content plaza-form-field__content--top">
                         <div class="plaza-form-field__item">
                           <dt class="plaza-form-field__name form__name">이름</dt>
-                          <dd class="plaza-form-field__area">${sessionScope.loginUser.name}</dd>
+                          <dd class="plaza-form-field__area">
+                            ${loginUser.name}
+                          </dd>
                         </div>
                         <div class="plaza-form-field__item">
                           <dt class="plaza-form-field__name form__name">연락처</dt>
-                          <dd class="plaza-form-field__area">${sessionScope.loginUser.phone_no}</dd>
+                          <dd class="plaza-form-field__area">
+                            ${loginUser.phoneNo}
+                          </dd>
                         </div>
                         <div class="plaza-form-field__item">
                           <dt class="plaza-form-field__name form__name">이메일</dt>
-                          <dd class="plaza-form-field__area">${sessionScope.loginUser.email}</dd>
+                          <dd class="plaza-form-field__area">
+                            ${loginUser.email}
+                          </dd>
                         </div>
                       </dl>
                     </div>
@@ -326,7 +329,7 @@
                     <button type="submit" class="plaza-form-buttons__submit">등록</button>
                   </div>
                 </div>
-
+				
               </fieldset>
             </form>
 
