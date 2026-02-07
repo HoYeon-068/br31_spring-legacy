@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <header class="site-header">
     <div class="site-header__container">
         <div class="site-header__content">
@@ -223,38 +224,39 @@
                     </form>
 
                     <nav class="site-user-menu__content dropdown-menu">
-                        <ul class="site-user-menu__list">
-                        		<c:choose>
-                        		<%--  로그인 상태--%>
-    	                    		<c:when test="${not empty sessionScope.loginUser}">
-		                                <li class="site-user-menu__item">
-		                                    <a href="${pageContext.request.contextPath}/login/logout.do" class="site-user-menu__link">Logout</a>
-		                                </li>
-		                                <li class="site-user-menu__item">
-		                                    <a href="${pageContext.request.contextPath}/mypage/mypage.do" target="_blank" class="site-user-menu__link">My Page</a>
-		                                </li>
-		                            
-		
-			                            <li class="site-user-menu__item">
-			                                <a href="${pageContext.request.contextPath}/information-center/customer/list.do" class="site-user-menu__link">CS CENTER</a>
-			                            </li>
-	                        		</c:when>
-	                        		<%--  로그아웃 상태--%>
-	                        		<c:otherwise>
-		                                <li class="site-user-menu__item">
-		                                    <a href="${pageContext.request.contextPath}/login/login.do" class="site-user-menu__link">Login</a>
-		                                </li>
-		                                <li class="site-user-menu__item">
-		                                    <a href="${pageContext.request.contextPath}/join/join.do" target="_blank" class="site-user-menu__link">Join</a>
-		                                </li>
-		                            
-		
-			                            <li class="site-user-menu__item">
-			                                <a href="${pageContext.request.contextPath}/information-center/customer/list.do" class="site-user-menu__link">CS CENTER</a>
-			                            </li>
-	                        		
-	                        		</c:otherwise>
-                        		</c:choose>
+                        <ul class="site-user-menu__list"> 
+                        		<!-- 수정 -->
+                        		<sec:authorize access="isAuthenticated()">
+								  <li class="site-user-menu__item">
+								    <form action="${pageContext.request.contextPath}/login/logout.do" method="post" style="display:inline;">
+								      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+								      <button type="submit" class="site-user-menu__link"
+								              style="all: unset; background:none;border:0;padding:0;cursor:pointer ">
+								        Logout
+								      </button>
+								    </form>
+								  </li>
+								
+								  <li class="site-user-menu__item">
+								    <a href="${pageContext.request.contextPath}/mypage/mypage.do" target="_blank" class="site-user-menu__link">My Page</a>
+								  </li>
+								  <li class="site-user-menu__item">
+								    <a href="${pageContext.request.contextPath}/information-center/customer/list.do" class="site-user-menu__link">CS CENTER</a>
+								  </li>
+								</sec:authorize>
+								
+								<sec:authorize access="isAnonymous()">
+								    <li class="site-user-menu__item">
+								        <a href="${pageContext.request.contextPath}/login/login.do" class="site-user-menu__link">Login</a>
+								    </li>
+								    <li class="site-user-menu__item">
+								        <a href="${pageContext.request.contextPath}/join/join.do" target="_blank" class="site-user-menu__link">Join</a>
+								    </li>
+								    <li class="site-user-menu__item">
+								        <a href="${pageContext.request.contextPath}/information-center/customer/list.do" class="site-user-menu__link">CS CENTER</a>
+								    </li>
+								</sec:authorize>
+
                         </ul>
                     </nav>
                 </div>

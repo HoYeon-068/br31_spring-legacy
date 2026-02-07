@@ -16,7 +16,7 @@ public interface EventMapper {
 	// 행사매장(있을 시) 보기
 	List<String> selectStoreNames(int eventId);
 	// 추천 이벤트
-	public List<EventDTO> selectOngoing(int currentEventId);
+	List<EventDTO> selectOngoing(int currentEventId);
 
 	// 관리자
 	// 추가

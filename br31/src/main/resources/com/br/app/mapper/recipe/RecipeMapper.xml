@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.br.app.mapper.recipe.RecipeMapper">
+
+	<!-- List<RecipeCategoryDTO> selectCategories(); -->
+	<select id="selectCategories" resultType="com.br.app.domain.recipe.RecipeCategoryDTO">
+	   SELECT recipe_category_id, category_name
+       FROM recipe_category
+       ORDER BY recipe_category_id
+	</select>
+  
+	<!-- int count(Integer categoryId); -->  
+  	<select id="count" resultType="int">
+	  SELECT COUNT(*)
+	  FROM recipe
+	  <where>
+	    <if test="categoryId != null">
+	      recipe_category_id = #{categoryId}
+	    </if>
+	  </where>
+	</select>
+	
+	<!-- List<RecipeListDTO> selectList(Integer categoryId, int offset, int pageSize); -->
+	<select id="selectList" resultType="com.br.app.domain.recipe.RecipeListDTO">
+	    SELECT * FROM (
+	      SELECT t.*, ROWNUM rn FROM (
+	        SELECT
+	          c.category_name,
+	          r.title,         
+	          r.sub_title ,    
+	          r.thumbnail ,    
+	          r.recipe_id,    
+	          r.recipe_category_id
+	        FROM recipe r
+	        JOIN recipe_category c
+	          ON r.recipe_category_id = c.recipe_category_id
+	        <where>
+	          <if test="categoryId != null">
+	            r.recipe_category_id = #{categoryId}
+	          </if>
+	        </where>
+	        ORDER BY r.recipe_id ASC
+	      ) t
+	      WHERE ROWNUM &lt;= #{offset} + #{amount}
+	    )
+	    WHERE rn &gt;= #{offset} + 1
+	</select>
+	
+	<!-- RecipeViewDTO view(int recipeId); -->
+	<resultMap id="RecipeViewMap" type="com.br.app.domain.recipe.RecipeViewDTO">
+	  <id     property="recipeId"        column="recipe_id" jdbcType="NUMERIC"/>
+	  <result property="title"           column="title"/>
+	  <result property="subTitle"        column="sub_title"/>
+	  <result property="thumbnail"       column="thumbnail"/>
+	
+	  <result property="contentHtml" column="content_html"
+	          jdbcType="CLOB"
+	          typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
+	
+	  <result property="recipeCategoryId" column="recipe_category_id" jdbcType="NUMERIC"/>
+	  <result property="categoryName"     column="category_name"/>
+	</resultMap>
+
+		
+	<select id="view" resultMap="RecipeViewMap">
+	  SELECT
+	    r.recipe_id,
+	    r.title,
+	    r.sub_title,
+	    r.thumbnail,
+	    r.content_html,
+	    r.recipe_category_id,
+	    c.category_name
+	  FROM recipe r
+	  JOIN recipe_category c ON r.recipe_category_id = c.recipe_category_id
+	  WHERE r.recipe_id = #{recipeId}
+	</select>
+	
+</mapper>

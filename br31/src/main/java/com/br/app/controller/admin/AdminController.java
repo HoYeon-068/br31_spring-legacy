@@ -1,10 +1,9 @@
 package com.br.app.controller.admin;
 
 import java.io.File;
-import java.io.IOException;
-import java.security.Principal;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,21 +14,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.br.app.domain.menu.CategoryDTO;
-import com.br.app.domain.menu.FomViewDTO;
-import com.br.app.domain.menu.IceNutritionDTO;
-import com.br.app.domain.menu.IngredientDTO;
-import com.br.app.domain.menu.MenuListDTO;
-import com.br.app.domain.menu.MenuViewDTO;
-import com.br.app.domain.menu.MonthlyFlavorDTO;
 import com.br.app.domain.menu.ProductDTO;
+import com.br.app.domain.menu.ProductUploadDTO;
+import com.br.app.domain.user.UserDTO;
 import com.br.app.mapper.menu.CategoryMapper;
-import com.br.app.mapper.menu.IceNutritionMapper;
-import com.br.app.mapper.menu.MonthlyFlavorMapper;
 import com.br.app.mapper.menu.ProductMapper;
+import com.br.app.mapper.menu.ProductTagMapper;
+import com.br.app.mapper.user.UserMapper;
 
 @Controller
 @RequestMapping("/admin/*")
@@ -41,74 +35,22 @@ public class AdminController {
 	@Autowired
 	private CategoryMapper categoryDao;
 	
+	@Autowired
+	private ProductTagMapper productTagDao;
+	
 	@GetMapping("/main.do")
-	public String adminMain(
-			@RequestParam(value = "view", required = false, defaultValue = "") String view
-			,Model model
+	public String adminMain(Model model
 			) throws Exception {
 		
-				
 
-				String contentPage = "/WEB-INF/views/admin/admin_main.jsp";
-				switch (view == null ? "" : view) {
-				  case "productList":
-				    contentPage = "/WEB-INF/views/admin/product/list.jsp";
-				     
-				    
-				    java.util.List<ProductDTO> list = null;
-				   
-				    
-				    
-				    list = productDao.select();
-				    model.addAttribute("list", list);
-				    
-				    break;
-				    
-				  case "productWrite":
-					    contentPage = "/WEB-INF/views/admin/product/write.jsp";
-					    java.util.List<CategoryDTO> category = null;
-					    category=categoryDao.select();
-					    model.addAttribute("category", category);
-					    break;
-				  default:
-					int productsCount=productDao.getProductsCount();
-					model.addAttribute("productsCount", productsCount);
-				    break;
-				    
-				}
+				int productsCount=productDao.getProductsCount();
+				model.addAttribute("productsCount", productsCount);
 				
-				/*
-				// 회원관리
-				String action = request.getParameter("action");
-				switch (view == null ? "" : view) {
-				case "adminUser":
-					if ("delete".equals(action)) {
-						String userId = request.getParameter("userId");
-						if("admin_master".equalsIgnoreCase(userId)) {
-							response.sendRedirect(request.getContextPath() + "/admin/main.do?view=adminUser&msg=admin_cant_delete");
-							return null;
-						}
-						new UserService().deleteUser(userId);
-						response.sendRedirect(request.getContextPath() + "/admin/main.do?view=adminUser");
-				        return null; 
-					}
-					contentPage = "/WEB-INF/views/admin/user/adminUser.jsp";
-					List<UserDTO> userList = new UserService().getUserList();
-					request.setAttribute("userList", userList);
-					break;
-
-				default:
-					break;
-				}
-				
-				*/
-			
-				model.addAttribute("contentPage", contentPage);
-				return "/admin/admin_layout";
+				return "admin.admin_main";
 				
 				
 	}
-	/*
+	
 	private String getFileNameCheck(String uploadRealPath, String originalFilename) {
 		int index = 1;		
 		while( true ) {			
@@ -120,7 +62,8 @@ public class AdminController {
 			index++;
 		} // while 
 	}
-
+	
+	/*
 	@PostMapping("/noticeReg.htm")
 	public String noticeReg(
 			NoticeVO noticeVO   // 커맨드 객체 
@@ -154,6 +97,17 @@ public class AdminController {
 
 	} */
 	
+	@GetMapping("/product/list.do")
+	public String adminProductList(Model model) throws Exception {
+		
+		java.util.List<ProductDTO> list = null;
+		
+	    list = productDao.select();
+	    model.addAttribute("list", list);
+		
+		return "admin.product.list";
+	}
+	
 	@GetMapping("/product/write.do")
 	public String adminProductWrite(Model model) throws Exception {
 		
@@ -169,138 +123,135 @@ public class AdminController {
 		    
 		 model.addAttribute("category", category);
 		
-		return "/admin/product/write";
+		return "admin.product.write";
 	}
 	
 	@PostMapping("/product/write.do")
-	public String adminProductWritePost(Model model) throws Exception {
+	public String adminProductWritePost(
+			Model model
+			, RedirectAttributes rttr
+			, HttpServletRequest request
+			, ProductUploadDTO uploadDTO
+			) throws Exception {
 		
-		
-		/*
-		else if (requestMethod.equals("POST") ){
-			
-			
-			String uploadPath = request.getServletContext()
-			        .getRealPath("/resources/images/upload/product/main");
-			
-			// /resources/images/upload/ckeditor/
+		String uploadPath =
+		        request.getServletContext()
+		               .getRealPath("/resources/images/upload/product/main");
 
-			int maxSize = 10 * 1024 * 1024; // 10MB
+		    String productImgPath = null;
+		    String posterImgPath = null;
 
-			MultipartRequest multi = new MultipartRequest(
-			    request,
-			    uploadPath,
-			    maxSize,
-			    "UTF-8",
-			    new DefaultFileRenamePolicy()
-			);
+		    try {
+		        // 디렉토리 없으면 생성
+		        File dir = new File(uploadPath);
+		        if (!dir.exists()) dir.mkdirs();
 
+		        // product 이미지
+		        if (uploadDTO.getProductImg() != null &&
+		            !uploadDTO.getProductImg().isEmpty()) {
 
-			String product_name = multi.getParameter("productName");
-			String english_name = multi.getParameter("englishName");
-			String description = multi.getParameter("description");
-			String bg_color     = multi.getParameter("bgColor");
-			String span_color   = multi.getParameter("fontColor");
-			
-			
-			
-			
-			// 숫자
-			int category_id = Integer.parseInt(multi.getParameter("categoryId"));
+		            String filename = UUID.randomUUID() + "_" +
+		                    uploadDTO.getProductImg().getOriginalFilename();
 
-			// price는 nullable
-			String priceParam = multi.getParameter("price");
-			Integer price = (priceParam == null || priceParam.isBlank())
-			        ? 0
-			        : Integer.parseInt(priceParam);
-			
-			
-			String[] tags = multi.getParameterValues("tags");
-			// null / 빈값 제거 추천
-			List<String> tagList = new ArrayList<>();
-			if (tags != null) {
-			    for (String tag : tags) {
-			        if (tag != null && !tag.trim().isEmpty()) {
-			            tagList.add(tag.trim());
-			        }
-			    }
-			}
-			
-			
-			
-			String productImg = multi.getFilesystemName("productImg"); // 필수
-			String posterImg  = multi.getFilesystemName("posterImg");  // 선택
-			
-			String productImgPath=null;
-			String posterImgPath=null;
-			
-			if (productImg != null) {
-			    productImgPath = "/resources/images/upload/product/main/" + productImg;
-			}
+		            File file = new File(uploadPath, filename);
+		            uploadDTO.getProductImg().transferTo(file);
 
-			if (posterImg != null) {
-			    posterImgPath = "/resources/images/upload/product/main/" + posterImg;
-			}
-			
-			int products_id;
-			
-			
-			
-			try {
-		    	ProductDAO pDao=new ProductDAOImpl(conn);
-			    ProductTagDAO tDao=new ProductTagDAOImpl(conn);
-		    	
-		    	vo=new ProductDTO().builder()
-		    			.category_id(category_id)
-		    			.product_name(product_name)
-		    			.english_name(english_name)
-		    			.description(description)
-		    			.bg_color(bg_color)
-		    			.span_color(span_color)
-		    			.poster_path(posterImgPath)
-		    			.img_path(productImgPath)
-		    			.price(price)
-		    			.product_status("판매중")
-		    			.build();
-		    	
-		    	
-		    	pDao.insert(vo);
-		    	products_id=pDao.getProductSeqNum();
-		    	
-		    	
-		    	
-		    	for (int i = 0; i < tags.length; i++) {
-		    		tDao.insert(products_id, tags[i]);
-				}
-		    	
-		    	
-			} catch (Exception e) {
-				System.out.println("> ProductWriteHandler.process() Exception...");
-				e.printStackTrace();
-			}finally {
-				conn.close();
-			}
-			
-			String location = request.getContextPath() + "/admin/main.do?view=productList";
-			response.sendRedirect(location);
-		}
+		            productImgPath =
+		              "/resources/images/upload/product/main/" + filename;
+		        }
+
+		        // poster 이미지
+		        if (uploadDTO.getPosterImg() != null &&
+		            !uploadDTO.getPosterImg().isEmpty()) {
+
+		            String filename = UUID.randomUUID() + "_" +
+		                    uploadDTO.getPosterImg().getOriginalFilename();
+
+		            File file = new File(uploadPath, filename);
+		            uploadDTO.getPosterImg().transferTo(file);
+
+		            posterImgPath =
+		              "/resources/images/upload/product/main/" + filename;
+		        }
+
+		        // DB용 DTO 생성
+		        ProductDTO product = ProductDTO.builder()
+		            .categoryId(uploadDTO.getCategoryId())
+		            .productName(uploadDTO.getProductName())
+		            .englishName(uploadDTO.getEnglishName())
+		            .subTitle(uploadDTO.getSubTitle())
+		            .description(uploadDTO.getDescription())
+		            .bgColor(uploadDTO.getBgColor())
+		            .spanColor(uploadDTO.getSpanColor())
+		            .price(uploadDTO.getPrice() == null ? 0 : uploadDTO.getPrice())
+		            .imgPath(productImgPath)
+		            .posterPath(posterImgPath)
+		            .productStatus("판매중")
+		            .build();
+
+		        // DAO 직접 호출
+		        productDao.insert(product);
+
+		        int productId=productDao.getProductSeqNum();
+		        // 태그 저장
+		        if (uploadDTO.getTags() != null) {
+		            for (String tag : uploadDTO.getTags()) {
+		                productTagDao.insert(productId, tag);
+		            }
+		        }
+
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        // 에러 페이지로 보내고 싶으면 여기서 return
+		        return "redirect:/admin/main.do?view=error";
+		    }
+
+		    return "redirect:/admin/product/list.do";
 		
-		return null;
-		*/
-		
-		
-		
-		
-		
-		java.util.List<CategoryDTO> category = null;
-		 ProductDTO vo=null;
-		
-		 
-		 
-		 
-		 
-		 
-		
-		return "/admin/product/write";
 	}
+	
+	
+	// ================== 회원관리=======================
+	@Autowired
+	private UserMapper userMapper;
+	
+	
+	@GetMapping("/user/adminUser.do")
+	public String adminUser(Model model) throws SQLException {
+		
+		List<UserDTO> userList = userMapper.getUserList();
+		model.addAttribute("userList", userList);
+		
+		return "admin.user.adminUser";
+	}
+	
+	@PostMapping("/user/adminUserDelete.do")
+	public String adminUserDelete(
+								@RequestParam String userId
+								, RedirectAttributes rttr
+										) throws SQLException{
+		if ("admin".equals(userId)) {
+		    rttr.addFlashAttribute("errorMsg", "해당 계정은 삭제할 수 없습니다.");
+		    return "redirect:/admin/user/adminUser.do";
+		}
+		int result = userMapper.deleteUser(userId);
+		if (result > 0) {
+	        rttr.addFlashAttribute("msg", "회원이 정상적으로 삭제되었습니다.");
+	    } else {
+	        rttr.addFlashAttribute("errorMsg", "회원 삭제에 실패했습니다.");
+	    }
+		
+		
+		
+		
+		return "redirect:/admin/user/adminUser.do";
+	}
+	
+	
+	// ================== 회원관리=======================
+	
+	
+	
+	
+	
 }

@@ -525,7 +525,7 @@ public class InformationCenterController {
 		model.addAttribute("bodyId", "baskinrobbins-information-center-consulting-br");
 		model.addAttribute("bodyClass", "baskinrobbins-information-center-consulting-br");
 		model.addAttribute("activeMenu", "br");
-		return "information-center/consulting.br";
+		return "information-center.consulting.br";
 	}
 	@GetMapping("/consulting/process.do")
 	public String consultingProcess(Model model) {
@@ -533,7 +533,7 @@ public class InformationCenterController {
 		model.addAttribute("bodyId", "baskinrobbins-information-center-consulting-process");
 		model.addAttribute("bodyClass", "baskinrobbins-information-center-consulting-process");
 		model.addAttribute("activeMenu", "process");
-		return "information-center/consulting.process";
+		return "information-center.consulting.process";
 	}
 
 	@GetMapping("/consulting/condition.do")
@@ -542,7 +542,7 @@ public class InformationCenterController {
 		model.addAttribute("bodyId", "baskinrobbins-information-center-consulting-condition");
 		model.addAttribute("bodyClass", "baskinrobbins-information-center-consulting-condition");
 		model.addAttribute("activeMenu", "condition");
-		return "information-center/consulting.condition";
+		return "information-center.consulting.condition";
 	}
 
 	@GetMapping("/consulting/counsel.do")
@@ -551,7 +551,7 @@ public class InformationCenterController {
 		model.addAttribute("bodyId", "baskinrobbins-information-center-consulting-counsel");
 		model.addAttribute("bodyClass", "baskinrobbins-information-center-consulting-counsel");
 		model.addAttribute("activeMenu", "counsel");
-		return "information-center/consulting.counsel";
+		return "information-center.consulting.counsel";
 	}
 
 	@GetMapping("/consulting/store-list.do")
@@ -595,7 +595,7 @@ public class InformationCenterController {
 		model.addAttribute("activeMenu", "store-list");
 		model.addAttribute("list", list);
 		model.addAttribute("pvo", pvo);
-		return "information-center/consulting.store-list";
+		return "information-center.consulting.store-list";
 	}
 
 
@@ -621,18 +621,12 @@ public class InformationCenterController {
 			e.printStackTrace();
 		}
 
-
-
-
-
-
-
 		model.addAttribute("bodyId", "baskinrobbins-information-center-consulting-store-view");
 		model.addAttribute("bodyClass", "baskinrobbins-information-center-consulting-store-view");
 		model.addAttribute("nextNum", nextNum);
 		model.addAttribute("prevNum", prevNum);
 		model.addAttribute("dto", dto);
-		return "information-center/consulting.store-view";
+		return "information-center.consulting.store-view";
 	}
 
 	@GetMapping("/consulting/faq.do")
@@ -652,7 +646,7 @@ public class InformationCenterController {
 		model.addAttribute("bodyId", "baskinrobbins-information-center-consulting-faq");
 		model.addAttribute("bodyClass", "baskinrobbins-information-center-consulting-faq");
 
-		return "information-center/consulting.faq";
+		return "information-center.consulting.faq";
 	}
 
 	@GetMapping("/store-offer/offer.do")
@@ -660,14 +654,14 @@ public class InformationCenterController {
 
 		model.addAttribute("bodyId", "baskinrobbins-information-center-store-offer-offer");
 		model.addAttribute("bodyClass", "baskinrobbins-information-center-store-offer-offer");
-		return "information-center/store-offer.offer";
+		return "information-center.store-offer.offer";
 	}
 	@GetMapping("/store-offer/register.do")
 	public String StoreOfferRegister(Model model) {
 
 		model.addAttribute("bodyId", "baskinrobbins-information-center-store-offer-register");
 		model.addAttribute("bodyClass", "baskinrobbins-information-center-store-offer-register");
-		return "information-center/store-offer.register";
+		return "information-center.store-offer.register";
 	}
 
 

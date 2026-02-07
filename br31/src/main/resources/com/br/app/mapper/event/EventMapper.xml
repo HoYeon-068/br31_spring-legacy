@@ -28,4 +28,42 @@
 	start_date DESC
   </select>
 
+  <!-- EventDTO view(int seq); -->
+  <select id="view" resultType="com.br.app.domain.event.EventDTO">
+    SELECT
+  	  e.event_id, e.evt_category_id, c.category_name,
+  	  e.title, e.start_date, e.end_date,
+  	  e.img_path, e.event_detail_img,
+  	  e.notice_title, e.notice_content, e.store_scope
+    FROM event e
+    JOIN event_category c ON e.evt_category_id = c.evt_category_id
+    WHERE e.event_id = #{seq}
+  </select>
+	
+  <!-- List<String> selectStoreNames(int eventId); -->
+  <select id="selectStoreNames" resultType="string">
+    SELECT s.store_name
+    FROM event_store es
+    JOIN store s ON es.store_id = s.store_id
+    WHERE es.event_id = #{eventId}
+    ORDER BY s.store_name
+  </select>
+  
+  <!-- List<EventDTO> selectOngoing(int currentEventId); -->
+  <select id="selectOngoing" resultType="com.br.app.domain.event.EventDTO">
+    <![CDATA[
+      SELECT *
+      FROM (
+        SELECT
+          e.event_id, e.title, e.start_date, e.end_date, e.img_path, e.evt_category_id
+        FROM event e
+        WHERE e.event_id <> #{currentEventId}
+          AND (e.end_date IS NULL OR e.end_date >= TRUNC(SYSDATE))
+        ORDER BY CASE WHEN e.end_date IS NULL THEN 1 ELSE 0 END, e.start_date DESC
+      )
+      WHERE ROWNUM <= 2
+    ]]>
+  </select>
+
+  
 </mapper>

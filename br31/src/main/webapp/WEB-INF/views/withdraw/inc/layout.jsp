@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <head>
 
 <meta charset="UTF-8">
@@ -33,24 +34,22 @@
 </head>
 
 
+<body id="${bodyId}" class="${bodyClass}">
 
-<body>
 
-<jsp:include page="/WEB-INF/views/layout/header.jsp" />
-
-  <div class="page-title jc-title">
-	  <div class="title">회원 탈퇴 완료</div>
-  </div>
-  	
-  
-
-  <div class="jc-btn">
-  	 <button type="button" class="jc-mainbtn" onclick="location.href='${pageContext.request.contextPath}/index.do'">홈</button>
-  </div>
+	<!-- header 영역 시작 -->
+	<tiles:insertAttribute name="header" />
+	<!-- header 영역 끝 -->
+	
+	<!-- content 영역 시작 -->	
+	<tiles:insertAttribute name="content"/>
+	<!-- content 영역 끝 -->	
 	
 	
+	<!-- footer 영역 시작 -->
+	<tiles:insertAttribute name="footer" />
+	<!-- footer 영역 끝 -->
+
+
+
 </body>
-
-
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp" />

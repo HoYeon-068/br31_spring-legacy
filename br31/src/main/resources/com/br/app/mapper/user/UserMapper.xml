@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.br.app.mapper.user.UserMapper">
+  
+<!--   // 로그인 -->
+<!-- 	UserDTO selectByIdAndPwd(String userId, String pwd) throws SQLException; -->
+	<select id="selectByIdAndPwd" resultType="com.br.app.domain.user.UserDTO">
+		SELECT user_id, password, name, phone_no, email
+		FROM users
+		WHERE user_id = #{userId}
+	</select>
+	
+
+	
+	
+<!-- 	// 아이디 찾기 -->
+<!-- 	String findUserIdByPhone(String name, String phone) throws SQLException; -->
+	<select id="findUserIdByPhone" resultType="string">
+		SELECT user_id
+		FROM users
+		WHERE name = #{name} AND REPLACE (phone_no, '-', '') =#{phoneNo}
+	</select>
+
+<!-- 	String findUserIdByEmail(String name, String email) throws SQLException; -->
+	<select id="findUserIdByEmail" resultType="string">
+		SELECT user_id
+		FROM users
+		WHERE name =#{name} AND email=#{email}
+	</select>
+<!-- 	// 비밀번호 재발급 -->
+<!-- 	int resetPwd(String userId, String tempPwd ) throws SQLException; -->
+	<update id="resetPwd">
+		UPDATE users
+		SET password=#{tempPwd}
+		WHERE user_id=#{userId}
+	</update>
+
+
+<!-- 	// 중복 체크 -->
+<!-- 	boolean existsByUserId(String userId) throws SQLException; -->
+	<select id="existsByUserId"  parameterType="string" resultType="Integer">
+		SELECT COUNT(*)
+		FROM users
+		WHERE user_id = #{userId}
+	</select>
+<!-- 	boolean existsByNickname(String nickname) throws SQLException; -->
+	<select id="existsByNickname" resultType="Integer">
+		SELECT COUNT(*)
+		FROM users
+		WHERE nickname = #{nickname}
+	</select>	
+<!-- 	boolean existsByEmail(String email) throws SQLException; -->
+	<select id="existsByEmail" resultType="Integer">
+		SELECT COUNT(*)
+		FROM users
+		WHERE email = #{email}
+	</select>
+<!-- 	boolean existsByPhone(String phone) throws SQLException; -->
+	<select id="existsByPhone" resultType="Integer">
+		SELECT COUNT(*)
+		FROM users
+		WHERE phone_no = #{phoneNo}
+	</select>
+	
+	
+<!-- 	// 회원가입 -->
+<!-- 	int insert(UserDTO user) throws SQLException; -->
+	<insert id="insert">
+		INSERT INTO users
+	    (user_id, password, name, phone_no, email, join_date, admin, gender, birth, nickname)
+	     VALUES (#{userId}, #{password}, #{name}, #{phoneNo}, #{email}, SYSDATE, 0, #{gender}, #{birth}, #{nickname})
+	</insert>
+<!-- 	int insertUserTermsBatch(String userId, int[] termsIds) throws SQLException; -->
+	<insert id="insertUserTermsBatch">
+	  INSERT ALL
+	  <foreach collection="termsIds" item="termsId">
+	    INTO user_terms (user_id, terms_id, agreed_yn, agreed_at)
+	    VALUES (#{userId}, #{termsId}, 1, SYSDATE)
+	  </foreach>
+	  SELECT 1 FROM DUAL
+	</insert>
+
+	
+<!-- 	// 마이페이지 -->
+<!-- 	UserDTO selectByUserId(String userId) throws SQLException; -->
+	<select id="selectByUserId" resultType="com.br.app.domain.user.UserDTO">
+		SELECT user_id, password, name, phone_no, email, nickname, profile_img_path, admin
+		FROM users
+		WHERE user_id = #{userId} 
+	</select>
+
+<!-- 	UserDTO selectByUserIdAndNameAndPhone(String userId, String email, String name) throws SQLException; -->
+	<select id="selectByUserIdAndNameAndPhone"  resultType="com.br.app.domain.user.UserDTO">
+		SELECT user_id, name, phone_no
+		FROM users
+		WHERE user_id = #{userId} AND name=#{name} AND REPLACE (phone_no, '-', '')=#{phoneNo}
+	</select>
+
+<!-- 	boolean checkPassword(String userId, String oldPwd) throws Exception; -->
+<!-- 	<select id="checkPassword" resultType="Integer"> -->
+<!-- 		SELECT 1 FROM users WHERE user_id=#{userId} AND password=#{password} -->
+<!-- 	</select> -->
+	<select id="selectPasswordByUserId" resultType="string">
+	  SELECT password
+	  FROM users
+	  WHERE user_id = #{userId}
+	</select>
+<!--     int updatePassword(String userId, String newPwd) throws Exception; -->
+	<update id="updatePassword">
+		UPDATE users SET password=#{newPwd} WHERE user_id=#{userId}
+	</update>
+	
+	<select id="countNicknameUsedByOthers" resultType="int">
+	  SELECT COUNT(*)
+	  FROM users
+	  WHERE nickname = #{nickname}
+	    AND user_id  != #{userId}
+	</select>
+	
+	<select id="countEmailUsedByOthers" resultType="int">
+	  SELECT COUNT(*)
+	  FROM users
+	  WHERE email = #{email}
+	    AND user_id  != #{userId}
+	</select>
+	
+<!--     int updateProfile(String userId, String nickname, String email, String phoneNo, String profileImgPath) throws Exception; -->
+	<update id="updateProfile">
+	  UPDATE users
+	  SET nickname        = NVL(#{nickname, jdbcType=VARCHAR}, nickname),
+	      email           = NVL(#{email, jdbcType=VARCHAR}, email),
+	      phone_no        = NVL(#{phoneNo, jdbcType=VARCHAR}, phone_no),
+	      profile_img_path= NVL(#{profileImgPath, jdbcType=VARCHAR}, profile_img_path)
+	  WHERE user_id = #{userId, jdbcType=VARCHAR}
+	</update>
+
+<!--     // 관리자페이지 -->
+<!--     List<UserDTO> getUserList() throws SQLException; -->
+	<select id="getUserList" resultType="com.br.app.domain.user.UserDTO">
+		SELECT user_id, name, phone_no, email, join_date, gender, birth, nickname
+		FROM users
+		ORDER BY join_date DESC
+	</select>
+
+
+
+
+
+<!--     int deleteUser(String userId) throws SQLException; -->
+	<delete id="deleteUser">
+		DELETE FROM users
+		WHERE user_id =#{userId}
+	</delete>
+  
+  
+  
+  </mapper>
+  
+  

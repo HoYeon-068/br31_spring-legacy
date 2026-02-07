@@ -2,46 +2,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta name="format-detection" content="telephone=no">
-<meta name="format-detection" content="date=no">
-<meta name="format-detection" content="address=no">
-<meta name="format-detection" content="email=no">
-<title>배스킨라빈스</title>
-
-<meta name="description" content="행복을 전하는 프리미엄 아이스크림, 배스킨라빈스 공식 홈페이지 입니다.">
-<meta name="keywords" content="baskinrobbins, br31, 배스킨라빈스, 배라, 베라">
-<meta name="author" content="배스킨라빈스">
-<meta property="og:site_name" content="배스킨라빈스">
-<meta property="og:url" content="https://www.baskinrobbins.co.kr">
-<meta property="og:title" content="배스킨라빈스">
-<meta property="og:description" content="행복을 전하는 프리미엄 아이스크림, 배스킨라빈스 공식 홈페이지 입니다.">
-<meta property="og:image" content="https://www.baskinrobbins.co.kr${pageContext.request.contextPath}/resources/images/common/img_share.png">
-<meta property="og:type" content="website">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendors.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css">
-
-
-
-<script type="module" src="https://bks0c7yrb0.execute-api.ap-northeast-2.amazonaws.com/v1/api/fontstream/djs/?sid=gAAAAABk3G1_eyGB8FmZaMXgewjzvKQwe0I-4Kj9Xj-dKpNnUlp_rsk4w6Z_0UeYWyfihX4Dle9eu9HBqxj-2haSIR5ke8aarBIUuDqDVOLuImctKnYplmDTPSV-Bfn2TzQR4jSr7yknqw7gbTlj_xE3x62PMBY9Y3jC5rjtwuoBrWb2FaAY21Z2idAGvnk9xlfgI9CdciJwW6IGsijBsI592KNSqOLc9CQ4zV1Jziva1IN_NNxkzeG_pkU7_0TogufO4qTNTYRr" charset="utf-8"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/join.css" />
-</head>
 
-
-
-<body>
-
-<jsp:include page="/WEB-INF/views/layout/header.jsp" />
+<!-- csrf -->
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 
   <div class="page-title">
 	  <div class="title">회원가입</div>
@@ -59,7 +25,7 @@
     <div class="row">
       <div class="lab">아이디</div>
       <div class="ctrl">
-        <input type="text" name="user_id" id="user_id" placeholder="아이디를 입력해주세요" />
+        <input type="text" name="userId" id="userId" placeholder="아이디를 입력해주세요" />
         <input type="hidden" id="idChecked" value="false" />
         <button type="button" class="subbtn" id="btnIdCheck">중복확인</button>
       </div>
@@ -123,7 +89,7 @@
 	
 	  <div class="phone-wrap">
 		    <div class="ctrl phone">
-		      <input type="text" name="phone_no" id="phone_no" placeholder="숫자만 입력해주세요." />
+		      <input type="text" name="phoneNo" id="phoneNo" placeholder="숫자만 입력해주세요." />
 		      <button type="button" class="subbtn" id="btnPhoneSend">인증번호 받기</button>
 		    </div>
 		
@@ -243,10 +209,8 @@
     <button type="submit" class="joinbtn">가입하기</button>
   </div>
 </div>
+ <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
   </form>
-
-  </body>
-<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
 
 <script>
 /* join.js 
@@ -258,6 +222,15 @@
  */
 
 $(function () {
+	
+	const csrfToken  = $("meta[name='_csrf']").attr("content");
+	const csrfHeader = $("meta[name='_csrf_header']").attr("content");
+	
+	$(document).ajaxSend(function (e, xhr) {
+		  if (csrfHeader && csrfToken) {
+		    xhr.setRequestHeader(csrfHeader, csrfToken);
+		  }
+		});
 
   // 공통 유틸
   function setMsg($el, msg, type) { // type: "success" | "error"
@@ -398,22 +371,21 @@ $(function () {
   }
 
   // 아이디 입력/중복확인
-  $("#user_id").on("input", function () {
+  $("#userId").on("input", function () {
     invalidateIdCheck();
 
-    const userId = $("#user_id").val().trim();
+    const userId = $("#userId").val().trim();
     const v = validateUserId(userId);
     setMsg($("#idMsg"), v.msg, v.ok ? "success" : "error");
   });
 
   $("#btnIdCheck").on("click", function () {
-	  const userId = $("#user_id").val().trim();
-
+	  const userId = $("#userId").val().trim();
     const v = validateUserId(userId);
     if (!v.ok) {
       setMsg($("#idMsg"), v.msg, "error");
       $("#idChecked").val("false");
-      $("#user_id").focus();
+      $("#userId").focus();
       return;
     }
 
@@ -527,7 +499,7 @@ $(function () {
   });
 
   // 휴대폰 인증 (전송/확인)
-  $("#phone_no").on("input", function () {
+  $("#phoneNo").on("input", function () {
     invalidatePhoneAuth();
  	// 숫자만 남기기(한글/기호 자동 제거)
     const cleaned = normalizePhone($(this).val());
@@ -540,12 +512,12 @@ $(function () {
   });
 
   $("#btnPhoneSend").on("click", function () {
-    const phone = trimVal("#phone_no");
+    const phone = trimVal("#phoneNo");
 
     if (!phone) {
       setMsg($("#phoneMsg"), "휴대폰 번호를 입력하세요.", "error");
       $("#phoneChecked").val("false");
-      $("#phone_no").focus();
+      $("#phoneNo").focus();
       return;
     }
 
@@ -577,13 +549,13 @@ $(function () {
   });
 
   $("#btnPhoneVerify").on("click", function () {
-    const phone = trimVal("#phone_no");
+    const phone = trimVal("#phoneNo");
     const code = trimVal("#phone_code");
 
     if (!phone) {
       setMsg($("#phoneMsg"), "휴대폰 번호를 입력하세요.", "error");
       $("#phoneChecked").val("false");
-      $("#phone_no").focus();
+      $("#phoneNo").focus();
       return;
     }
     if (!code) {
@@ -652,10 +624,10 @@ $(function () {
 	  
 	  
     // 아이디 형식
-    const idv = validateUserId(trimVal("#user_id"));
+    const idv = validateUserId(trimVal("#userId"));
     if (!idv.ok) {
       setMsg($("#idMsg"), idv.msg, "error");
-      $("#user_id").focus();
+      $("#userId").focus();
       return false;
     }
 
@@ -682,17 +654,17 @@ $(function () {
     }
 
     //  휴대폰 숫자만 + 자리수
-    const pv = validatePhone(trimVal("#phone_no"));
+    const pv = validatePhone(trimVal("#phoneNo"));
     if (!pv.ok) {
       setMsg($("#phoneMsg"), pv.msg, "error");
-      $("#phone_no").focus();
+      $("#phoneNo").focus();
       return false;
     }
 
     // 아이디 중복확인 완료 여부
     if ($("#idChecked").val() !== "true") {
       setMsg($("#idMsg"), "아이디 중복확인을 해주세요.", "error");
-      $("#user_id").focus();
+      $("#userId").focus();
       return false;
     }
 
@@ -712,7 +684,7 @@ $(function () {
     // 휴대폰 인증
     if ($("#phoneChecked").val() !== "true") {
       setMsg($("#phoneMsg"), "휴대폰 인증을 완료해주세요.", "error");
-      $("#phone_no").focus();
+      $("#phoneNo").focus();
       return false;
     }
 
@@ -746,4 +718,8 @@ $(function () {
 });
 
 </script>
+
+
+
+
 

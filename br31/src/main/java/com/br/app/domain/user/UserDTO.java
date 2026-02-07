@@ -5,12 +5,14 @@ import java.util.Date;
 import com.br.app.domain.story.StoryDTO;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserDTO {
 	private String userId;
 	private String password;

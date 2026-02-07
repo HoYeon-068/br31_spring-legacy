@@ -3,6 +3,8 @@ package com.br.app.mapper.user;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.br.app.domain.user.UserDTO;
 
 public interface UserMapper {
@@ -10,40 +12,53 @@ public interface UserMapper {
 List<UserDTO> select() throws SQLException;
 	
 	// 로그인
-	UserDTO selectByIdAndPwd(String userId, String pwd) throws SQLException;
-	
+	UserDTO selectByIdAndPwd(@Param("userId") String userId, @Param("password") String pwd) throws SQLException;
+	UserDTO selectByName(String name) throws SQLException;
 	
 	// 아이디 찾기
-	String findUserIdByPhone(String name, String phone) throws SQLException;
-	String findUserIdByEmail(String name, String email) throws SQLException;
+	String findUserIdByPhone(@Param("name") String name,
+            @Param("phoneNo") String phoneNo) throws SQLException;
+	String findUserIdByEmail(@Param("name") String name,
+            @Param("email") String email) throws SQLException;
 
 	// 비밀번호 재발급
-	int resetPwd(String userId, String tempPwd ) throws SQLException;
+	int resetPwd(@Param("userId") String userId, @Param("tempPwd") String tempPwd ) throws SQLException;
 
 
 
 	// 중복 체크
-	boolean existsByUserId(String userId) throws SQLException;
-	boolean existsByNickname(String nickname) throws SQLException;
-	boolean existsByEmail(String email) throws SQLException;
-	boolean existsByPhone(String phone) throws SQLException;
+	int existsByUserId(String userId) throws SQLException;
+	int existsByNickname(String nickname) throws SQLException;
+	int existsByEmail(String email) throws SQLException;
+	int existsByPhone(String phone) throws SQLException;
 
 	// 회원가입
 	int insert(UserDTO user) throws SQLException;
-	int insertUserTermsBatch(String userId, int[] termsIds) throws SQLException;
+	int insertUserTermsBatch(@Param("userId") String userId,
+            @Param("termsIds") int[] termsIds) throws SQLException;
 	
 	// 마이페이지
-	UserDTO selectByUserId(String userId) throws SQLException;
-	UserDTO selectByUserIdAndNameAndPhone(String userId, String email, String name) throws SQLException;
-	boolean checkPassword(String userId, String oldPwd) throws Exception;
-    int updatePassword(String userId, String newPwd) throws Exception;
-    boolean isNicknameAvailable(String myUserId, String nickname) throws Exception;
-    boolean isEmailAvailable(String myUserId, String email) throws Exception;
-    int updateProfile(String userId, String nickname, String email, String phoneNo, String profileImgPath) throws Exception;
+	UserDTO selectByUserId(@Param("userId") String userId) throws SQLException;
+	UserDTO selectByUserIdAndNameAndPhone(@Param("userId") String userId,
+		    @Param("name") String name,
+		    @Param("phoneNo") String phoneNo) throws SQLException;
 
-    // 관리자페이지
+	String selectPasswordByUserId(@Param("userId") String userId) throws SQLException;
+	
+	int updatePassword(@Param("userId") String userId, @Param("newPwd") String newPwd) throws Exception;
+	int countNicknameUsedByOthers(@Param("userId") String userId, @Param("nickname") String nickname) throws SQLException;
+    int countEmailUsedByOthers(@Param("userId") String userId, @Param("email") String email) throws SQLException;
+    int updateProfile(
+    		  @Param("userId") String userId,
+    		  @Param("nickname") String nickname,
+    		  @Param("email") String email,
+    		  @Param("phoneNo") String phoneNo,
+    		  @Param("profileImgPath") String profileImgPath
+    		) throws Exception;
+
+    // 관리자페이지/회원탈퇴
     List<UserDTO> getUserList() throws SQLException;
-    int deleteUser(String userId) throws SQLException;
+    int deleteUser(@Param("userId") String userId) throws SQLException;
 
 	
 }
