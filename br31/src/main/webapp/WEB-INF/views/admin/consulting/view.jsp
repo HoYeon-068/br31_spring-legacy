@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
 <div class="container-fluid">
 
@@ -16,10 +18,14 @@
       </a>
 
       <c:if test="${dto.status != 1}">
-        <a class="btn btn-success btn-sm"
-           href="${pageContext.request.contextPath}/admin/consulting/complete.do?id=${dto.consultingId}">
-          완료처리
-        </a>
+        <form action="${pageContext.request.contextPath}/admin/consulting/complete.do"
+	        method="post" style="display:inline;">
+	    <sec:csrfInput/>
+	    <input type="hidden" name="id" value="${dto.consultingId}">
+	    <button type="submit" class="btn btn-success btn-sm">
+	      완료처리
+	    </button>
+	  </form>
       </c:if>
 
       <c:if test="${dto.status == 1}">

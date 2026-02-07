@@ -57,5 +57,164 @@
     )
   </insert>
 
+  <!-- int insertPlazaFile(int plazaId, String fileName, String origName); -->
+  <insert id="insertPlazaFile">
+	  INSERT INTO plaza_file (plaza_file_id, plaza_id, file_name, orig_name)
+	  VALUES (PLAZA_FILE_SEQ.NEXTVAL, #{plazaId}, #{fileName}, #{origName})
+  </insert>
+  
+  <!-- int insertCollabo(CollaboDTO dto); -->
+  <insert id="insertCollabo">
+    INSERT INTO collabo (collabo_id,tel,company_name,company_email,name,plaza_id)
+    VALUES (collabo_seq.NEXTVAL, #{tel}, #{companyName}, #{companyEmail}, #{name}, #{plazaId})
+  </insert>
+  
+  <!-- List<PlazaSelectDTO> selectWithLike(String loginUserId, boolean withLike); -->
+  <select id="selectWithLike" resultType="com.br.app.domain.plaza.PlazaSelectDTO">
+    SELECT
+      p.plaza_id,
+      p.title,
+      p.plaza_category_id,
+      p.content,
+      SUBSTR(p.user_id, 1, 3) || RPAD('*', LENGTH(p.user_id) - 3, '*') user_id,
+      CASE WHEN pl.like_id IS NULL THEN 0 ELSE 1 END liked
+    FROM plaza p
+    LEFT JOIN plaza_like pl
+      ON pl.plaza_id = p.plaza_id
+     AND pl.user_id  = #{loginUserId}
+    WHERE p.status = 0
+    ORDER BY p.plaza_id DESC
+  </select>
+  
+  <!-- List<PlazaSelectDTO> selectCategoryWithLike(String categoryId, String loginUserId, boolean withLike); -->
+  <select id="selectCategoryWithLike" resultType="com.br.app.domain.plaza.PlazaSelectDTO">
+    SELECT
+      p.plaza_id,
+      p.title,
+      p.plaza_category_id,
+      p.content,
+      SUBSTR(p.user_id, 1, 3) || RPAD('*', LENGTH(p.user_id) - 3, '*') user_id,
+      CASE WHEN pl.like_id IS NULL THEN 0 ELSE 1 END liked
+    FROM plaza p
+    LEFT JOIN plaza_like pl
+      ON pl.plaza_id = p.plaza_id
+     AND pl.user_id  = #{loginUserId}
+    WHERE p.plaza_category_id = #{categoryId}
+      AND p.status = 0
+    ORDER BY p.plaza_id DESC
+  </select>
+  
+  <!-- PlazaViewDTO viewWithLike(int seq, String loginUserId, boolean withLike); -->
+  <select id="viewWithLike" resultType="com.br.app.domain.plaza.PlazaViewDTO">
+    SELECT
+      u.name,
+      p.plaza_id,
+      p.title,
+      p.content,
+      p.is_author_public,
+      p.plaza_category_id,
+      CASE WHEN pl.like_id IS NULL THEN 0 ELSE 1 END liked
+    FROM plaza p
+    JOIN users u ON u.user_id = p.user_id
+    LEFT JOIN plaza_like pl
+      ON pl.plaza_id = p.plaza_id
+     AND pl.user_id  = #{loginUserId}
+    WHERE p.plaza_id = #{seq}
+      AND p.status = 0
+  </select>
+  
+  <!-- List<ConsultingDTO> selectAdminList(); -->
+  <select id="selectAdminList" resultType="com.br.app.domain.plaza.ConsultingDTO">
+    SELECT consulting_id, name, tel, email, preferred_region, status
+    FROM consulting
+    ORDER BY consulting_id DESC
+  </select>
+  
+  <!-- ConsultingDTO selectAdminView(int consultingId);-->
+  <select id="selectAdminView" resultType="com.br.app.domain.plaza.ConsultingDTO">
+    SELECT
+      consulting_id,
+      investment_amount,
+      desired_opening_date,
+      store_area,
+      personal_info_consent,
+      content,
+      name,
+      tel,
+      time,
+      email,
+      preferred_region,
+      zipcode,
+      address,
+      status
+    FROM consulting
+    WHERE consulting_id = #{consultingId}
+  </select>
+  
+  <!-- int updateAdminStatus(int consultingId, int status); -->
+  <update id="updateAdminStatus">
+    UPDATE consulting
+    SET status = #{status}
+    WHERE consulting_id = #{consultingId}
+  </update>
+  
+  <!-- List<PlazaSelectDTO> adminSelect(@Param("category") String category); -->
+  <select id="adminSelect" resultType="com.br.app.domain.plaza.PlazaSelectDTO">
+    SELECT
+      plaza_id,
+      title,
+      plaza_category_id,
+      content,
+      status,
+      SUBSTR(user_id, 1, 3) || RPAD('*', LENGTH(user_id) - 3, '*') user_id
+    FROM plaza
+    <where>
+      <if test="category != null and category != '' and category != 'ALL'">
+	    AND plaza_category_id = #{category}
+	  </if>
+    </where>
+    ORDER BY plaza_id DESC
+  </select>
+  
+  <!-- PlazaViewDTO adminView(int seq);-->
+  <select id="adminView" resultType="com.br.app.domain.plaza.PlazaViewDTO">
+    SELECT
+      u.name,
+      p.plaza_id,
+      p.title,
+      p.content,
+      p.is_author_public,
+      p.plaza_category_id,
+      p.status
+    FROM plaza p
+    JOIN users u ON u.user_id = p.user_id
+    WHERE p.plaza_id = #{seq}
+  </select>
+  
+  <!-- int updatePlazaStatus(int plazaId, int status);-->
+  <update id="updatePlazaStatus">
+    UPDATE plaza
+    SET status = #{status}
+    WHERE plaza_id = #{plazaId}
+  </update>
+  
+  <!-- boolean existsLike(@Param("plazaId") int plazaId, @Param("userId") String userId); -->
+  <select id="existsLike" resultType="int">
+    SELECT COUNT(1)
+    FROM plaza_like
+    WHERE plaza_id = #{plazaId}
+    AND user_id  = #{userId}
+  </select>
+  
+  <!-- int insertLike(@Param("plazaId") int plazaId, @Param("userId") String userId); -->
+  <insert id="insertLike">
+    INSERT INTO plaza_like (like_id, plaza_id, user_id)
+	VALUES (PLAZA_LIKE_SEQ.NEXTVAL, #{plazaId}, #{userId})
+  </insert>
+  
+  <!-- int deleteLike(@Param("plazaId") int plazaId, @Param("userId") String userId); -->
+  <delete id="deleteLike">
+     DELETE FROM plaza_like WHERE plaza_id=#{plazaId} AND user_id=#{userId}
+  </delete>
   
 </mapper>

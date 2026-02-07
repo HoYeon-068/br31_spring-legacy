@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -90,8 +91,7 @@
                           method="post"
                           enctype="multipart/form-data">
 
-                        <input type="hidden" name="csrf_token"
-                               value="MTc2NjMwOTQxOGIwMzIxYWJjMWMzOWIyNDVhZDhjMTU4YzYwN2NmY2U0ZThiNzg4NWVjY2E5MmE5YTQ4OWU4NWQxMzAzNzAyMDU0Mjc4NTY3MmM5OGM3NmUx">
+						<sec:csrfInput/>
                         <input type="hidden" name="category" value="B">
 
                         <legend>중소기업 콜라보레이션 입력 폼</legend>
@@ -186,15 +186,15 @@
                                     <dl class="plaza-form-field__content plaza-form-field__content--left">
                                         <div class="plaza-form-field__item">
                                             <dt class="plaza-form-field__name form__name">이름</dt>
-                                            <dd class="plaza-form-field__area user-name">${sessionScope.loginUser.name}</dd>
+                                            <dd class="plaza-form-field__area user-name">${loginUser.name}</dd>
                                         </div>
                                         <div class="plaza-form-field__item">
                                             <dt class="plaza-form-field__name form__name">이메일</dt>
-                                            <dd class="plaza-form-field__area user-email">${sessionScope.loginUser.email}</dd>
+                                            <dd class="plaza-form-field__area user-email">${loginUser.email}</dd>
                                         </div>
                                         <div class="plaza-form-field__item">
                                             <dt class="plaza-form-field__name form__name">연락처</dt>
-                                            <dd class="plaza-form-field__area user-tel">${sessionScope.loginUser.phone_no}</dd>
+                                            <dd class="plaza-form-field__area user-tel">${loginUser.phoneNo}</dd>
                                         </div>
                                         <div class="plaza-form-field__item">
                                             <dt class="plaza-form-field__name form__name">회사명 공개</dt>

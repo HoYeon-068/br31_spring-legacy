@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div class="container-fluid">
 
@@ -71,10 +72,14 @@
                     <button type="button" class="btn btn-outline-secondary btn-sm" disabled>완료</button>
                   </c:when>
                   <c:otherwise>
-                    <a class="btn btn-outline-success btn-sm"
-                       href="${pageContext.request.contextPath}/admin/consulting/complete.do?id=${c.consultingId}">
-                      완료처리
-                    </a>
+                    <form action="${pageContext.request.contextPath}/admin/consulting/complete.do"
+					      method="post" style="display:inline;">
+					  <sec:csrfInput/>
+					  <input type="hidden" name="id" value="${c.consultingId}">
+					  <button type="submit" class="btn btn-outline-success btn-sm">
+					    완료처리
+					  </button>
+					</form>
                   </c:otherwise>
                 </c:choose>
               </td>
