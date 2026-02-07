@@ -1,6 +1,9 @@
 package com.br.app.controller.user;
 
 import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,7 +11,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.br.app.domain.user.UserDTO;
@@ -23,6 +30,11 @@ public class MypageController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    private void setBody(Model model, String id, String classname) {
+        model.addAttribute("bodyId", id);
+        model.addAttribute("bodyClass", classname);
+    }
 
     private String getLoginUserIdOrNull() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -46,7 +58,8 @@ public class MypageController {
         UserDTO loginUser = getLoginUserOrNull();
         if (loginUser == null) return "redirect:/login/login.do";
         model.addAttribute("loginUser", loginUser);
-        return "mypage/mypage";
+        setBody(model, "baskinrobbins-mypage", "baskinrobbins-mypage");
+        return "mypage.mypage";
     }
 
     @GetMapping("/profileEdit.do")
@@ -54,7 +67,8 @@ public class MypageController {
         UserDTO loginUser = getLoginUserOrNull();
         if (loginUser == null) return "redirect:/login/login.do";
         model.addAttribute("loginUser", loginUser);
-        return "mypage/profileEdit";
+        setBody(model, "baskinrobbins-profileEdit", "baskinrobbins-profileEdit");
+        return "mypage.profileEdit";
     }
 
     @PostMapping("/profileEditSubmit.do")
@@ -74,17 +88,18 @@ public class MypageController {
         if (userId == null) return "redirect:/login/login.do";
 
         UserDTO dbUser = userMapper.selectByUserId(userId);
+        setBody(model, "baskinrobbins-profileEdit", "baskinrobbins-profileEdit");
 
         if (oldPassword == null || oldPassword.trim().isEmpty()) {
             model.addAttribute("error", "저장하려면 현재 비밀번호를 입력해야 합니다.");
             model.addAttribute("loginUser", dbUser);
-            return "mypage/profileEdit";
+            return "mypage.profileEdit";
         }
 
         if (!passwordEncoder.matches(oldPassword, dbUser.getPassword())) {
             model.addAttribute("error", "현재 비밀번호가 올바르지 않습니다.");
             model.addAttribute("loginUser", dbUser);
-            return "mypage/profileEdit";
+            return "mypage.profileEdit";
         }
 
         // nickname 중복 체크 (변경된 경우만)
@@ -93,7 +108,7 @@ public class MypageController {
             if (cnt > 0) {
                 model.addAttribute("error", "이미 사용 중인 닉네임입니다.");
                 model.addAttribute("loginUser", dbUser);
-                return "mypage/profileEdit";
+                return "mypage.profileEdit";
             }
         } else {
             nickname = null;
@@ -111,7 +126,7 @@ public class MypageController {
             if (cnt > 0) {
                 model.addAttribute("error", "이미 사용 중인 이메일입니다.");
                 model.addAttribute("loginUser", dbUser);
-                return "mypage/profileEdit";
+                return "mypage.profileEdit";
             }
         } else {
             email = null;
@@ -172,6 +187,64 @@ public class MypageController {
         map.put("count", cnt);
         return map;
     }
+
+    
+    //회원탈퇴
+    @GetMapping("/withdraw.do")
+    public String withdrawPage(Model model) throws SQLException {
+        UserDTO loginUser = getLoginUserOrNull();
+        if (loginUser == null) return "redirect:/login/login.do";
+        setBody(model, "baskinrobbins-withdraw", "baskinrobbins-withdraw");
+        model.addAttribute("loginUser", loginUser);
+        return "mypage.withdraw"; 
+    }
+    
+    @PostMapping("/withdrawSubmit.do")
+    public String withdrawSubmit(
+            @RequestParam String password,
+            HttpServletRequest request,
+            RedirectAttributes rttr,
+            Model model
+    ) throws Exception {
+    	setBody(model, "baskinrobbins-withdraw", "baskinrobbins-withdraw");
+        UserDTO loginUser = getLoginUserOrNull();
+        if (loginUser == null) return "redirect:/login/login.do";
+
+        // 1) 비밀번호 입력 체크
+        if (password == null || password.isBlank()) {
+            model.addAttribute("error", "비밀번호를 입력해주세요.");
+            model.addAttribute("loginUser", loginUser);
+            return "mypage.withdraw";
+        }
+
+        // 2) DB 유저 다시 조회(최신 비번)
+        UserDTO dbUser = userMapper.selectByUserId(loginUser.getUserId()); 
+
+        // 3) 비밀번호 검증
+        if (!passwordEncoder.matches(password, dbUser.getPassword())) {
+            model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+            model.addAttribute("loginUser", loginUser);
+            return "mypage.withdraw";
+        }
+
+        // 4) 관리자 계정 탈퇴 금지 (필요한 값으로 바꿔)
+        if ("admin".equalsIgnoreCase(dbUser.getUserId())) { // 필드명 수정
+            model.addAttribute("error", "관리자 계정은 탈퇴할 수 없습니다.");
+            model.addAttribute("loginUser", loginUser);
+            return "mypage.withdraw";
+        }
+
+        // 5) 삭제 실행 (Mapper에 delete 추가 필요)
+        userMapper.deleteUser(dbUser.getUserId()); // 메서드/파라미터명 맞춰 수정
+
+        // 6) 로그아웃: 세션 무효화 + 시큐리티 컨텍스트 삭제
+        SecurityContextHolder.clearContext();
+        request.getSession().invalidate();
+
+        rttr.addFlashAttribute("msg", "회원 탈퇴가 완료되었습니다.");
+        return "redirect:/withdraw/withdrawResult.do";
+    }
+
 
 
 }

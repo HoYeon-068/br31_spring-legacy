@@ -53,7 +53,7 @@
 
 	<!-- 회원 관리 -->
     <li class="nav-item mb-2">
-      <a class="nav-link text-white" href="${pageContext.request.contextPath}/admin/main.do?view=adminUser">회원 관리</a>
+      <a class="nav-link text-white" href="${pageContext.request.contextPath}/admin/user/adminUser.do">회원 관리</a>
     </li>
     
     

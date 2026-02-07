@@ -1,61 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-<head>
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta name="format-detection" content="telephone=no">
-<meta name="format-detection" content="date=no">
-<meta name="format-detection" content="address=no">
-<meta name="format-detection" content="email=no">
-<title>배스킨라빈스</title>
-
-<meta name="description" content="행복을 전하는 프리미엄 아이스크림, 배스킨라빈스 공식 홈페이지 입니다.">
-<meta name="keywords" content="baskinrobbins, br31, 배스킨라빈스, 배라, 베라">
-<meta name="author" content="배스킨라빈스">
-<meta property="og:site_name" content="배스킨라빈스">
-<meta property="og:url" content="https://www.baskinrobbins.co.kr">
-<meta property="og:title" content="[배스킨라빈스] 브랜드 스토리">
-<meta property="og:description" content="배스킨라빈스의 브랜드 스토리를 확인해보세요.">
-<meta property="og:image" content="https://www.baskinrobbins.co.kr${pageContext.request.contextPath}/resources/images/common/img_share.png">
-<meta property="og:type" content="website">
-
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendors.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css">
-
-
-<script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
-
-<style>
-/* 홀수: 왼쪽 원형 */
-.story-story__item:nth-child(odd) .story-story__title,
-.story-story__item:nth-child(odd) .story-story__description{
-  padding-right: 0;
-}
-
-/* 짝수: 오른쪽 원형 */
-.story-story__item:nth-child(even) .story-story__title,
-.story-story__item:nth-child(even) .story-story__description{
-  padding-left: 0;
-  padding-right: 300px;
-}
-
-.story-story__visual{
-  max-width: 500px;   /* 기존보다 조금 줄이기 (예: 520 → 420) */
-}
-
-</style>
-
-</head>
-<body id="baskinrobbins-story-story" class="baskinrobbins-story-story" data-aos-easing="ease" data-aos-duration="400" data-aos-delay="0">
-
-<div class="skipnav"><a href="#content">본문 영역으로 바로가기</a></div>
-
-<jsp:include page="/WEB-INF/views/layout/header.jsp" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/story.css" />
 
 <div class="site-container">
     <nav class="page-menu">
@@ -121,7 +67,7 @@
           ${s.storyDescription}
         </p>
 
-        <!-- YEAR + (로고스토리/아이콘은 네 원본 구조에 맞춰 유지) -->
+        <!-- YEAR  -->
         <div class="story-story__logo-story">
           <p class="story-story__logo-story--year">
             <span>YEAR</span> ${s.storyYear}
@@ -174,7 +120,5 @@
 
     </section>
 </div>
-
-<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
 
 

@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-  <!-- Root Spring Container -->
+  <!-- Root Spring Container (공통 빈: DB, MyBatis, Tx, Security 등) -->
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
@@ -28,7 +28,7 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
 
-  <!-- *.do / *.ajax -->
+  <!-- ✅ .do / .ajax 요청만 스프링이 받도록 (수업 방식) -->
   <servlet-mapping>
     <servlet-name>appServlet</servlet-name>
     <url-pattern>*.do</url-pattern>
@@ -70,6 +70,8 @@
   </filter-mapping>
 
   <!-- ✅ Security Filter Chain (multipartFilter 아래에 오면 실패함. 반드시 이 위치) -->
+  <filter>
+  <!-- (선택) Spring Security Filter Chain -->
   <filter>
     <filter-name>springSecurityFilterChain</filter-name>
     <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>

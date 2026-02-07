@@ -138,7 +138,21 @@
 
 <!--     // 관리자페이지 -->
 <!--     List<UserDTO> getUserList() throws SQLException; -->
+	<select id="getUserList" resultType="com.br.app.domain.user.UserDTO">
+		SELECT user_id, name, phone_no, email, join_date, gender, birth, nickname
+		FROM users
+		ORDER BY join_date DESC
+	</select>
+
+
+
+
+
 <!--     int deleteUser(String userId) throws SQLException; -->
+	<delete id="deleteUser">
+		DELETE FROM users
+		WHERE user_id =#{userId}
+	</delete>
   
   
   

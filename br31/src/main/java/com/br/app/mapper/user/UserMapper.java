@@ -39,7 +39,9 @@ List<UserDTO> select() throws SQLException;
 	
 	// 마이페이지
 	UserDTO selectByUserId(@Param("userId") String userId) throws SQLException;
-	UserDTO selectByUserIdAndNameAndPhone(String userId, String email, String name) throws SQLException;
+	UserDTO selectByUserIdAndNameAndPhone(@Param("userId") String userId,
+		    @Param("name") String name,
+		    @Param("phoneNo") String phoneNo) throws SQLException;
 
 	String selectPasswordByUserId(@Param("userId") String userId) throws SQLException;
 	
@@ -54,9 +56,9 @@ List<UserDTO> select() throws SQLException;
     		  @Param("profileImgPath") String profileImgPath
     		) throws Exception;
 
-    // 관리자페이지
+    // 관리자페이지/회원탈퇴
     List<UserDTO> getUserList() throws SQLException;
-    int deleteUser(String userId) throws SQLException;
+    int deleteUser(@Param("userId") String userId) throws SQLException;
 
 	
 }

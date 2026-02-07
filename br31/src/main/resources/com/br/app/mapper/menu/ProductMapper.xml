@@ -157,4 +157,42 @@
         ON p.category_id = c.category_id
     ORDER BY p.products_id
 </select>
+
+
+
+<insert id="insert">
+	INSERT INTO products (
+        products_id,
+        category_id,
+        product_name,
+        english_name,
+        sub_title,
+        description,
+        product_status,
+        img_path,
+        bg_color,
+        span_color,
+        poster_path,
+        price,
+        release_date
+    ) VALUES (
+        products_seq.NEXTVAL,
+        #{dto.categoryId},
+        #{dto.productName},
+        #{dto.englishName},
+        #{dto.subTitle,jdbcType=VARCHAR},
+        #{dto.description},
+        #{dto.productStatus},
+        #{dto.imgPath},
+        #{dto.bgColor},
+        #{dto.spanColor},
+        #{dto.posterPath},
+        #{dto.price, jdbcType=INTEGER},
+        SYSDATE
+    )
+</insert>
+
+<select id="getProductSeqNum" resultType="Integer">
+	SELECT products_seq.CURRVAL FROM dual
+</select>
 </mapper>  
