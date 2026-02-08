@@ -10,8 +10,8 @@
     <div class="card-body">
 
       <!-- enctype 꼭 필요: 이미지 업로드 -->
-      <form action="${pageContext.request.contextPath}/admin/product/write.do" method="post" enctype="multipart/form-data" class="row g-3">
-
+      <form action="${pageContext.request.contextPath}/admin/product/write.do?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data" class="row g-3">
+ 		
         <!-- 상품명 -->
         <div class="col-md-6">
           <label class="form-label fw-semibold">상품명</label>
@@ -119,17 +119,17 @@
            class="form-control" value="#000000" placeholder="#000000">
   </div>
 </div>
-
-        <!-- 버튼 -->
+<!-- 버튼 -->
         <div class="col-12 d-flex gap-2 justify-content-end mt-2">
           <a href="list.do" class="btn btn-light">취소</a>
           <button type="submit" class="btn btn-primary">상품 추가</button>
         </div>
-
       </form>
     </div>
   </div>
-
+    
+        
+		
 </div>
 
 <script>

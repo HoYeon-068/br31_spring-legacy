@@ -1,72 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="format-detection" content="date=no">
-    <meta name="format-detection" content="address=no">
-    <meta name="format-detection" content="email=no">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close" />
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-    <title>배스킨라빈스</title>
-
-    <meta name="description" content="배스킨라빈스의 이벤트 상세 페이지입니다.">
-    <meta property="og:title" content="[배스킨라빈스] 이벤트">
-    <meta property="og:description" content="배스킨라빈스의 이벤트 상세 페이지입니다.">
-    <meta property="og:image" content="${pageContext.request.contextPath}/resources/images/common/img_share.png">
-    <meta property="og:type" content="website">
-
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendors.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css">
-
-    <script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
-
-    <style>
-        .find-store { display: none; }
-    </style>
-</head>
-
-<body id="baskinrobbins-play-event-view" class="baskinrobbins-play-event-view">
-
-<div class="skipnav"><a href="#content">본문 영역으로 바로가기</a></div>
-
-<!-- HEADER -->
-<jsp:include page="/WEB-INF/views/layout/header.jsp" />
-
-<!-- CONTENT -->
-<section class="site-container">
-
-    <!-- 상단 page-menu -->
-    <nav class="page-menu">
-        <ul class="page-menu__list">
-            <li class="page-menu__item page-menu__item--active">
-                <a href="${pageContext.request.contextPath}/play/event/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">이벤트</span></div>
-                </a>
-            </li>
-            <li class="page-menu__item">
-                <a href="${pageContext.request.contextPath}/play/plaza/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">배라광장</span></div>
-                </a>
-            </li>
-            <li class="page-menu__item">
-                <a href="${pageContext.request.contextPath}/play/recipe/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">BR 레시피</span></div>
-                </a>
-            </li>
-            <li class="page-menu__item">
-                <a href="${pageContext.request.contextPath}/play/myflavor/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">마이플레이버 리스트</span></div>
-                </a>
-            </li>
-        </ul>
-    </nav>
 
     <!-- 본문 -->
     <div id="content" class="event-view event-view--play">
@@ -83,17 +18,25 @@
                         </h3>
 
                         <p class="event-view__time">
-                            <c:choose>
-                                <c:when test="${empty dto.startDate and empty dto.endDate}">
-                                    상시 운영
-                                </c:when>
-                                <c:when test="${not empty dto.startDate and empty dto.endDate}">
-                                    ${dto.startDate} ~ 소진 시 까지
-                                </c:when>
-                                <c:otherwise>
-                                    ${dto.startDate} ~ ${dto.endDate}
-                                </c:otherwise>
-                            </c:choose>
+                            <p class="event-view__time">
+							  <c:choose>
+							    <c:when test="${empty dto.startDate and empty dto.endDate}">
+							      상시 운영
+							    </c:when>
+							
+							    <c:when test="${not empty dto.startDate and empty dto.endDate}">
+							      <fmt:formatDate value="${dto.startDate}" pattern="yyyy-MM-dd" timeZone="Asia/Seoul"/>
+							      ~ 소진 시 까지
+							    </c:when>
+							
+							    <c:otherwise>
+							      <fmt:formatDate value="${dto.startDate}" pattern="yyyy-MM-dd" timeZone="Asia/Seoul"/>
+							      ~
+							      <fmt:formatDate value="${dto.endDate}" pattern="yyyy-MM-dd" timeZone="Asia/Seoul"/>
+							    </c:otherwise>
+							  </c:choose>
+							</p>
+
                         </p>
                     </div>
                 </div>
@@ -218,18 +161,21 @@
 	
 	                        <p class="event-view-list__time">
 	                            <c:choose>
-	                                <c:when test="${empty e.startDate and empty e.endDate}">
-	                                    상시 운영
-	                                </c:when>
-	
-	                                <c:when test="${not empty e.startDate and empty e.endDate}">
-	                                    ${e.startDate} ~ 소진 시 까지
-	                                </c:when>
-	
-	                                <c:otherwise>
-	                                    ${e.startDate} ~ ${e.endDate}
-	                                </c:otherwise>
-	                            </c:choose>
+								    <c:when test="${empty e.startDate and empty e.endDate}">
+								      상시 운영
+								    </c:when>
+								    
+								    <c:when test="${not empty e.startDate and empty e.endDate}">
+								      <fmt:formatDate value="${e.startDate}" pattern="yyyy-MM-dd" timeZone="Asia/Seoul"/>
+								      ~ 소진 시 까지
+								    </c:when>
+								    
+								    <c:otherwise>
+								      <fmt:formatDate value="${e.startDate}" pattern="yyyy-MM-dd" timeZone="Asia/Seoul"/>
+								      ~
+								      <fmt:formatDate value="${e.endDate}" pattern="yyyy-MM-dd" timeZone="Asia/Seoul"/>
+								    </c:otherwise>
+								  </c:choose>
 	                        </p>
 	                    </div>
 	                </a>
@@ -240,12 +186,8 @@
 	</c:if>
 	
     </div>
-</section>
-
-<!-- FOOTER -->
-<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
-
-<script>
+    
+    <script>
     (function() {
         const $popup = document.querySelector('.find-store');
         const $btn = document.querySelector('.find-store-button');
@@ -307,6 +249,3 @@
         closePopup();
     })();
 </script>
-
-</body>
-</html>

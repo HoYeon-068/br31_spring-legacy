@@ -17,17 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.br.app.domain.admin.AdminFaqDTO;
 import com.br.app.domain.menu.CategoryDTO;
 import com.br.app.domain.menu.ProductDTO;
+import com.br.app.domain.menu.ProductUploadDTO;
 import com.br.app.domain.plaza.ConsultingDTO;
 import com.br.app.domain.plaza.PlazaSelectDTO;
 import com.br.app.domain.plaza.PlazaViewDTO;
-import com.br.app.domain.menu.ProductUploadDTO;
 import com.br.app.domain.user.UserDTO;
+import com.br.app.mapper.admin.AdminFaqMapper;
 import com.br.app.mapper.menu.CategoryMapper;
 import com.br.app.mapper.menu.ProductMapper;
-import com.br.app.mapper.plaza.PlazaMapper;
 import com.br.app.mapper.menu.ProductTagMapper;
+import com.br.app.mapper.plaza.PlazaMapper;
 import com.br.app.mapper.user.UserMapper;
 
 @Controller
@@ -45,6 +47,9 @@ public class AdminController {
 	
 	@Autowired
 	private ProductTagMapper productTagDao;
+	
+	@Autowired
+	private AdminFaqMapper adminFaqMapper;
 	
 	@GetMapping("/main.do")
 	public String adminMain(Model model
@@ -311,6 +316,65 @@ public class AdminController {
 	) {
 	    plazaMapper.updateAdminStatus(id, 1);
 	    return "redirect:/admin/consulting/view.do?id=" + id;
+	}
+
+	// FAQ
+	
+	@GetMapping("/faq/list.do")
+	public String adminFaqList(Model model) {
+	    List<AdminFaqDTO> list = adminFaqMapper.selectList();
+	    model.addAttribute("list", list);
+	    return "admin.faq.list";
+	}
+
+	@GetMapping("/faq/write.do")
+	public String adminFaqWrite() {
+	    return "admin.faq.write";
+	}
+
+	@PostMapping("/faq/write.do")
+	public String adminFaqWritePost(
+	        @RequestParam String question,
+	        @RequestParam String answer
+	) {
+	    AdminFaqDTO dto = AdminFaqDTO.builder()
+	            .question(question)
+	            .answer(answer)
+	            .faqCategoryId(1L)
+	            .build();
+
+	    adminFaqMapper.insert(dto);
+	    return "redirect:/admin/faq/list.do";
+	}
+
+	@GetMapping("/faq/edit.do")
+	public String adminFaqEdit(
+	        @RequestParam(required = false) Long faqId,
+	        Model model
+	) {
+	    AdminFaqDTO dto = null;
+	    if (faqId != null) {
+	        dto = adminFaqMapper.selectOne(faqId);
+	    }
+	    model.addAttribute("dto", dto);
+	    return "admin.faq.edit";
+	}
+
+	@PostMapping("/faq/edit.do")
+	public String adminFaqEditPost(AdminFaqDTO dto) {
+	    if (dto.getFaqId() == null) {
+	        dto.setFaqCategoryId(1L);
+	        adminFaqMapper.insert(dto);
+	    } else {
+	        adminFaqMapper.update(dto);
+	    }
+	    return "redirect:/admin/faq/list.do";
+	}
+
+	@PostMapping("/faq/delete.do")
+	public String adminFaqDelete(@RequestParam Long faqId) {
+	    adminFaqMapper.delete(faqId);
+	    return "redirect:/admin/faq/list.do";
 	}
 
 	

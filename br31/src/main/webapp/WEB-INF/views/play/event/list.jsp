@@ -1,73 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="format-detection" content="date=no">
-    <meta name="format-detection" content="address=no">
-    <meta name="format-detection" content="email=no">
-
-    <title>배스킨라빈스</title>
-
-    <meta name="description" content="행복을 전하는 프리미엄 아이스크림, 배스킨라빈스 공식 홈페이지 입니다.">
-    <meta name="keywords" content="baskinrobbins, br31, 배스킨라빈스, 배라, 베라">
-    <meta name="author" content="배스킨라빈스">
-    <meta property="og:site_name" content="배스킨라빈스">
-    <meta property="og:url" content="${pageContext.request.contextPath}/index.jsp">
-    <meta property="og:title" content="[배스킨라빈스] 이벤트">
-    <meta property="og:description" content="배스킨라빈스의 이벤트 메뉴입니다.">
-    <meta property="og:image" content="${pageContext.request.contextPath}/resources/images/common/img_share.png">
-    <meta property="og:type" content="website">
-
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendors.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/app.css">
-
-    <script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
-</head>
-
-<body id="baskinrobbins-play-event-list" class="baskinrobbins-play-event-list">
-
-<div class="skipnav">
-    <a href="#content">본문 영역으로 바로가기</a>
-</div>
-
-<!-- HEADER -->
-<jsp:include page="/WEB-INF/views/layout/header.jsp" />
-
-<!-- CONTENT -->
-<section class="site-container">
-
-    <!-- 상단 페이지 메뉴 -->
-   <nav class="page-menu">
-        <ul class="page-menu__list">
-            <li class="page-menu__item page-menu__item--active">
-                <a href="${pageContext.request.contextPath}/play/event/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">이벤트</span></div>
-                </a>
-            </li>
-            <li class="page-menu__item">
-                <a href="${pageContext.request.contextPath}/play/plaza/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">배라광장</span></div>
-                </a>
-            </li>
-            <li class="page-menu__item">
-                <a href="${pageContext.request.contextPath}/play/recipe/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">BR 레시피</span></div>
-                </a>
-            </li>
-            <li class="page-menu__item">
-                <a href="${pageContext.request.contextPath}/play/myflavor/list.do" class="page-menu__link">
-                    <div class="page-menu__box"><span class="page-menu__name">마이플레이버 리스트</span></div>
-                </a>
-            </li>
-        </ul>
-    </nav>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
     <!-- 실제 컨텐츠 -->
     <div id="content" class="event-list">
@@ -158,15 +91,19 @@
 									    <c:when test="${empty e.startDate and empty e.endDate}">
 									      상시 운영
 									    </c:when>
-									
+									    
 									    <c:when test="${not empty e.startDate and empty e.endDate}">
-									      ${e.startDate} ~ 소진 시 까지
+									      <fmt:formatDate value="${e.startDate}" pattern="yyyy-MM-dd" timeZone="Asia/Seoul"/>
+									      ~ 소진 시 까지
 									    </c:when>
-									
+									    
 									    <c:otherwise>
-									      ${e.startDate} ~ ${e.endDate}
+									      <fmt:formatDate value="${e.startDate}" pattern="yyyy-MM-dd" timeZone="Asia/Seoul"/>
+									      ~
+									      <fmt:formatDate value="${e.endDate}" pattern="yyyy-MM-dd" timeZone="Asia/Seoul"/>
 									    </c:otherwise>
 									  </c:choose>
+
 									</p>
 
 				                </div>
@@ -178,10 +115,4 @@
         </div>
 
     </div>
-</section>
 
-<!-- FOOTER -->
-<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
-
-</body>
-</html>
