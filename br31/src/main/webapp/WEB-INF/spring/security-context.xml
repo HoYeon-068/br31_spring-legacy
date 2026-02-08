@@ -6,22 +6,14 @@
       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
 	<!-- p682 보안 필터 체인의 적용 대상에서 제외 -->
-   <http pattern="/static/**" security="none"/>   
-   <http pattern="/design/**" security="none"/>
-   <http pattern="/css/**" security="none"/>
-   <http pattern="/js/**" security="none"/>
+   <http pattern="/resources/**" security="none"/>
 
 
 	<http use-expressions="true">
-		<intercept-url pattern="/customer/noticeReg.htm" access="isAuthenticated()"/>
-		<intercept-url pattern="/customer/noticeDel.htm" access="hasRole('ROLE_ADMIN')"/>
 		<intercept-url pattern="/admin/product/write.do" access="permitAll"/>
 		<intercept-url pattern="/mypage/**" access="hasRole('USER')"/>
-		
         <intercept-url pattern="/play/plaza/new.do" access="isAuthenticated()"/>
-		
 		<intercept-url pattern="/play/myflavor/register.do" access="isAuthenticated()"/>
-		
 		<intercept-url pattern="/**" access="permitAll"/>
 		
 		

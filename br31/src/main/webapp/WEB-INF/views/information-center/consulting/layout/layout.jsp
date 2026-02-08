@@ -39,6 +39,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
+<c:if test="${not empty pageJs}">
+  <script src="${pageContext.request.contextPath}/resources/js/${pageJs}"></script>
+</c:if>
 <body id="${bodyId}" class="${bodyClass}">
 	<div class="skipnav">
 		<a href="#content">본문 영역으로 바로가기</a>
