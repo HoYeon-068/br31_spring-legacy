@@ -26,8 +26,10 @@ public class BrappController {
 	
 	
 	@GetMapping("/brapp.do")
-	public String brappBrapp() throws Exception {
+	public String brappBrapp(Model model) throws Exception {
 		
-		return "/brapp/brapp";
+		model.addAttribute("bodyId", "baskinrobbins-brapp");
+	    model.addAttribute("bodyClass", "baskinrobbins-brapp");
+		return "brapp.brapp";
 	}
 }

@@ -6,6 +6,8 @@ import com.br.app.domain.event.EventDTO;
 
 public interface EventMapper {
 
+	
+	List<EventDTO> select(String category);
 	// 일반 회원
 	// 목록 조회 (전체)
 	List<EventDTO> selectAll();

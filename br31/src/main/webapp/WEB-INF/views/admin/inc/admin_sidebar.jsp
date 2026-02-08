@@ -21,7 +21,7 @@
       <ul class="nav flex-column ms-3 submenu">
         <li class="nav-item">
           <a class="nav-link text-white"
-             href="${pageContext.request.contextPath}/admin/main.do?view=productList">
+             href="${pageContext.request.contextPath}/admin/main.do">
             상품 목록
           </a>
         </li>

@@ -41,31 +41,6 @@
     <put-attribute name="tilesActive" value="{1}"/>
   </definition>
 
-  <definition name="admin.*" template="/WEB-INF/views/admin/inc/admin_layout.jsp">
-    <put-attribute name="admin_header" value="/WEB-INF/views/admin/inc/admin_header.jsp" />
-    <put-attribute name="admin_footer" value="/WEB-INF/views/admin/inc/admin_footer.jsp" />
-    <put-attribute name="admin_sidebar" value="/WEB-INF/views/admin/inc/admin_sidebar.jsp" />
-    <put-attribute name="content" value="/WEB-INF/views/admin/{1}.jsp" />
-
-    <put-attribute name="pageHead" value="/WEB-INF/views/common/empty.jsp"/>
-    <put-attribute name="pageScript" value="/WEB-INF/views/common/empty.jsp"/>
-    <put-attribute name="tilesActive" value="{1}"/>
-  </definition>
-
-<definition name="admin.*.*" template="/WEB-INF/views/admin/inc/admin_layout.jsp">
-  <put-attribute name="admin_header" value="/WEB-INF/views/admin/inc/admin_header.jsp" />
-  <put-attribute name="admin_footer" value="/WEB-INF/views/admin/inc/admin_footer.jsp" />
-  <put-attribute name="admin_sidebar" value="/WEB-INF/views/admin/inc/admin_sidebar.jsp" />
-  <put-attribute name="content" value="/WEB-INF/views/admin/{1}/{2}.jsp" />
-</definition>
-
-
-  <definition name="information-center.consulting.*" template="/WEB-INF/views/information-center/consulting/layout/layout.jsp">
-    <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-    <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    <put-attribute name="content" value="/WEB-INF/views/information-center/consulting/{1}.jsp" />
-    <put-attribute name="consultingHeader" value="/WEB-INF/views/information-center/consulting/layout/consulting_header.jsp" />
-  </definition>
 
 	
   <definition name="*.*.*" template="/WEB-INF/views/layout/layout.jsp">
@@ -73,20 +48,9 @@
   <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
   <put-attribute name="content" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
 </definition>
-
-  <definition name="information-center.*.*" template="/WEB-INF/views/layout/informationCenterLayout.jsp">
-    <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"/>
-    <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"/>
-    <put-attribute name="content" value="/WEB-INF/views/information-center/{1}/{2}.jsp"/>
-  </definition>
-
  	
-<!-- 로그인,마이페이지, 탈퇴,회원가입 -->
-  <definition name="play.*.*" template="/WEB-INF/views/play/layout/layout.jsp">
-    <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"/>
-    <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"/>
-    <put-attribute name="content" value="/WEB-INF/views/play/{1}/{2}.jsp"/>
-  </definition>
+
+  
 
   <definition name="store.*" template="/WEB-INF/views/store/layout/layout.jsp">
     <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
@@ -95,7 +59,7 @@
     <put-attribute name="storeHeader" value="/WEB-INF/views/store/layout/store_header.jsp" />
   </definition>
 
-
+<!-- 로그인,마이페이지, 탈퇴,회원가입 -->
   <definition name="mypage.withdraw" template="/WEB-INF/views/mypage/inc/layout.jsp">
     <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"></put-attribute>
     <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"></put-attribute>
@@ -107,6 +71,7 @@
     <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"></put-attribute>
     <put-attribute name="content" value="/WEB-INF/views/withdraw/withdrawResult.jsp"></put-attribute>
   </definition>
+  
 
   <definition name="join.*" template="/WEB-INF/views/join/inc/layout.jsp">
     <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"></put-attribute>
@@ -119,18 +84,16 @@
     <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"></put-attribute>
     <put-attribute name="content" value="/WEB-INF/views/login/{1}.jsp"></put-attribute>
   </definition>
+  
+  <definition name="admin.*" template="/WEB-INF/views/admin/inc/admin_layout.jsp">
+    <put-attribute name="admin_header" value="/WEB-INF/views/admin/inc/admin_header.jsp" />
+    <put-attribute name="admin_footer" value="/WEB-INF/views/admin/inc/admin_footer.jsp" />
+    <put-attribute name="admin_sidebar" value="/WEB-INF/views/admin/inc/admin_sidebar.jsp" />
+    <put-attribute name="content" value="/WEB-INF/views/admin/{1}.jsp" />
 
-
-  <definition name="*.*.*" template="/WEB-INF/views/layout/layout.jsp">
-    <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-    <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    <put-attribute name="content" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
-  </definition>
-
-  <definition name="*/*.*" template="/WEB-INF/views/layout/layout.jsp">
-    <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
-    <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
-    <put-attribute name="content" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+    <put-attribute name="pageHead" value="/WEB-INF/views/common/empty.jsp"/>
+    <put-attribute name="pageScript" value="/WEB-INF/views/common/empty.jsp"/>
+    <put-attribute name="tilesActive" value="{1}"/>
   </definition>
 
   <definition name="*.*" template="/WEB-INF/views/layout/layout.jsp">

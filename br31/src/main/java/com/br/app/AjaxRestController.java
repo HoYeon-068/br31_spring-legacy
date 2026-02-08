@@ -32,12 +32,6 @@ public class AjaxRestController {
 	@Autowired
 	private StoreMapper storeDao;
 	
-	/*
-	@GetMapping("/user")
-	public User getUser() {
-		return new User("John","Doe",30);
-	}
-	*/
 	
 	@GetMapping("/store/mapSearch.ajax")
 	public List<StoreDTO> mapSearchAjax(
@@ -48,11 +42,6 @@ public class AjaxRestController {
 			    @RequestParam(value="store_type", required=false) String[] store_type
 			) {
 		
-		/*
-		response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json; charset=UTF-8");
-        */
-        
 		try {
 			return storeDao.select(services,store_name,sido,sigungu,store_type);
 		} catch (SQLException e) {
@@ -60,11 +49,6 @@ public class AjaxRestController {
 			e.printStackTrace();
 			return null;
 		}
-			
-			
-		
-	      
-	      
 	}
 	
 	

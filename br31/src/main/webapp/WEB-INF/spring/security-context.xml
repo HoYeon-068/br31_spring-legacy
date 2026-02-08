@@ -14,9 +14,6 @@
 		<intercept-url pattern="/mypage/**" access="hasRole('USER')"/>
         <intercept-url pattern="/play/plaza/new.do" access="isAuthenticated()"/>
 		<intercept-url pattern="/play/myflavor/register.do" access="isAuthenticated()"/>
-
-		<intercept-url pattern="/**" access="permitAll"/>
-		
 		<intercept-url pattern="/information-center/inquiry/**" access="isAuthenticated()"/>
 
     	<intercept-url pattern="/**" access="permitAll"/>
