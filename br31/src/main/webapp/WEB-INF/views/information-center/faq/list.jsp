@@ -88,6 +88,8 @@
 </style>
 <c:set var="categoryId" value="${empty param.category ? 0 : param.category}" />
 <div class="site-container">
+<jsp:include
+		page="/WEB-INF/views/information-center/common/_customerMenu.jsp" />
 <section id="content" class="faq-list">
 
   <header class="page-header">

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.br.app.mapper.admin.AdminFaqMapper">
+
+ 
+  <select id="selectList" resultType="com.br.app.domain.admin.AdminFaqDTO">
+    SELECT
+      faq_id,
+      question,
+      answer,
+      reg_date,
+      faq_category_id
+    FROM faq
+    ORDER BY faq_id DESC
+  </select>
+
+
+  <select id="selectOne" parameterType="long"
+          resultType="com.br.app.domain.admin.AdminFaqDTO">
+    SELECT
+      faq_id,
+      question,
+      answer,
+      reg_date,
+      faq_category_id
+    FROM faq
+    WHERE faq_id = #{faqId}
+  </select>
+
+ 
+  <insert id="insert" parameterType="com.br.app.domain.admin.AdminFaqDTO">
+    INSERT INTO faq (
+      faq_id,
+      question,
+      answer,
+      reg_date,
+      faq_category_id
+    ) VALUES (
+      faq_seq.NEXTVAL,
+      #{question},
+      #{answer},
+      SYSDATE,
+      #{faqCategoryId}
+    )
+  </insert>
+
+
+  <update id="update" parameterType="com.br.app.domain.admin.AdminFaqDTO">
+    UPDATE faq
+    SET
+      question = #{question},
+      answer = #{answer}
+    WHERE faq_id = #{faqId}
+  </update>
+
+ 
+  <delete id="delete" parameterType="long">
+    DELETE FROM faq
+    WHERE faq_id = #{faqId}
+  </delete>
+
+</mapper>

@@ -5,6 +5,7 @@
 
 <mapper namespace="com.br.app.mapper.informationcenter.InquiryMapper">
 
+
   <insert id="insertInquiry" parameterType="com.br.app.domain.informationcenter.InquiryDTO">
     <selectKey keyProperty="inquiryID" resultType="long" order="BEFORE">
       SELECT INQUIRY_SEQ.NEXTVAL FROM DUAL
@@ -41,8 +42,9 @@
     )
   </insert>
 
+ 
   <select id="selectMyInquiryList"
-          parameterType="string"
+          parameterType="map"
           resultType="com.br.app.domain.informationcenter.InquiryListDTO">
     SELECT
       i.INQUIRY_ID   AS inquiryID,
@@ -59,7 +61,9 @@
     ORDER BY i.REG_DATE DESC
   </select>
 
+ 
   <select id="selectInquiryView"
+          parameterType="map"
           resultType="com.br.app.domain.informationcenter.InquiryViewDTO">
     SELECT
       i.INQUIRY_ID   AS inquiryID,
@@ -79,6 +83,7 @@
     LEFT JOIN INQUIRY_ANSWER a
       ON i.INQUIRY_ID = a.INQUIRY_ID
     WHERE i.INQUIRY_ID = #{inquiryId}
+      AND i.USER_ID = #{userId}
   </select>
 
 </mapper>

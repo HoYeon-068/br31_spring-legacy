@@ -44,6 +44,8 @@
 <c:url var="listAction" value="/information-center/press/list.do" />
 
 <div class="site-container">
+<jsp:include
+		page="/WEB-INF/views/information-center/common/_customerMenu.jsp" />
 	<section id="content" class="press-list board-list">
 
 		<header class="page-header">

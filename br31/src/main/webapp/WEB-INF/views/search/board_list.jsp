@@ -74,7 +74,7 @@
 
 </style>
 <div class="site-container">
-
+<jsp:include page="/WEB-INF/views/information-center/common/_customerMenu.jsp" />
 <section id="content"
          class="board-list ${param.source eq 'press' ? 'press-list' : 'notice-list'}">
 

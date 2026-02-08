@@ -158,3 +158,14 @@
         </div>
     </div>
 </footer>
+<<<<<<< HEAD
+=======
+
+ <!-- faq -->
+<%-- <script src="${pageContext.request.contextPath}/resources/js/vendors.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/app.js"></script>
+
+<c:if test="${not empty pageJs}">
+  <script src="${pageContext.request.contextPath}/resources/js/${pageJs}"></script>
+</c:if> --%>
+>>>>>>> branch 'main' of https://github.com/HoYeon-068/br31_spring-legacy.git

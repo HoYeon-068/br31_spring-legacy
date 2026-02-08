@@ -4,10 +4,10 @@
 
 <div class="container-fluid">
 
-  <!-- 페이지 타이틀 -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold">FAQ 관리</h3>
-    <a href="${pageContext.request.contextPath}/admin/faq/write.do"
+
+    <a href="<c:url value='/admin/faq/write.do'/>"
        class="btn btn-primary btn-sm">
       + FAQ 등록
     </a>
@@ -26,7 +26,6 @@
         </thead>
         <tbody>
 
-          <!-- FAQ 목록 -->
           <c:choose>
             <c:when test="${empty list}">
               <tr>
@@ -38,15 +37,16 @@
 
             <c:otherwise>
               <c:forEach var="dto" items="${list}" varStatus="status">
+                <c:url var="editUrl" value="/admin/faq/edit.do">
+                  <c:param name="faqId" value="${dto.faqId}" />
+                </c:url>
+
                 <tr>
-                  <td class="text-center">
-                    ${status.index + 1}
-                  </td>
+                  <td class="text-center">${status.index + 1}</td>
+
+                  <td>${dto.question}</td>
+
                   <td>
-                    ${dto.question}
-                  </td>
-                  <td>
-                    <!-- 답변 길면 잘라서 표시 -->
                     <c:choose>
                       <c:when test="${fn:length(dto.answer) > 100}">
                         ${fn:substring(dto.answer, 0, 100)}...
@@ -56,19 +56,21 @@
                       </c:otherwise>
                     </c:choose>
                   </td>
+
                   <td class="text-center">
-                    <a href="${pageContext.request.contextPath}/admin/faq/edit.do?faqId=${dto.faqId}"
+                    <a href="${editUrl}"
                        class="btn btn-outline-secondary btn-sm mb-1">
                       수정
                     </a>
 
-                    <form action="${pageContext.request.contextPath}/admin/faq/delete.do"
+                    <form action="<c:url value='/admin/faq/delete.do'/>"
                           method="post"
                           style="display:inline"
                           onsubmit="return confirm('정말 삭제하시겠습니까?');">
-                      <input type="hidden" name="faqId" value="${dto.faqId}">
-                      <button type="submit"
-                              class="btn btn-outline-danger btn-sm">
+                          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                          
+                      <input type="hidden" name="faqId" value="${dto.faqId}" />
+                      <button type="submit" class="btn btn-outline-danger btn-sm">
                         삭제
                       </button>
                     </form>

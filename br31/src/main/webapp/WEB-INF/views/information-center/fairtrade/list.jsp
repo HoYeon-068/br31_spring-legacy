@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <div class="site-container">
+<jsp:include
+		page="/WEB-INF/views/information-center/common/_customerMenu.jsp" />
 <section id="content" class="fairtrade-list board-list">
 
   <header class="page-header">

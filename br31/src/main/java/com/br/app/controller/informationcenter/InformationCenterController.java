@@ -1,5 +1,7 @@
 package com.br.app.controller.informationcenter;
 
+import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -399,42 +401,32 @@ public class InformationCenterController {
 	
 
 
-
-
-	
 	@GetMapping("/inquiry/create.do")
-	public String inquiryCreateForm(Model model) {
-
-	    model.addAttribute("bodyId", "baskinrobbins-inquiry");
-	    model.addAttribute("bodyClass", "baskinrobbins-inquiry");
-
-	
+	public String inquiryCreateForm(Principal principal, Model model) {
+	    if (principal == null) return "redirect:/login/login.do";
 	    return "information-center/consulting/myvoc_create";
 	}
+
 
 
 	@PostMapping("/inquiry/create.do")
 	public String inquiryCreate(
 	        @ModelAttribute InquiryDTO dto,
-
-	       
-	        @RequestParam(required = false) String postPwConfirm,
+	        @RequestParam(name = "post_pw_confirm", required = false) String postPwConfirm,
 	        @RequestParam(required = false) String phone1,
 	        @RequestParam(required = false) String phone2,
 	        @RequestParam(required = false) String phone3,
-	        @RequestParam(required = false) String emailId,
-	        @RequestParam(required = false) String emailDomain,
-
-	        HttpSession session,
+	        @RequestParam(name = "email_id", required = false) String emailId,
+	        @RequestParam(name = "email_domain", required = false) String emailDomain,
+	        Principal principal,
 	        Model model
 	) throws Exception {
 
-	   
-	    String userId = resolveUserId(session);
-	
-	    dto.setUserID(userId);
+	    if (principal == null) return "redirect:/login/login.do";
 
-	    if (dto.getPostPw() == null || !dto.getPostPw().equals(postPwConfirm)) {
+	    String userId = principal.getName();
+
+	    if (dto.getPostPw() == null || postPwConfirm == null || !dto.getPostPw().equals(postPwConfirm)) {
 	        model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
 	        return "information-center/consulting/myvoc_create";
 	    }
@@ -446,7 +438,6 @@ public class InformationCenterController {
 	    }
 	    dto.setPhone(phone);
 
-	  
 	    String email = null;
 	    if (emailId != null && emailDomain != null
 	            && !emailId.isBlank() && !emailDomain.isBlank()) {
@@ -454,7 +445,6 @@ public class InformationCenterController {
 	    }
 	    dto.setEmail(email);
 
-	  
 	    if (dto.getOccurDateOnly() != null && !dto.getOccurDateOnly().isBlank()
 	            && dto.getOccurHour() != null && dto.getOccurMin() != null) {
 
@@ -462,23 +452,28 @@ public class InformationCenterController {
 	                + " " + String.format("%02d", dto.getOccurHour())
 	                + ":" + String.format("%02d", dto.getOccurMin());
 
-	        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm");
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	        dto.setOccurDate(sdf.parse(dt));
 	    }
 
-	  
-	    inquiryService.createInquiry(dto);
+	    inquiryService.createInquiry(dto, userId);
 
-
-	    return "redirect:/information-center/inquiry/view.do?inquiryID=" + dto.getInquiryID();
+	    return "redirect:/information-center/customer/list.do";
 	}
 
 
-	@GetMapping("/inquiry/list.do")
-	public String inquiryList(HttpSession session, Model model) {
 
-	    String userId = resolveUserId(session);
-	 
+
+
+
+	@GetMapping("/inquiry/list.do")
+	public String inquiryList(Principal principal, Model model) {
+
+	    if (principal == null) {
+	        return "redirect:/login/login.do";
+	    }
+
+	    String userId = principal.getName();
 
 	    List<InquiryListDTO> list = inquiryService.getMyInquiryList(userId);
 	    model.addAttribute("list", list);
@@ -486,17 +481,23 @@ public class InformationCenterController {
 	    return "information-center/consulting/myvoc_list";
 	}
 
-	// 1:1 문의 상세
+
+
+
 	@GetMapping("/inquiry/view.do")
 	public String inquiryView(
 	        @RequestParam("inquiryID") Long inquiryId,
-	        HttpSession session,
+	        Principal principal,
 	        Model model
 	) {
 
-	  
+	    if (principal == null) {
+	        return "redirect:/login/login.do";
+	    }
 
-	    InquiryViewDTO dto = inquiryService.getInquiryView(inquiryId);
+	    String userId = principal.getName();
+
+	    InquiryViewDTO dto = inquiryService.getInquiryView(inquiryId, userId);
 
 	    if (dto == null) {
 	        return "redirect:/information-center/inquiry/list.do";
@@ -504,16 +505,6 @@ public class InformationCenterController {
 
 	    model.addAttribute("dto", dto);
 	    return "information-center/consulting/myvoc_view";
-	}
-
-
-	private String resolveUserId(HttpSession session) {
-
-	    Object v = session.getAttribute("userId");
-	    if (v == null) return "GUEST";
-
-	    String userId = String.valueOf(v).trim();
-	    return userId.isEmpty() ? "GUEST" : userId;
 	}
 
 

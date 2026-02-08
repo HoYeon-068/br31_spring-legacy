@@ -4,26 +4,23 @@
 
 <jsp:include page="/WEB-INF/views/information-center/common/header_inquiry.jsp" />
 
-<link rel="stylesheet"
-      href="${pageContext.request.contextPath}/resources/css/inquiry.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/inquiry.css">
 
 <div class="voc-page">
 
   <div class="voc-visual">
     <div class="voc-visual__inner voc-visual--flex">
       <h2>MY <span>VOC</span></h2>
-
-      <!-- ✅ 불필요한 </a> 제거 (HTML 깨짐 방지) -->
-      <a href="${pageContext.request.contextPath}/information-center/inquiry/list.do" class="voc-btn"></a>
+      <a href="${pageContext.request.contextPath}/information-center/inquiry/create.do" class="voc-btn">문의하기</a>
     </div>
   </div>
 
   <div class="voc-search">
-    <form>
+    <form action="${pageContext.request.contextPath}/information-center/inquiry/list.do" method="get">
       <label>접수일</label>
-      <input type="text">
+      <input type="date" name="from">
       <span>~</span>
-      <input type="text">
+      <input type="date" name="to">
       <button type="submit">검색</button>
     </form>
   </div>
@@ -50,6 +47,10 @@
 
         <c:otherwise>
           <c:forEach var="dto" items="${list}">
+            <c:url var="viewUrl" value="/information-center/inquiry/view.do">
+              <c:param name="inquiryID" value="${dto.inquiryID}" />
+            </c:url>
+
             <tr>
               <td>
                 <fmt:formatDate value="${dto.regDate}" pattern="yyyy-MM-dd"/>
@@ -61,11 +62,6 @@
               <td><c:out value="${dto.detailType}"/></td>
 
               <td class="title">
-                <!-- ✅ inquiryId -> inquiryID / inquiry_id -> inquiryID -->
-                <c:url var="viewUrl" value="/information-center/inquiry/view.do">
-                  <c:param name="inquiryID" value="${dto.inquiryID}" />
-                </c:url>
-
                 <a href="${viewUrl}">
                   <c:out value="${dto.title}"/>
                 </a>
