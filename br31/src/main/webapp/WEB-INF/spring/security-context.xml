@@ -21,7 +21,11 @@
 		
 		<intercept-url pattern="/play/myflavor/register.do" access="isAuthenticated()"/>
 		
-		<intercept-url pattern="/**" access="permitAll"/>
+		<intercept-url pattern="/information-center/inquiry/**" access="isAuthenticated()"/>
+
+    	<intercept-url pattern="/**" access="permitAll"/>
+		
+
 		
 		
 		<form-login login-page="/login/login.do"  login-processing-url="/login/login.do" default-target-url="/index.do" 

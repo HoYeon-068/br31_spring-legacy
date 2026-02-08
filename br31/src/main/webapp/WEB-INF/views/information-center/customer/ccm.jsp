@@ -1,8 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
-<!-- 고객센터 공통 메뉴 -->
-<jsp:include page="/WEB-INF/views/information-center/common/_customerMenu.jsp" />
 <div class="site-container">
+<jsp:include page="/WEB-INF/views/information-center/common/_customerMenu.jsp" />
 <div id="content">
 
     <header class="page-header">

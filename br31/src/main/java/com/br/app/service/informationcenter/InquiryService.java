@@ -6,7 +6,7 @@ import com.br.app.domain.informationcenter.InquiryListDTO;
 import com.br.app.domain.informationcenter.InquiryViewDTO;
 
 public interface InquiryService {
-    void createInquiry(InquiryDTO dto);
+    void createInquiry(InquiryDTO dto, String userId);
     List<InquiryListDTO> getMyInquiryList(String userId);
-    InquiryViewDTO getInquiryView(Long inquiryId);
+    InquiryViewDTO getInquiryView(Long inquiryId, String userId);
 }

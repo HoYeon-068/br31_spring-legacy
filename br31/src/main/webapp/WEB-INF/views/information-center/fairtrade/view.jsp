@@ -1,7 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<div class="site-container">
+<jsp:include
+		page="/WEB-INF/views/information-center/common/_customerMenu.jsp" />
 <section id="content" class="fairtrade-view board-view">
 
   <header class="page-header">
@@ -35,3 +37,4 @@
 
   </article>
 </section>
+</div>

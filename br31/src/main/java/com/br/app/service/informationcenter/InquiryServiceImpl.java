@@ -21,19 +21,46 @@ public class InquiryServiceImpl implements InquiryService {
 
     @Override
     @Transactional
-    public void createInquiry(InquiryDTO dto) {
-        // regDate는 DB에서 SYSDATE로 넣을 거라 DTO에 세팅 안 해도 됨
+    public void createInquiry(InquiryDTO dto, String userId) {
+        if (userId == null || userId.trim().isEmpty()) {
+            throw new IllegalArgumentException("userId is required.");
+        }
+        if (dto == null) {
+            throw new IllegalArgumentException("InquiryDTO is required.");
+        }
+
+   
+        dto.setUserID(userId);
+
         inquiryMapper.insertInquiry(dto);
-        // selectKey로 dto.inquiryId가 세팅됨(원하면 이후 로직에서 사용 가능)
+   
     }
-    
+
     @Override
     public List<InquiryListDTO> getMyInquiryList(String userId) {
+        if (userId == null || userId.trim().isEmpty()) {
+            throw new IllegalArgumentException("userId is required.");
+        }
         return inquiryMapper.selectMyInquiryList(userId);
     }
-    
+
     @Override
-    public InquiryViewDTO getInquiryView(Long inquiryId) {
-        return inquiryMapper.selectInquiryView(inquiryId);
+    public InquiryViewDTO getInquiryView(Long inquiryId, String userId) {
+        if (inquiryId == null) {
+            throw new IllegalArgumentException("inquiryId is required.");
+        }
+        if (userId == null || userId.trim().isEmpty()) {
+            throw new IllegalArgumentException("userId is required.");
+        }
+
+   
+        InquiryViewDTO dto = inquiryMapper.selectInquiryView(inquiryId, userId);
+
+   
+        if (dto == null) {
+          
+            throw new IllegalStateException("Inquiry not found or access denied.");
+        }
+        return dto;
     }
 }
