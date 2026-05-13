@@ -11,12 +11,12 @@
   * 유지보수성 및 확장성 향상
 
 ## 🛠 Tech Stack
-* **Language:** Java [예: 8 / 11]
+* **Language:** Java 11
 * **Framework:** Spring Legacy Framework (Spring MVC)
 * **Build Tool:** Maven (pom.xml)
-* **Data Access:** MyBatis, Connection Pool [예: HikariCP]
-* **Database:** [예: MySQL / Oracle / PostgreSQL]
-* **Server:** Apache Tomcat [예: 8.5 / 9.0]
+* **Data Access:** MyBatis, Connection Pool
+* **Database:** Oracle 
+* **Server:** Apache Tomcat 9.0
 * **View:** JSP, JSTL, HTML5, CSS3, JavaScript
 
 ## 🚀주요 변환 및 개선 사항
@@ -32,9 +32,9 @@
 ## 💻 설치 및 실행 방법
 
 ### Prerequisites
-* JDK [예: 11]
-* Apache Tomcat [예: 9.0]
-* IDE (STS 또는 Eclipse)
+* JDK 11
+* Apache Tomcat 9.0
+* IDE Eclipse
 
 ### Installation & Run
 1. 저장소를 클론합니다.
